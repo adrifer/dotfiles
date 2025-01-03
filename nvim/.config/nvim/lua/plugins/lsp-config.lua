@@ -14,7 +14,7 @@ return {
           "ts_ls",
           "astro",
           "azure_pipelines_ls",
-          "ommisharp",
+          "omnisharp",
           "tailwindcss",
           "ast_grep",
           "html",
@@ -32,7 +32,7 @@ return {
       lspconfig.ts_ls.setup({})
       lspconfig.astro.setup({})
       lspconfig.azure_pipelines_ls.setup({})
-      lspconfig.ommisharp.setup({})
+      lspconfig.omnisharp.setup({})
       lspconfig.tailwindcss.setup({})
       lspconfig.ast_grep.setup({})
       lspconfig.html.setup({})
