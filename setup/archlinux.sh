@@ -98,7 +98,7 @@ stow lazygit
 stow eza
 stow git
 
-source ./bashrc
+source .bashrc
 
 # === 4. Configure nvm and node ===
 nvm install 22.10.0
