@@ -1,0 +1,6 @@
+[user]
+	name = Adrian Fernandez Garcia
+	email = tracker086@outlook.com
+
+[includeIf "gitdir:~/work/"]
+  path = ~/.gitconfig-work

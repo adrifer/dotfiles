@@ -46,6 +46,7 @@ stow tmux
 stow nvim
 stow lazygit
 stow eza
+stow git
 
 echo "✅ Setup complete!"
 
