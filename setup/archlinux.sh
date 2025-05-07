@@ -38,6 +38,27 @@ else
   echo "✅ TPM already cloned"
 fi
 
+# === 3. Generate SSH key and prompt user ===
+SSH_KEY="$HOME/.ssh/id_ed25519"
+
+if [ ! -f "$SSH_KEY" ]; then
+  echo "🔐 Generating SSH key for GitHub..."
+  ssh-keygen -t ed25519 -C "tracker086@outlook.com" -f "$SSH_KEY" -N ""
+
+  echo "🔐 Starting ssh-agent..."
+  eval "$(ssh-agent -s)"
+  ssh-add "$SSH_KEY"
+
+  echo "📋 Your new SSH public key:"
+  echo "--------------------------------------------------"
+  cat "$SSH_KEY.pub"
+  echo "--------------------------------------------------"
+  echo "📎 Copy this key and add it to GitHub: https://github.com/settings/ssh/new"
+  read -p "Press ENTER after adding the SSH key to GitHub..."
+else
+  echo "✅ SSH key already exists at $SSH_KEY"
+fi
+
 # Clone Dotfiles
 if [ ! -d "$HOME/dotfiles" ]; then
   git clone git@github.com:adrifer/dotfiles.git "$HOME/dotfiles"
@@ -45,7 +66,7 @@ else
   echo "✅ Dotfiles already cloned"
 fi
 
-# === 3. Use stow to symlink configs ===
+# === 4. Use stow to symlink configs ===
 echo "📁 Stowing config files..."
 cd "$HOME/dotfiles"
 
