@@ -59,6 +59,20 @@ else
   echo "✅ SSH key already exists at $SSH_KEY"
 fi
 
+# === 4. Fix locale issues ===
+echo "🌐 Configuring locale (en_US.UTF-8)..."
+
+# Uncomment en_US.UTF-8 in /etc/locale.gen
+sudo sed -i '/^#en_US.UTF-8 UTF-8/s/^#//' /etc/locale.gen
+
+# Generate locales
+sudo locale-gen
+
+# Set system-wide locale
+echo "LANG=en_US.UTF-8" | sudo tee /etc/locale.conf > /dev/null
+
+echo "✅ Locale setup complete"
+
 # Clone Dotfiles
 if [ ! -d "$HOME/dotfiles" ]; then
   git clone git@github.com:adrifer/dotfiles.git "$HOME/dotfiles"
@@ -66,7 +80,7 @@ else
   echo "✅ Dotfiles already cloned"
 fi
 
-# === 4. Use stow to symlink configs ===
+# === 5. Use stow to symlink configs ===
 echo "📁 Stowing config files..."
 cd "$HOME/dotfiles"
 
