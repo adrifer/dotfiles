@@ -19,6 +19,7 @@ PACKAGES=(
   eza
   tmux
   openssh
+  gcc
   nvm
 )
 
