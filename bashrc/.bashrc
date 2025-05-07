@@ -10,6 +10,7 @@ export LANG=en_US.UTF-8
 
 eval "$(starship init bash)"
 eval "$(zoxide init bash)"
+source /usr/share/nvm/init-nvm.sh
 
 alias ls='eza --long --no-filesize --color=always --icons=always --no-user'
 alias grep='grep --color=auto'

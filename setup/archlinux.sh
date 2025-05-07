@@ -48,5 +48,11 @@ stow lazygit
 stow eza
 stow git
 
+source ./bashrc
+
+# === 4. Configure nvm and node ===
+nvm install 22.10.0
+nvm alias default 22.10.0
+
 echo "✅ Setup complete!"
 
