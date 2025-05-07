@@ -37,19 +37,15 @@ else
   echo "✅ TPM already cloned"
 fi
 
-# Clone dotfiles
-if [ ! -d "$HOME/dotfiles" ]; then
-  git clone git@github.com:adrifer/dotfiles.git "$HOME/dotfiles"
-else
-  echo "✅ dotfiles already cloned"
-fi
-
 # === 3. Use stow to symlink configs ===
 echo "📁 Stowing config files..."
 cd "$HOME/dotfiles"
-stow nvim
+
 stow -t ~/.config starship
 stow tmux
+stow nvim
+stow lazygit
+stow eza
 
 echo "✅ Setup complete!"
 
