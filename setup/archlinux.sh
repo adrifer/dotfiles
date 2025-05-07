@@ -80,6 +80,13 @@ else
   echo "✅ Dotfiles already cloned"
 fi
 
+# Create ~/.config folder
+if [ ! -d "$HOME/.config" ]; then
+  mkdir -p ~/.config
+else
+  echo "✅ .config folder already created"
+fi
+
 # === 5. Use stow to symlink configs ===
 echo "📁 Stowing config files..."
 cd "$HOME/dotfiles"
