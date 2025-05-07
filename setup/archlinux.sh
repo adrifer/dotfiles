@@ -98,6 +98,7 @@ stow nvim
 stow lazygit
 stow eza
 stow git
+stow bashrc
 
 source .bashrc
 
