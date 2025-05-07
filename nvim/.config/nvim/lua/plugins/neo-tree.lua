@@ -10,7 +10,7 @@ return {
     require("neo-tree").setup({
       close_if_last_window = true, -- Automatically close Neovim if Neo-tree is the last window
     })
-    vim.keymap.set("n", "<leader>n", ":Neotree filesystem reveal left<CR>")
+    vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>")
   end
 }
 
