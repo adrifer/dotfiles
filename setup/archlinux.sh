@@ -22,6 +22,7 @@ PACKAGES=(
   unzip
   gcc
   nvm
+  yazi
 )
 
 echo "📦 Updating package database..."
@@ -99,6 +100,7 @@ stow nvim
 stow lazygit
 stow eza
 stow git
+stow yazi
 rm -rf ~/.bashrc
 stow bashrc
 
