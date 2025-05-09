@@ -17,6 +17,7 @@ alias ls='eza --long --no-filesize --color=always --icons=always --no-user'
 alias grep='grep --color=auto'
 alias i='sudo pacman -Syu'
 alias lg='lazygit'
+alias ci='code-insiders'
 alias work-auth='cp /mnt/c/Users/adrifer/.npmrc ~/.npmrc'
 
 # Remove sound when pressing backspace

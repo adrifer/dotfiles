@@ -23,6 +23,7 @@ PACKAGES=(
   gcc
   nvm
   yazi
+  which
 )
 
 echo "📦 Updating package database..."
@@ -31,84 +32,82 @@ sudo pacman -Syu --noconfirm
 echo "📦 Installing packages..."
 sudo pacman -S --noconfirm --needed "${PACKAGES[@]}"
 
-# === 2. Clone repos ===
-echo "🔄 Cloning dotfiles and TPM..."
-
-# Clone TPM
-if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
-  git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
-else
-  echo "✅ TPM already cloned"
-fi
-
-# === 3. Generate SSH key and prompt user ===
+# === SSH Key Generation ===
 SSH_KEY="$HOME/.ssh/id_ed25519"
 
 if [ ! -f "$SSH_KEY" ]; then
-  echo "🔐 Generating SSH key for GitHub..."
+  echo "🔐 Generating SSH key..."
   ssh-keygen -t ed25519 -C "tracker086@outlook.com" -f "$SSH_KEY" -N ""
-
-  echo "🔐 Starting ssh-agent..."
   eval "$(ssh-agent -s)"
   ssh-add "$SSH_KEY"
-
-  echo "📋 Your new SSH public key:"
-  echo "--------------------------------------------------"
+  echo "📋 Your public key:"
   cat "$SSH_KEY.pub"
-  echo "--------------------------------------------------"
-  echo "📎 Copy this key and add it to GitHub: https://github.com/settings/ssh/new"
-  read -p "Press ENTER after adding the SSH key to GitHub..."
+  echo "👉 Add it to GitHub: https://github.com/settings/ssh/new"
+  read -p "Press ENTER when done..."
 else
-  echo "✅ SSH key already exists at $SSH_KEY"
+  echo "✅ SSH key already exists."
 fi
 
-# === 4. Fix locale issues ===
-echo "🌐 Configuring locale (en_US.UTF-8)..."
+# === Locale Configuration ===
+if ! grep -q '^LANG=en_US.UTF-8' /etc/locale.conf 2>/dev/null; then
+  echo "🌐 Configuring locale..."
+  sudo sed -i '/^#en_US.UTF-8 UTF-8/s/^#//' /etc/locale.gen
+  sudo locale-gen
+  echo "LANG=en_US.UTF-8" | sudo tee /etc/locale.conf > /dev/null
+else
+  echo "✅ Locale already set."
+fi
 
-# Uncomment en_US.UTF-8 in /etc/locale.gen
-sudo sed -i '/^#en_US.UTF-8 UTF-8/s/^#//' /etc/locale.gen
+# === Clone Repositories ===
+if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+  git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
+else
+  echo "✅ TPM already cloned."
+fi
 
-# Generate locales
-sudo locale-gen
-
-# Set system-wide locale
-echo "LANG=en_US.UTF-8" | sudo tee /etc/locale.conf > /dev/null
-
-echo "✅ Locale setup complete"
-
-# Clone Dotfiles
 if [ ! -d "$HOME/dotfiles" ]; then
   git clone git@github.com:adrifer/dotfiles.git "$HOME/dotfiles"
 else
-  echo "✅ Dotfiles already cloned"
+  echo "✅ Dotfiles already cloned."
 fi
 
-# Create ~/.config folder
-if [ ! -d "$HOME/.config" ]; then
-  mkdir -p ~/.config
-else
-  echo "✅ .config folder already created"
-fi
+mkdir -p "$HOME/.config"
 
-# === 5. Use stow to symlink configs ===
-echo "📁 Stowing config files..."
+# === Stow Configs ===
+echo "📁 Linking dotfiles..."
 cd "$HOME/dotfiles"
 
-stow -t ~/.config starship
+if [ ! -L "$HOME/.config/starship.toml" ]; then
+  echo "🔗 Linking starship config..."
+  stow -t "$HOME/.config" starship
+fi
+
 stow tmux
 stow nvim
 stow lazygit
 stow eza
 stow git
 stow yazi
-rm -rf ~/.bashrc
-stow bashrc
+
+if [ ! -L "$HOME/.bashrc" ]; then
+  echo "🔗 Linking bashrc..."
+  rm -f "$HOME/.bashrc"
+  stow bashrc
+fi
 
 source ~/.bashrc
 
-# === 4. Configure nvm and node ===
-nvm install 22.10.0
-nvm alias default 22.10.0
+# === NVM + Node ===
+NODE_VERSION="22.10.0"
+export NVM_DIR="$HOME/.nvm"
+source /usr/share/nvm/init-nvm.sh || true  # allow running even if not yet installed
 
+if command -v nvm >/dev/null 2>&1 && ! nvm list | grep -q "$NODE_VERSION"; then
+  echo "⬇️ Installing Node.js $NODE_VERSION..."
+  nvm install "$NODE_VERSION"
+  nvm alias default "$NODE_VERSION"
+else
+  echo "✅ Node.js $NODE_VERSION already installed."
+fi
 echo "✅ Setup complete!"
 
