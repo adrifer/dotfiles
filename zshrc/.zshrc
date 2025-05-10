@@ -40,9 +40,7 @@ source <(fzf --zsh)
 eval "$(zoxide init zsh)"
 
 # Eza
-alias l="eza -l --icons --git -a"
-alias lt="eza --tree --level=2 --long --icons --git"
-alias ltree="eza --tree --level=2  --icons --git"
+alias ls='eza --long --no-filesize --color=always --icons=always --no-user'
 alias lg="lazygit"
 
 alias cl='clear'
