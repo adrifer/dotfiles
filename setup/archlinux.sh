@@ -24,6 +24,7 @@ PACKAGES=(
   nvm
   yazi
   which
+  fzf
 )
 
 echo "📦 Updating package database..."
