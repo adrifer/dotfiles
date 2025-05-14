@@ -22,6 +22,9 @@ alias ci='code-insiders'
 alias ta='tmux attach-session'
 alias work-auth='cp /mnt/c/Users/adrifer/.npmrc ~/.npmrc'
 
+alias ..='cd ..'
+alias ...='cd ../..'
+
 # Remove sound when pressing backspace
 bind 'set bell-style none'
 
