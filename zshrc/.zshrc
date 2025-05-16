@@ -42,8 +42,9 @@ eval "$(zoxide init zsh)"
 # Eza
 alias ls='eza --long --no-filesize --color=always --icons=always --no-user'
 alias lg="lazygit"
-
 alias cl='clear'
+alias ..='cd ..'
+alias ...='cd ../..'
 
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
