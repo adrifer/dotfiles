@@ -20,7 +20,6 @@ alias i='sudo pacman -Syu'
 alias lg='lazygit'
 alias ci='code-insiders'
 alias ta='tmux attach-session'
-alias work-auth='cp /mnt/c/Users/adrifer/.npmrc ~/.npmrc'
 
 alias ..='cd ..'
 alias ...='cd ../..'
