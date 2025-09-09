@@ -62,7 +62,7 @@ sudo nixos-rebuild switch --flake /etc/nixos#wsl-nixos
 
 After this, exit and restart WSL - you should now log in as your configured user.
 
-
+---
 ## 6. Reboot the machine and re link dotfiles
 
 ```powershell
