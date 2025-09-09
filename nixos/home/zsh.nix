@@ -14,7 +14,7 @@
       ta = "tmux attach-session";
       ".." = "cd ..";
       "..." = "cd ../..";
-      i = "nix flake update && sudo nixos-rebuild switch";
+      i = "nix flake update --impure --flake /etc/nixos && sudo nixos-rebuild switch --flake /etc/nixos";
     };
     initContent = ''
       y() {
