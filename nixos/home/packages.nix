@@ -22,7 +22,6 @@
     unstable.bun
     unstable.gh
     gcc
-    tmux
     nixfmt-rfc-style
 
     # I need to find the best way to install node versions on nix
