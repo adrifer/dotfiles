@@ -1,6 +1,12 @@
-{ lib, pkgs, ... }: {
+{ lib, pkgs, ... }:
+{
   wsl.enable = true;
   wsl.defaultUser = lib.mkDefault "adrifer";
+
+  wsl.wslConf.interop = {
+    enabled = true;
+    appendWindowsPath = false; # ⬅️ don't import Windows PATH into WSL
+  };
 
   environment.systemPackages = with pkgs; [ wl-clipboard ];
 

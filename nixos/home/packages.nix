@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   home.packages = with pkgs; [
@@ -21,6 +21,10 @@
     unstable.lazygit
     unstable.bun
     unstable.gh
+    nodejs_22
+    azure-artifacts-credprovider
+    pnpm
+    icu # needed for credential Manager
     gcc
     nixfmt-rfc-style
 
@@ -36,5 +40,22 @@
     # nodejs_22 pnpm deno bun go python3 rustup zig
   ];
 
-  home.sessionVariables = { EDITOR = "nvim"; };
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    NPM_CONFIG_PREFIX = "${config.home.homeDirectory}/.npm-global";
+    NPM_CONFIG_USERCONFIG = "${config.home.homeDirectory}/.config/npm/npmrc";
+    PNPM_HOME = "${config.home.homeDirectory}/.local/share/pnpm";
+  };
+
+  home.activation.ensureWritableNpmrc = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p "${config.home.homeDirectory}/.config/npm"
+    touch "${config.home.homeDirectory}/.config/npm/npmrc"
+    chmod 600 "${config.home.homeDirectory}/.config/npm/npmrc"
+  '';
+
+  # Add their bin dirs to PATH
+  home.sessionPath = [
+    "${config.home.homeDirectory}/.npm-global/bin"
+    "${config.home.homeDirectory}/.local/share/pnpm"
+  ];
 }
