@@ -16,11 +16,11 @@ return {
           "azure_pipelines_ls",
           "omnisharp",
           "tailwindcss",
-          "ast_grep",
           "html",
           "biome",
           "yamlls",
-          "zls"
+          "zls",
+          "nixfmt"
         }
       })
     end
@@ -49,9 +49,6 @@ return {
       lspconfig.tailwindcss.setup({
         capabilities = capabilities
       })
-      lspconfig.ast_grep.setup({
-        capabilities = capabilities
-      })
       lspconfig.html.setup({
         capabilities = capabilities
       })
@@ -64,12 +61,15 @@ return {
       lspconfig.zls.setup({
         capabilities = capabilities
       })
+      lspconfig.nixfmt.setup({
+        capabilities = capabilities
+      })
 
-      vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
+      vim.keymap.set("n", "gh", vim.lsp.buf.hover, {})
       vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
       vim.keymap.set("n", "gr", vim.lsp.buf.references, {})
-      vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
-      vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
+      vim.keymap.set("n", "ga", vim.lsp.buf.code_action, {})
+      vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, {})
       vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, {})
     end
   }
