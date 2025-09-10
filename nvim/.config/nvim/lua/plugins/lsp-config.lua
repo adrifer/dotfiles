@@ -20,7 +20,6 @@ return {
           "biome",
           "yamlls",
           "zls",
-          "nixfmt"
         }
       })
     end
@@ -28,8 +27,15 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
+      local cmp_nvim_lsp = require("cmp_nvim_lsp")
+      local capabilities = vim.tbl_deep_extend(
+        "force",
+        {},
+        vim.lsp.protocol.make_client_capabilities(),
+        cmp_nvim_lsp.default_capabilities()
+      )
+
       local lspconfig = require("lspconfig")
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
       lspconfig.lua_ls.setup({
         capabilities = capabilities
@@ -61,7 +67,7 @@ return {
       lspconfig.zls.setup({
         capabilities = capabilities
       })
-      lspconfig.nixfmt.setup({
+      lspconfig.nixd.setup({
         capabilities = capabilities
       })
 
@@ -69,7 +75,6 @@ return {
       vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
       vim.keymap.set("n", "gr", vim.lsp.buf.references, {})
       vim.keymap.set("n", "ga", vim.lsp.buf.code_action, {})
-      vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, {})
       vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, {})
     end
   }

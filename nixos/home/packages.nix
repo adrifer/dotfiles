@@ -29,6 +29,7 @@
     mkcert
     gcc
     nixfmt-rfc-style
+    nixd
 
     # I need to find the best way to install node versions on nix
     # nvm

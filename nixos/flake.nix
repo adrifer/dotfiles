@@ -14,71 +14,69 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, nixos-wsl, home-manager, ... }:
-  let
-    system = "x86_64-linux";
+  outputs =
+    inputs@{ self, nixpkgs, nixpkgs-unstable, nixos-wsl, home-manager, ... }:
+    let
+      system = "x86_64-linux";
 
-    # a tidy overlay that exposes pkgs.unstable
-    unstableOverlay = final: prev: {
-      unstable = import nixpkgs-unstable {
-        # inherit nixpkgs config flags like allowUnfree
-	inherit (final) system;
-        config = final.config.nixpkgs.config or {};
-      };
-    };
-    
-    # one place to get pkgs outside NixOS (for devShell/formatter)
-    pkgs = import nixpkgs {
-      inherit system;
-      overlays = [ unstableOverlay ];
-      config.allowUnfree = true;
-    };
-  in {
-    # Nice-to-have outside NixOS:
-    # formatter.${system} = pkgs.nixpkgs-fmt;
-    # devShells.${system}.default = pkgs.mkShell { };
-
-    nixosConfigurations.wsl-nixos = nixpkgs.lib.nixosSystem {
-      system = system;
-      specialArgs = {
-        inherit inputs system;
+      # a tidy overlay that exposes pkgs.unstable
+      unstableOverlay = final: prev: {
+        unstable = import nixpkgs-unstable {
+          # inherit nixpkgs config flags like allowUnfree
+          inherit (final) system;
+          config = final.config.nixpkgs.config or { };
+        };
       };
 
-      modules = [
-        # WSL integration
-        nixos-wsl.nixosModules.wsl
+      # one place to get pkgs outside NixOS (for devShell/formatter)
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [ unstableOverlay ];
+        config.allowUnfree = true;
+      };
+    in {
+      # Nice-to-have outside NixOS:
+      # formatter.${system} = pkgs.nixpkgs-fmt;
+      # devShells.${system}.default = pkgs.mkShell { };
 
-        # Your modules
-        ./modules/user-adrifer.nix
-        ./modules/common-system.nix
-        ./modules/wsl-only.nix
+      nixosConfigurations.wsl-nixos = nixpkgs.lib.nixosSystem {
+        system = system;
+        specialArgs = { inherit inputs system; };
 
-        # Host-specific config
-        ./hosts/wsl-nixos/configuration.nix
+        modules = [
+          # WSL integration
+          nixos-wsl.nixosModules.wsl
 
-        # Home Manager
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
+          # Your modules
+          ./modules/user-adrifer.nix
+          ./modules/common-system.nix
+          ./modules/wsl-only.nix
 
-          # pass inputs/system to HM modules too
-          home-manager.extraSpecialArgs = { inherit inputs system; };
-          home-manager.users.adrifer = import ./home;
-        }
+          # Host-specific config
+          ./hosts/wsl-nixos/configuration.nix
 
-        # One small combined module for nixpkgs + features
-        ({ ... }: {
-          nixpkgs = {
-            overlays = [ unstableOverlay ];
-            config.allowUnfree = true;
-            hostPlatform = system; # preferred on 25.05
-          };
+          # Home Manager
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
 
-          nix.settings.experimental-features = [ "nix-command" "flakes" ];
-        })
-      ];
+            # pass inputs/system to HM modules too
+            home-manager.extraSpecialArgs = { inherit inputs system; };
+            home-manager.users.adrifer = import ./home;
+          }
+
+          # One small combined module for nixpkgs + features
+          ({ ... }: {
+            nixpkgs = {
+              overlays = [ unstableOverlay ];
+              config.allowUnfree = true;
+              hostPlatform = system; # preferred on 25.05
+            };
+
+            nix.settings.experimental-features = [ "nix-command" "flakes" ];
+          })
+        ];
+      };
     };
-  };
 }
-
