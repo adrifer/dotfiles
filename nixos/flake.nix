@@ -50,6 +50,7 @@
 
         # Your modules
         ./modules/user-adrifer.nix
+        ./modules/common-system.nix
         ./modules/wsl-only.nix
 
         # Host-specific config

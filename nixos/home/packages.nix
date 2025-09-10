@@ -15,6 +15,7 @@
     unzip
     yazi
     fzf
+    powershell
 
     # dev
     unstable.neovim
@@ -25,6 +26,7 @@
     azure-artifacts-credprovider
     pnpm
     icu # needed for credential Manager
+    mkcert
     gcc
     nixfmt-rfc-style
 
