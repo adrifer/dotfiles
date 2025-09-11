@@ -6,7 +6,7 @@ alt + shift + o         : komorebic reload-configuration
 
 alt + i                 : komorebic toggle-shortcuts
 
-alt + f : $t='Adrifer-Devbox'; $p=Get-Process | ? { $_.MainWindowTitle -like "*$t*" } | Select-Object -First 1; if($p){ $h=$p.MainWindowHandle; $sig='[DllImport("user32.dll")] public static extern bool IsIconic(System.IntPtr hWnd); [DllImport("user32.dll")] public static extern bool ShowWindowAsync(System.IntPtr hWnd,int n); [DllImport("user32.dll")] public static extern bool SetForegroundWindow(System.IntPtr hWnd);'; $u=Add-Type -Name U -Namespace Win -MemberDefinition $sig -PassThru; if($u::IsIconic($h)){ $null=$u::ShowWindowAsync($h,9) }; $null=$u::SetForegroundWindow($h) } else { Start-Process 'Adrifer-Devbox' }
+alt + shift + f : $t='Adrifer-Devbox'; $p=Get-Process | ? { $_.MainWindowTitle -like "*$t*" } | Select-Object -First 1; if($p){ $h=$p.MainWindowHandle; $sig='[DllImport("user32.dll")] public static extern bool IsIconic(System.IntPtr hWnd); [DllImport("user32.dll")] public static extern bool ShowWindowAsync(System.IntPtr hWnd,int n); [DllImport("user32.dll")] public static extern bool SetForegroundWindow(System.IntPtr hWnd);'; $u=Add-Type -Name U -Namespace Win -MemberDefinition $sig -PassThru; if($u::IsIconic($h)){ $null=$u::ShowWindowAsync($h,9) }; $null=$u::SetForegroundWindow($h) } else { Start-Process 'Adrifer-Devbox' }
 
 # App shortcuts - these require shell to be pwsh / powershell
 # The apps will be focused if open, or launched if not open
@@ -52,7 +52,7 @@ alt + shift + oem_minus : komorebic resize-axis vertical decrease
 
 # Manipulate windows
 alt + t                 : komorebic toggle-float
-alt + shift + f         : komorebic toggle-monocle
+alt + f         : komorebic toggle-monocle
 
 # Window manager options
 alt + shift + r         : komorebic retile
