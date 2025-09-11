@@ -77,6 +77,10 @@ win + 1                 : komorebic focus-monitor 0
 win + 2                 : komorebic focus-monitor 1
 win + 3                 : komorebic focus-monitor 2
 
+win + shift + 1                 : komorebic move-to-monitor 0
+win + shift + 2                 : komorebic move-to-monitor 1
+win + shift + 3                 : komorebic move-to-monitor 2
+
 # Move windows across workspaces
 alt + shift + 1         : komorebic move-to-workspace 0
 alt + shift + 2         : komorebic move-to-workspace 1
