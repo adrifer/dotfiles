@@ -14,8 +14,8 @@ alt + shift + f : $t='Adrifer-Devbox'; $p=Get-Process | ? { $_.MainWindowTitle -
 # alt + b                 : if ($wshell.AppActivate('Chrome') -eq $False) { start chrome }
 alt + return            : if ($wshell.AppActivate('Windows Terminal') -eq $False) { start wt }
 alt + b                 : start msedge
-alt + c                 : Start-Process msedge -ArgumentList @('--app=https://www.chatgpt.com')
-alt + shift + c         : Start-Process msedge -ArgumentList @('--app=https://www.chatgpt.com/?temporary-chat=true')
+alt + q                 : Start-Process msedge -ArgumentList @('--app=https://www.chatgpt.com')
+alt + shift + q         : Start-Process msedge -ArgumentList @('--app=https://www.chatgpt.com/?temporary-chat=true')
 
 alt + w                 : komorebic close
 alt + m                 : komorebic minimize
