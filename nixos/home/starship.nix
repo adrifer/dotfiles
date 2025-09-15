@@ -9,7 +9,7 @@
       format = "$directory$character";
       right_format = "$all";
 
-      character = { vicmd_symbol = "[N] >>>"; };
+      character = { vicmd_symbol = "[N](bold green)"; };
 
       directory = {
         substitutions = {
