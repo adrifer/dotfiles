@@ -26,6 +26,8 @@
         "nix flake update --impure --flake /etc/nixos && sudo nixos-rebuild switch --flake /etc/nixos";
     };
     initContent = ''
+            source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+            export  ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
             y() {
               local tmp cwd
               tmp="$(mktemp -t yazi-cwd.XXXXXX)"
@@ -35,6 +37,7 @@
               fi
               rm -f -- "$tmp"
             }
+
             zd() {
               if [ $# -eq 0 ]; then
                 builtin cd ~ && return
