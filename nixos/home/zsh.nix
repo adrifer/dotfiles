@@ -23,6 +23,8 @@
       ".." = "cd ..";
       "..." = "cd ../..";
       i =
+        "sudo nixos-rebuild switch --flake /etc/nixos";
+      u =
         "nix flake update --impure --flake /etc/nixos && sudo nixos-rebuild switch --flake /etc/nixos";
     };
     initContent = ''
