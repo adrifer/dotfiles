@@ -26,6 +26,7 @@
         "sudo nixos-rebuild switch --flake /etc/nixos";
       u =
         "nix flake update --impure --flake /etc/nixos && sudo nixos-rebuild switch --flake /etc/nixos";
+      n = "nvim";
     };
     initContent = ''
             source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
