@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ inputs, config, lib, pkgs, ... }:
 
 {
   home.packages = with pkgs; [
@@ -30,6 +30,7 @@
     gcc
     nixfmt-rfc-style
     nixd
+    inputs.codex-nix.packages.${pkgs.system}.default
 
     # I need to find the best way to install node versions on nix
     # nvm
