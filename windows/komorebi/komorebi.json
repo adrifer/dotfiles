@@ -14,6 +14,11 @@
     "unfocused_border": "Base03",
     "bar_accent": "Base0D"
   },
+  "display_index_preferences": {
+    "0": "SAM0CCB-5&11d5afbc&0&UID4355",
+    "1": "AUS48E0-5&11d5afbc&0&UID4352",
+    "2": "SAM0CCB-5&11d5afbc&0&UID4353"
+  },
   "monitors": [
     {
       "workspaces": [
@@ -53,6 +58,38 @@
           "name": "I",
           "layout": "HorizontalStack",
           "layout_flip": "Vertical"
+        },
+        {
+          "name": "II",
+          "layout": "VerticalStack"
+        },
+        {
+          "name": "III",
+          "layout": "HorizontalStack"
+        },
+        {
+          "name": "IV",
+          "layout": "UltrawideVerticalStack"
+        },
+        {
+          "name": "V",
+          "layout": "Rows"
+        },
+        {
+          "name": "VI",
+          "layout": "Grid"
+        },
+        {
+          "name": "VII",
+          "layout": "RightMainVerticalStack"
+        }
+      ]
+    },
+    {
+      "workspaces": [
+        {
+          "name": "I",
+          "layout": "BSP"
         },
         {
           "name": "II",
