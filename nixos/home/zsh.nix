@@ -6,6 +6,13 @@
     autosuggestion.enable = true;
     enableCompletion = true;
     syntaxHighlighting.enable = true;
+    plugins = [
+      {
+        name = "zsh-vi-mode";
+        src = pkgs.zsh-vi-mode;
+        file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
+      }
+    ];
     shellAliases = {
       ls = "eza -lh --group-directories-first --icons=auto";
       lsa = "ls -a";
@@ -29,7 +36,6 @@
       n = "nvim";
     };
     initContent = ''
-            source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
             export  ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
             y() {
               local tmp cwd
