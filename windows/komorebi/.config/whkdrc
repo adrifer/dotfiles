@@ -41,8 +41,8 @@ alt + shift + return    : komorebic promote
 # alt + up                : komorebic stack up
 # alt + right             : komorebic stack right
 alt + oem_1             : komorebic unstack # oem_1 is ;
-alt + oem_4             : komorebic cycle-stack previous # oem_4 is [
-alt + oem_6             : komorebic cycle-stack next # oem_6 is ]
+# alt + oem_4             : komorebic cycle-stack previous # oem_4 is [
+# alt + oem_6             : komorebic cycle-stack next # oem_6 is ]
 
 # Resize
 alt + oem_plus          : komorebic resize-axis horizontal increase
