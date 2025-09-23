@@ -17,7 +17,7 @@
         };
       };
 
-      git_branch = { format = "[$symbol$branch(:$remote_branch)](fg:4)"; };
+      git_branch = { format = "[$symbol$branch(:$remote_branch)](fg:4) "; };
 
       docker_context = { disabled = true; };
 
