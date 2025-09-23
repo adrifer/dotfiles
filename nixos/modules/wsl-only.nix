@@ -23,10 +23,10 @@
     win_home_slash="''${win_home//\\//}"        # => C:/Users/Adrian
     win_user="''${win_home_slash##*/}"          # => Adrian
 
-    sys_bin="/mnt/c/Program Files/Microsoft VS Code Insiders/bin"
+    hardcoded_bin="/mnt/c/Users/track/AppData/Local/Programs/Microsoft VS Code Insiders/bin"
     user_bin="/mnt/c/Users/$win_user/AppData/Local/Programs/Microsoft VS Code Insiders/bin"
 
-    for d in "$sys_bin" "$user_bin"; do
+    for d in "$hardcoded_bin" "$user_bin"; do
       if [ -d "$d" ]; then
         case ":$PATH:" in
           *":$d:"*) ;;                      # already present
