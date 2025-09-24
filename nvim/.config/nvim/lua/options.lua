@@ -17,15 +17,25 @@ vim.keymap.set({"n", "v"}, "<leader>p", [["+p]], {desc = "Paste from system clip
 vim.keymap.set({"n", "v"}, "<leader>P", [["+P]], {desc = "Paste before from system clipboard"})
 
 if vim.fn.has('wsl') == 1 then
+    local win_clip = '/mnt/c/Windows/System32/clip.exe'
+    local win_paste = table.concat({
+        '/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe',
+        '-NoLogo',
+        '-NoProfile',
+        '-NonInteractive',
+        '-Command',
+        '[Console]::Out.Write((Get-Clipboard -Raw).ToString().Replace("`r", ""))',
+    }, ' ')
+
     vim.g.clipboard = {
         name = 'WslClipboard',
         copy = {
-            ['+'] = 'clip.exe',
-            ['*'] = 'clip.exe',
+            ['+'] = win_clip,
+            ['*'] = win_clip,
         },
         paste = {
-            ['+'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-            ['*'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+            ['+'] = win_paste,
+            ['*'] = win_paste,
         },
         cache_enabled = 0,
     }
