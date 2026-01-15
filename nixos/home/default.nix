@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, isWSL ? false, ... }:
 
 {
   home.username = "adrifer";
@@ -14,6 +14,8 @@
     ./fzf.nix
     ./zoxide.nix
     ./git.nix
+  ] ++ lib.optionals isWSL [
+    ./packages-wsl.nix
   ];
 
   home.stateVersion = "25.05";

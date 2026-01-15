@@ -1,8 +1,6 @@
-{ inputs, config, lib, pkgs, isWSL ? false, ... }:
+{ inputs, config, lib, pkgs, ... }:
 
 {
-  imports = lib.optionals isWSL [ ./packages-wsl.nix ];
-
   home.packages = with pkgs; [
     # Basics
     wget

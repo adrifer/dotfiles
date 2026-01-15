@@ -1,5 +1,12 @@
 - [x] Add wslu package only on wsl (/home/packages.nix)
 - [x] Move export BROWSER=wslview only on wsl (/home/zsh.nix)
+- [] Create wsl-nixos-work host
 - [] Move fs.** entries to work profile (modules/common-system.nix)
 - [] Find a way to install global npm packages and update them easily
+    - [] Codex-cli
+    - [] Github-cli
+    - [] OpenCode
+    - [] Maybe pnpm to pin to specific version
 - [] Update to NixOS 25.11
+- [] Install proton pass cli
+- [] Move to LazyVim for neovim config and also install https://github.com/NickvanDyke/opencode.nvim
