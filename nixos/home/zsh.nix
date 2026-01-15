@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, isWSL ? false, ... }:
 
 {
   programs.zsh = {
@@ -36,7 +36,7 @@
       n = "nvim";
     };
     initContent = ''
-            export BROWSER=wslview
+            ${lib.optionalString isWSL "export BROWSER=wslview"}
             export  ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
             y() {
               local tmp cwd

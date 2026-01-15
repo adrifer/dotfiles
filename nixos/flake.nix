@@ -65,7 +65,7 @@
             home-manager.useUserPackages = true;
 
             # pass inputs/system to HM modules too
-            home-manager.extraSpecialArgs = { inherit inputs system; };
+            home-manager.extraSpecialArgs = { inherit inputs system; isWSL = true; };
             home-manager.users.adrifer = import ./home;
           }
 

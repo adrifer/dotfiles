@@ -1,4 +1,5 @@
-- [] Add wslu package only on wsl (/home/packages.nix)
-- [] Move export BROWSER=wslview only on wsl (/home/zsh.nix)
+- [x] Add wslu package only on wsl (/home/packages.nix)
+- [x] Move export BROWSER=wslview only on wsl (/home/zsh.nix)
 - [] Move fs.** entries to work profile (modules/common-system.nix)
 - [] Find a way to install global npm packages and update them easily
+- [] Update to NixOS 25.11

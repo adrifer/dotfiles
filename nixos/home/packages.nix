@@ -1,6 +1,8 @@
-{ inputs, config, lib, pkgs, ... }:
+{ inputs, config, lib, pkgs, isWSL ? false, ... }:
 
 {
+  imports = lib.optionals isWSL [ ./packages-wsl.nix ];
+
   home.packages = with pkgs; [
     # Basics
     wget
@@ -30,7 +32,6 @@
     gcc
     nixfmt-rfc-style
     nixd
-    wslu
     inputs.codex-cli-nix.packages.${pkgs.system}.default
     azure-cli
 
