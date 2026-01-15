@@ -2,7 +2,7 @@
   description = "NixOS - Adrifer";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
 
     # Keep unstable around for select packages
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -10,7 +10,7 @@
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
@@ -25,8 +25,7 @@
       # a tidy overlay that exposes pkgs.unstable
       unstableOverlay = final: prev: {
         unstable = import nixpkgs-unstable {
-          # inherit nixpkgs config flags like allowUnfree
-          inherit (final) system;
+          inherit (final.stdenv.hostPlatform) system;
           config = final.config.nixpkgs.config or { };
         };
       };

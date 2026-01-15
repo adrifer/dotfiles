@@ -17,7 +17,7 @@
     zlib
     openssl
   ];
-  home-manager.users.adrifer.programs.git.extraConfig = {
+  home-manager.users.adrifer.programs.git.settings = {
     credential.helper = "/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe";
   };
 

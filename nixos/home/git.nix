@@ -4,12 +4,12 @@
   programs.git = {
     enable = true;
 
-    # Default identity
-    userName  = "Adrian Fernandez Garcia";
-    userEmail = "tracker086@outlook.com";
-
-    # Extra config snippets
-    extraConfig = {
+    # Git settings
+    settings = {
+      user = {
+        name = "Adrian Fernandez Garcia";
+        email = "tracker086@outlook.com";
+      };
       credential."https://dev.azure.com".useHttpPath = true;
     };
 
