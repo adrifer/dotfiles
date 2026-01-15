@@ -1,4 +1,4 @@
-{ config, pkgs, lib, isWSL ? false, ... }:
+{ config, pkgs, lib, isWSL ? false, hostname ? "unknown", ... }:
 
 {
   home.username = "adrifer";

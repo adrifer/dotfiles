@@ -1,0 +1,15 @@
+{ config, lib, pkgs, ... }:
+
+{
+  networking.hostName = "wsl-work";
+
+  # Set unprivileged port start to 443 (for work project)
+  boot.kernel.sysctl = {
+    "net.ipv4.ip_unprivileged_port_start" = 443;
+    "fs.inotify.max_user_watches" = 1048576;
+    "fs.inotify.max_user_instances" = 1024;
+    "fs.inotify.max_queued_events" = 65536;
+  };
+
+  system.stateVersion = "25.05";
+}

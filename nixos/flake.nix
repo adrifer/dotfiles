@@ -37,26 +37,23 @@
         overlays = [ unstableOverlay ];
         config.allowUnfree = true;
       };
-    in {
-      # Nice-to-have outside NixOS:
-      # formatter.${system} = pkgs.nixpkgs-fmt;
-      # devShells.${system}.default = pkgs.mkShell { };
 
-      nixosConfigurations.wsl-nixos = nixpkgs.lib.nixosSystem {
-        system = system;
+      # Helper to create WSL hosts
+      mkWSLHost = hostname: nixpkgs.lib.nixosSystem {
+        inherit system;
         specialArgs = { inherit inputs system; };
 
         modules = [
           # WSL integration
           nixos-wsl.nixosModules.wsl
 
-          # Your modules
+          # Shared modules
           ./modules/user-adrifer.nix
           ./modules/common-system.nix
           ./modules/wsl-only.nix
 
           # Host-specific config
-          ./hosts/wsl-nixos/configuration.nix
+          ./hosts/${hostname}/configuration.nix
 
           # Home Manager
           home-manager.nixosModules.home-manager
@@ -64,22 +61,26 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
 
-            # pass inputs/system to HM modules too
-            home-manager.extraSpecialArgs = { inherit inputs system; isWSL = true; };
+            home-manager.extraSpecialArgs = { inherit inputs system hostname; isWSL = true; };
             home-manager.users.adrifer = import ./home;
           }
 
-          # One small combined module for nixpkgs + features
+          # Nixpkgs config
           ({ ... }: {
             nixpkgs = {
               overlays = [ unstableOverlay ];
               config.allowUnfree = true;
-              hostPlatform = system; # preferred on 25.05
+              hostPlatform = system;
             };
 
             nix.settings.experimental-features = [ "nix-command" "flakes" ];
           })
         ];
+      };
+    in {
+      nixosConfigurations = {
+        wsl = mkWSLHost "wsl";
+        wsl-work = mkWSLHost "wsl-work";
       };
     };
 }
