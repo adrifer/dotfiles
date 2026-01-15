@@ -22,7 +22,7 @@
     unstable.lazygit
     unstable.bun
     unstable.gh
-    nodejs_22
+    unstable.nodejs_22
     azure-artifacts-credprovider
     pnpm
     icu # needed for credential Manager
@@ -30,7 +30,9 @@
     gcc
     nixfmt-rfc-style
     nixd
-    inputs.codex-nix.packages.${pkgs.system}.default
+    wslu
+    inputs.codex-cli-nix.packages.${pkgs.system}.default
+    azure-cli
 
     # I need to find the best way to install node versions on nix
     # nvm

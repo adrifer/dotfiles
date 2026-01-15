@@ -12,7 +12,11 @@
 
   # Workaround for WSL NixOS vscode remote
   programs.nix-ld.enable = true;
-
+  programs.nix-ld.libraries = with pkgs; [
+    icu
+    zlib
+    openssl
+  ];
   home-manager.users.adrifer.programs.git.extraConfig = {
     credential.helper = "/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe";
   };

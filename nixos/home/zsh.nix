@@ -36,6 +36,7 @@
       n = "nvim";
     };
     initContent = ''
+            export BROWSER=wslview
             export  ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
             y() {
               local tmp cwd
