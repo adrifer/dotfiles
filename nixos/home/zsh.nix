@@ -33,6 +33,7 @@
         "sudo nixos-rebuild switch --flake /etc/nixos";
       u =
         "nix flake update --impure --flake /etc/nixos && sudo nixos-rebuild switch --flake /etc/nixos";
+      gc = "sudo nix-collect-garbage -d";
       n = "nvim";
     };
     initContent = ''
