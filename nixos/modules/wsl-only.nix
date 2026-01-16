@@ -1,4 +1,9 @@
 { lib, pkgs, ... }:
+let
+  git-credential-manager-windows = pkgs.writeShellScriptBin "git-credential-manager-windows" ''
+    "/mnt/c/Program Files/Git/mingw64/bin/git-credential-manager.exe" "$@"
+  '';
+in
 {
   wsl.enable = true;
   wsl.defaultUser = lib.mkDefault "adrifer";
@@ -18,7 +23,7 @@
     openssl
   ];
   home-manager.users.adrifer.programs.git.settings = {
-    credential.helper = "/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe";
+    credential.helper = "${git-credential-manager-windows}/bin/git-credential-manager-windows";
   };
 
   environment.interactiveShellInit = ''
