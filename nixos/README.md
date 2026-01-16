@@ -57,7 +57,7 @@ sudo ln -s ~/dotfiles/nixos /etc/nixos
 Run the initial rebuild:
 
 ```bash
-sudo nixos-rebuild switch --flake /etc/nixos#wsl-nixos
+sudo nixos-rebuild switch --flake /etc/nixos#wsl
 ```
 
 After this, exit and restart WSL - you should now log in as your configured user.
