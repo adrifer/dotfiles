@@ -4,5 +4,6 @@
 - [x] Move fs.** entries to work profile (modules/common-system.nix)
 - [x] Find a way to install global npm packages and update them easily
 - [x] Update to NixOS 25.11
+- [x] Move to use unstable packages by default
 - [] Install proton pass cli
 - [] Move to LazyVim for neovim config and also install https://github.com/NickvanDyke/opencode.nvim
