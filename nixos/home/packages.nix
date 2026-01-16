@@ -1,7 +1,7 @@
 { inputs, config, lib, pkgs, ... }:
 
 let
-  nodejs = pkgs.unstable.nodejs_22;
+  nodejs = pkgs.nodejs_22;
   npmGlobalPkgs = [
     "@github/copilot"
     "opencode-ai"
@@ -26,17 +26,17 @@ in
     powershell
 
     # dev
-    unstable.neovim
-    unstable.lazygit
-    unstable.bun
-    unstable.gh
+    neovim
+    lazygit
+    bun
+    gh
     nodejs
     azure-artifacts-credprovider
     pnpm
     icu # needed for credential Manager
     mkcert
     gcc
-    nixfmt-rfc-style
+    nixfmt
     nixd
     inputs.codex-cli-nix.packages.${pkgs.system}.default
     azure-cli
@@ -68,7 +68,7 @@ in
 
   home.activation.installNpmGlobalPkgs = lib.hm.dag.entryAfter [ "writeBoundary" "ensureWritableNpmrc" ] ''
     export NPM_CONFIG_PREFIX="${config.home.homeDirectory}/.npm-global"
-    export PATH="${nodejs}/bin:${pkgs.unstable.bun}/bin:$PATH"
+    export PATH="${nodejs}/bin:${pkgs.bun}/bin:$PATH"
     ${nodejs}/bin/npm i -g ${npmInstallCmd}
   '';
 

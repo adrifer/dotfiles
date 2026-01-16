@@ -2,15 +2,15 @@
   description = "NixOS - Adrifer";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    # Keep unstable around for select packages
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # Keep stable around for fallback
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
 
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager.url = "github:nix-community/home-manager/release-25.11";
+    home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
@@ -18,13 +18,13 @@
   };
 
   outputs =
-    inputs@{ self, nixpkgs, nixpkgs-unstable, nixos-wsl, home-manager, ... }:
+    inputs@{ self, nixpkgs, nixpkgs-stable, nixos-wsl, home-manager, ... }:
     let
       system = "x86_64-linux";
 
-      # a tidy overlay that exposes pkgs.unstable
-      unstableOverlay = final: prev: {
-        unstable = import nixpkgs-unstable {
+      # Overlay that exposes pkgs.stable for fallback
+      stableOverlay = final: prev: {
+        stable = import nixpkgs-stable {
           inherit (final.stdenv.hostPlatform) system;
           config = final.config.nixpkgs.config or { };
         };
@@ -33,7 +33,7 @@
       # one place to get pkgs outside NixOS (for devShell/formatter)
       pkgs = import nixpkgs {
         inherit system;
-        overlays = [ unstableOverlay ];
+        overlays = [ stableOverlay ];
         config.allowUnfree = true;
       };
 
@@ -67,7 +67,7 @@
           # Nixpkgs config
           ({ ... }: {
             nixpkgs = {
-              overlays = [ unstableOverlay ];
+              overlays = [ stableOverlay ];
               config.allowUnfree = true;
               hostPlatform = system;
             };
