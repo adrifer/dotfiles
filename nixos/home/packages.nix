@@ -24,6 +24,8 @@ in
     yazi
     fzf
     powershell
+    ripgrep
+    fd
 
     # dev
     neovim
@@ -44,8 +46,6 @@ in
     # I need to find the best way to install node versions on nix
     # nvm
 
-    # ripgrep
-    # fd
     # jq
     # yq
 
