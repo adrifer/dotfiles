@@ -15,7 +15,7 @@
 
       directory = {
         substitutions = {
-          "${config.home.homeDirectory}/repos/trackseries/src/Web" = "ts-web";
+          "trackseries/src/Web" = "ts-web";
         };
       };
 
