@@ -29,6 +29,7 @@
       lta = "lt -a";
       ff = "fzf --preview 'bat --style=numbers --color=always {}'";
       grep = "grep --color=auto";
+      g = "lazygit";
       lg = "lazygit";
       cd = "zd";
       ci = "code-insiders";
