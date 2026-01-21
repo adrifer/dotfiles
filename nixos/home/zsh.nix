@@ -46,6 +46,7 @@
     initContent = ''
       ${lib.optionalString isWSL "export BROWSER=wslview"}
       export  ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
+      
       y() {
         local tmp cwd
         tmp="$(mktemp -t yazi-cwd.XXXXXX)"
