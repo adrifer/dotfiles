@@ -3051,7 +3051,7 @@
     ]
   },
   "Windows Explorer": {
-    "tray_and_multi_window": [
+    "floating": [
       {
         "kind": "Exe",
         "id": "explorer.exe",
@@ -3135,6 +3135,15 @@
       {
         "kind": "Exe",
         "id": "winzip64.exe",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
+  "World of Warcraft": {
+    "ignore": [
+      {
+        "kind": "Exe",
+        "id": "Wow.exe",
         "matching_strategy": "Equals"
       }
     ]

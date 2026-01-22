@@ -1,5 +1,13 @@
 .shell pwsh
 
+# Disable all shortcuts when World of Warcraft is focused
+.process_name [
+    Wow.exe
+    WowClassic.exe
+    WowT.exe
+    WowB.exe
+]
+
 # Reload whkd configuration
 alt + o                 : taskkill /f /im whkd.exe; Start-Process whkd -WindowStyle hidden # if shell is pwsh / powershell
 alt + shift + o         : komorebic reload-configuration
