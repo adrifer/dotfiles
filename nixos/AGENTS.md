@@ -21,12 +21,17 @@ nixos/
 ├── hosts/                 # Host-specific configurations
 │   ├── wsl/               # Personal WSL host
 │   │   └── configuration.nix
-│   └── wsl-work/          # Work WSL host
+│   ├── wsl-work/          # Work WSL host
+│   │   └── configuration.nix
+│   ├── syncthing-lxc/     # Syncthing LXC container (Proxmox)
+│   │   └── configuration.nix
+│   └── ela-lxc/           # Ela LXC container (Proxmox)
 │       └── configuration.nix
 └── modules/               # Shared NixOS modules
     ├── common-system.nix  # Common system settings (bash symlink, auto gc)
     ├── user-adrifer.nix   # User account configuration
-    └── wsl-only.nix       # WSL-specific settings (interop, credential helper)
+    ├── wsl-only.nix       # WSL-specific settings (interop, credential helper)
+    └── lxc-base.nix       # LXC container settings (boot, SSH, minimal packages)
 ```
 
 ## Key Concepts
@@ -35,6 +40,7 @@ nixos/
 - **nixpkgs**: Points to `nixos-unstable` (latest packages by default)
 - **nixpkgs-stable**: Available as `pkgs.stable.*` for fallback
 - **mkWSLHost**: Helper function to create WSL host configurations
+- **mkLXCHost**: Helper function to create LXC container configurations (headless servers)
 
 ### Conditional Configuration
 - **`isWSL`**: Boolean passed via `extraSpecialArgs` to Home Manager modules
@@ -66,6 +72,11 @@ Example usage in HM modules:
 ### Adding a New WSL Host
 1. Create `hosts/<hostname>/configuration.nix` with hostname and stateVersion
 2. Add to `flake.nix`: `<hostname> = mkWSLHost "<hostname>";`
+
+### Adding a New LXC Host
+1. Create `hosts/<hostname>/configuration.nix` with hostname and stateVersion
+2. Add to `flake.nix`: `<hostname> = mkLXCHost "<hostname>";`
+3. See Proxmox NixOS LXC guide for deployment instructions
 
 ### Adding a Non-WSL Host
 Create a new helper function similar to `mkWSLHost` but without:

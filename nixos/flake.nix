@@ -76,10 +76,36 @@
           })
         ];
       };
+
+      # Helper to create LXC container hosts (headless servers, uses stable nixpkgs)
+      mkLXCHost = hostname: nixpkgs-stable.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs system; };
+
+        modules = [
+          # LXC base settings
+          ./modules/lxc-base.nix
+
+          # Host-specific config
+          ./hosts/${hostname}/configuration.nix
+
+          # Nixpkgs config
+          ({ ... }: {
+            nixpkgs = {
+              config.allowUnfree = true;
+              hostPlatform = system;
+            };
+          })
+        ];
+      };
     in {
       nixosConfigurations = {
         wsl = mkWSLHost "wsl";
         wsl-work = mkWSLHost "wsl-work";
+
+        # LXC containers (Proxmox)
+        syncthing-lxc = mkLXCHost "syncthing-lxc";
+        ela-lxc = mkLXCHost "ela-lxc";
       };
     };
 }
