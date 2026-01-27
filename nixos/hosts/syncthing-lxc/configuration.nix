@@ -2,6 +2,11 @@
 {
   networking.hostName = "syncthing-lxc";
 
+  # Additional packages
+  environment.systemPackages = with pkgs; [
+    gh
+  ];
+
   # Syncthing service
   services.syncthing = {
     enable = true;

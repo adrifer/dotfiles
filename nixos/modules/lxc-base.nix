@@ -21,6 +21,7 @@
     htop
     curl
     git
+    lazygit
   ];
 
   # Auto garbage collection
