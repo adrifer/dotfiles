@@ -26,6 +26,10 @@
         "TrackVault" = {
           path = "/var/lib/syncthing/TrackVault";
           devices = [ "ADRIFER-Ultron" "iPhone" ];
+          versioning = {
+            type = "simple";
+            params.keep = "10";
+          };
         };
       };
       devices = {
