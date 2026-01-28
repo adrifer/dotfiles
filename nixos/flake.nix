@@ -13,12 +13,19 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Home Manager for stable (LXC containers)
+    home-manager-stable.url = "github:nix-community/home-manager/release-25.11";
+    home-manager-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
+
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
     codex-cli-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Moltbot (Clawdbot) for AI assistant
+    nix-clawdbot.url = "github:clawdbot/nix-clawdbot";
   };
 
   outputs =
-    inputs@{ self, nixpkgs, nixpkgs-stable, nixos-wsl, home-manager, ... }:
+    inputs@{ self, nixpkgs, nixpkgs-stable, nixos-wsl, home-manager, home-manager-stable, nix-clawdbot, ... }:
     let
       system = "x86_64-linux";
 
