@@ -1,16 +1,35 @@
 { config, lib, pkgs, inputs, ... }:
 {
   imports = [
-    inputs.nix-clawdbot.homeManagerModules.clawdbot
+    inputs.nix-moltbot.homeManagerModules.moltbot
   ];
 
   home.username = "moltbot";
   home.homeDirectory = "/home/moltbot";
   home.stateVersion = "25.05";
 
+  home.packages = with pkgs; [
+    nodejs
+    bun
+  ];
+
+  # Configure npm to use home directory for globals
+  home.sessionVariables = {
+    NPM_CONFIG_PREFIX = "$HOME/.npm-global";
+  };
+
+  home.sessionPath = [
+    "$HOME/.npm-global/bin"
+  ];
+
+  # Create .npmrc for persistent npm config
+  home.file.".npmrc".text = ''
+    prefix=~/.npm-global
+  '';
+
   programs.home-manager.enable = true;
 
-  programs.clawdbot = {
+  programs.moltbot = {
     # Documents directory for agent personality
     documents = ./documents;
 

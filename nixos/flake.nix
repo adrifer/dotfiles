@@ -20,12 +20,12 @@
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
     codex-cli-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Moltbot (Clawdbot) for AI assistant
-    nix-clawdbot.url = "github:clawdbot/nix-clawdbot";
+    # Moltbot AI assistant
+    nix-moltbot.url = "github:moltbot/nix-moltbot";
   };
 
   outputs =
-    inputs@{ self, nixpkgs, nixpkgs-stable, nixos-wsl, home-manager, home-manager-stable, nix-clawdbot, ... }:
+    inputs@{ self, nixpkgs, nixpkgs-stable, nixos-wsl, home-manager, home-manager-stable, nix-moltbot, ... }:
     let
       system = "x86_64-linux";
 

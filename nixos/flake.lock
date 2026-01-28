@@ -117,7 +117,7 @@
     "home-manager_2": {
       "inputs": {
         "nixpkgs": [
-          "nix-clawdbot",
+          "nix-moltbot",
           "nixpkgs"
         ]
       },
@@ -135,7 +135,7 @@
         "type": "github"
       }
     },
-    "nix-clawdbot": {
+    "nix-moltbot": {
       "inputs": {
         "flake-utils": "flake-utils_2",
         "home-manager": "home-manager_2",
@@ -143,16 +143,16 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1769481403,
-        "narHash": "sha256-QvKRtICKNB/UZcEk1rX4DiD+RDo0MDLUb7XxTojKyYA=",
-        "owner": "clawdbot",
-        "repo": "nix-clawdbot",
-        "rev": "474ee3894509e0ad282ca7dc6959c234c412d5cb",
+        "lastModified": 1769632573,
+        "narHash": "sha256-T/RCor9fcDRY3a1oQHHV0o24cjDixKoV9HhzgwxGPLg=",
+        "owner": "moltbot",
+        "repo": "nix-moltbot",
+        "rev": "d4e65b3c8bf8fc9af5571d59a0c334c73e3961db",
         "type": "github"
       },
       "original": {
-        "owner": "clawdbot",
-        "repo": "nix-clawdbot",
+        "owner": "moltbot",
+        "repo": "nix-moltbot",
         "type": "github"
       }
     },
@@ -161,15 +161,15 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1768673601,
-        "narHash": "sha256-n5+aU505rTI1sJGd3PDhfvJS00lLjiARckqjLxdG+XA=",
-        "owner": "clawdbot",
+        "lastModified": 1769632524,
+        "narHash": "sha256-lDGYIwZUPXF+FoqE9fATn8sqDjfpM7Iy81KhHvqFjyw=",
+        "owner": "moltbot",
         "repo": "nix-steipete-tools",
-        "rev": "1ab855984e2581e35a76d57cbb97abf0693dad3b",
+        "rev": "53ead4d5fd722020dddaede861745a32e39d284e",
         "type": "github"
       },
       "original": {
-        "owner": "clawdbot",
+        "owner": "moltbot",
         "repo": "nix-steipete-tools",
         "type": "github"
       }
@@ -264,7 +264,7 @@
         "codex-cli-nix": "codex-cli-nix",
         "home-manager": "home-manager",
         "home-manager-stable": "home-manager-stable",
-        "nix-clawdbot": "nix-clawdbot",
+        "nix-moltbot": "nix-moltbot",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-stable": "nixpkgs-stable"

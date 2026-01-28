@@ -6,15 +6,15 @@
 
   networking.hostName = "ela-lxc";
 
-  # Moltbot overlay for clawdbot packages
-  nixpkgs.overlays = [ inputs.nix-clawdbot.overlays.default ];
+  # Moltbot overlay
+  nixpkgs.overlays = [ inputs.nix-moltbot.overlays.default ];
 
   # Additional packages
   environment.systemPackages = with pkgs; [
     gh  # GitHub CLI (may be needed for Copilot OAuth)
   ];
 
-  # Moltbot user (runs Clawdbot service)
+  # Moltbot user (runs the service)
   users.users.moltbot = {
     isNormalUser = true;
     home = "/home/moltbot";

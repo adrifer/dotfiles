@@ -1,6 +1,6 @@
 # Ela LXC Setup (Moltbot AI Assistant)
 
-Moltbot (formerly Clawdbot) AI assistant running on the `ela-lxc` container. For base NixOS LXC setup on Proxmox, see [[proxmox-nixos-lxc]].
+Moltbot AI assistant running on the `ela-lxc` container. For base NixOS LXC setup on Proxmox, see [[proxmox-nixos-lxc]].
 
 ## Overview
 
@@ -10,7 +10,7 @@ Moltbot (formerly Clawdbot) AI assistant running on the `ela-lxc` container. For
 | Container ID | TBD |
 | User | `moltbot` |
 | Service | systemd user service |
-| State directory | `/home/moltbot/.clawdbot` |
+| State directory | `/home/moltbot/.moltbot` |
 
 ### Providers
 
@@ -75,10 +75,10 @@ This shows a QR code - scan it with your WhatsApp app (Settings → Linked Devic
 
 ```bash
 # Check service status
-systemctl --user status clawdbot-gateway
+systemctl --user status moltbot-gateway
 
 # View logs
-journalctl --user -u clawdbot-gateway -f
+journalctl --user -u moltbot-gateway -f
 ```
 
 ---
@@ -106,8 +106,8 @@ Edit `hosts/ela-lxc/home.nix`:
 
 ```nix
 plugins = [
-  { source = "github:clawdbot/nix-steipete-tools?dir=tools/summarize"; }
-  { source = "github:clawdbot/nix-steipete-tools?dir=tools/oracle"; }
+  { source = "github:moltbot/nix-steipete-tools?dir=tools/summarize"; }
+  { source = "github:moltbot/nix-steipete-tools?dir=tools/oracle"; }
 ];
 ```
 
@@ -132,12 +132,12 @@ moltbot auth copilot
 
 ```bash
 # As moltbot user
-systemctl --user status clawdbot-gateway
-systemctl --user restart clawdbot-gateway
-systemctl --user stop clawdbot-gateway
+systemctl --user status moltbot-gateway
+systemctl --user restart moltbot-gateway
+systemctl --user stop moltbot-gateway
 
 # View logs
-journalctl --user -u clawdbot-gateway -f
+journalctl --user -u moltbot-gateway -f
 ```
 
 ### Moltbot CLI
@@ -178,8 +178,8 @@ nixos-rebuild switch --flake /etc/nixos#ela-lxc
 loginctl enable-linger moltbot
 
 # Check service
-systemctl --user status clawdbot-gateway
-journalctl --user -u clawdbot-gateway --no-pager
+systemctl --user status moltbot-gateway
+journalctl --user -u moltbot-gateway --no-pager
 ```
 
 ### WhatsApp disconnected
@@ -210,7 +210,7 @@ cat /home/moltbot/.secrets/anthropic-api-key
 
 ```
 WhatsApp ──┐
-           ├── Gateway (clawdbot-gateway) ── LLM Provider
+           ├── Gateway (moltbot-gateway) ── LLM Provider
 Telegram ──┘           │                    (Copilot/Anthropic)
                        │
                     Plugins
@@ -221,4 +221,4 @@ Telegram ──┘           │                    (Copilot/Anthropic)
 - **LLM Provider**: GitHub Copilot or Anthropic Claude
 - **Plugins**: Extend capabilities (summarize, web search, etc.)
 
-State lives in `/home/moltbot/.clawdbot/`.
+State lives in `/home/moltbot/.moltbot/`.
