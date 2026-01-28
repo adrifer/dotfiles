@@ -9,6 +9,11 @@
   # Moltbot overlay
   nixpkgs.overlays = [ inputs.nix-moltbot.overlays.default ];
 
+  # Workaround: nix-moltbot uses hardcoded /bin/mkdir
+  system.activationScripts.binMkdir = lib.stringAfter [ "binsh" ] ''
+    ln -sfn ${pkgs.coreutils}/bin/mkdir /bin/mkdir
+  '';
+
   # Additional packages
   environment.systemPackages = with pkgs; [
     gh  # GitHub CLI (may be needed for Copilot OAuth)
