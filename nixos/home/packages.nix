@@ -26,6 +26,7 @@ in
     powershell
     ripgrep
     fd
+    jq
 
     # dev
     neovim
@@ -46,7 +47,6 @@ in
     # I need to find the best way to install node versions on nix
     # nvm
 
-    # jq
     # yq
 
     # add languages/toolchains you want everywhere:

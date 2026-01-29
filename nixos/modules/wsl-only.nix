@@ -13,6 +13,9 @@ in
     appendWindowsPath = false; # ⬅️ don't import Windows PATH into WSL
   };
 
+  # Ensure WSL interop binfmt is registered for running .exe files
+  wsl.interop.register = true;
+
   environment.systemPackages = with pkgs; [ wl-clipboard ];
 
   # Workaround for WSL NixOS vscode remote
