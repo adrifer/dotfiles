@@ -29,6 +29,9 @@
 
   programs.home-manager.enable = true;
 
+  # Enable bash to source Home Manager session variables
+  programs.bash.enable = true;
+
   programs.moltbot = {
     # Documents directory for agent personality
     documents = ./documents;

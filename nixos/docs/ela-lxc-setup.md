@@ -35,7 +35,7 @@ Follow [[proxmox-nixos-lxc]] steps 1-5, using:
 ```bash
 # As root
 mkdir -p /home/moltbot/.secrets
-chown moltbot:moltbot /home/moltbot/.secrets
+chown moltbot:users /home/moltbot/.secrets
 chmod 700 /home/moltbot/.secrets
 ```
 
@@ -46,7 +46,7 @@ If using Anthropic as fallback LLM:
 ```bash
 # Get key from https://console.anthropic.com
 echo "sk-ant-xxxxx" > /home/moltbot/.secrets/anthropic-api-key
-chown moltbot:moltbot /home/moltbot/.secrets/anthropic-api-key
+chown moltbot:users /home/moltbot/.secrets/anthropic-api-key
 chmod 600 /home/moltbot/.secrets/anthropic-api-key
 ```
 
