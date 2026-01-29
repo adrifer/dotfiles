@@ -26,6 +26,9 @@
     gh  # GitHub CLI (may be needed for Copilot OAuth)
   ];
 
+  # Enable nix-ld to run dynamically linked binaries (npm packages, etc.)
+  programs.nix-ld.enable = true;
+
   # Moltbot user (runs the service)
   users.users.moltbot = {
     isNormalUser = true;
