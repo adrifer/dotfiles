@@ -9,9 +9,16 @@
   # Moltbot overlay
   nixpkgs.overlays = [ inputs.nix-moltbot.overlays.default ];
 
-  # Workaround: nix-moltbot uses hardcoded /bin/mkdir
-  system.activationScripts.binMkdir = lib.stringAfter [ "binsh" ] ''
+  # Workaround: nix-moltbot uses hardcoded /bin paths
+  system.activationScripts.binCompat = lib.stringAfter [ "binsh" ] ''
     ln -sfn ${pkgs.coreutils}/bin/mkdir /bin/mkdir
+    ln -sfn ${pkgs.coreutils}/bin/ln /bin/ln
+    ln -sfn ${pkgs.coreutils}/bin/rm /bin/rm
+    ln -sfn ${pkgs.coreutils}/bin/cp /bin/cp
+    ln -sfn ${pkgs.coreutils}/bin/mv /bin/mv
+    ln -sfn ${pkgs.coreutils}/bin/cat /bin/cat
+    ln -sfn ${pkgs.coreutils}/bin/chmod /bin/chmod
+    ln -sfn ${pkgs.coreutils}/bin/chown /bin/chown
   '';
 
   # Additional packages
