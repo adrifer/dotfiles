@@ -25,7 +25,7 @@
       folders = {
         "TrackVault" = {
           path = "/var/lib/syncthing/TrackVault";
-          devices = [ "ADRIFER-Ultron" "iPhone" ];
+          devices = [ "ADRIFER-Ultron" "iPhone" "Ela" ];
           versioning = {
             type = "simple";
             params.keep = "10";
@@ -35,6 +35,7 @@
       devices = {
         "ADRIFER-Ultron" = { id = "SUYK5EV-GZD6WAJ-DOHS524-7RMYH54-23I4TYS-YN6HYL2-V4FCOEN-MBBG7AG"; };
         "iPhone" = { id = "Z2LB3T3-MW5JCBR-ZAFY6XE-SUIKOV4-JAEGMDZ-JQIZLZC-2W346Y6-XI2WXQX"; };
+        "Ela" = { id = "DTDYOAX-QOJUM4U-ENTU5W3-P5XCUGG-R5M67OU-ARZBZVP-7TZKSU2-SYRJFAF"; };
       };
     };
   };
