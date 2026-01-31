@@ -21,6 +21,9 @@
     };
   };
 
+  # Ensure root has proper login shell
+  users.users.root.shell = pkgs.bash;
+
   # Minimal packages for server management
   environment.systemPackages = with pkgs; [
     vim
