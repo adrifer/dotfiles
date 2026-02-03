@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 {
   # LXC container mode
   boot.isContainer = true;
@@ -8,6 +8,14 @@
     where = "/sys/kernel/debug";
     enable = false;
   }];
+
+  # Fix /sbin/init to follow system profile (Proxmox templates hardcode wrong path)
+  system.activationScripts.fixInit = lib.stringAfter [ "specialfs" ] ''
+    if [ ! -L /sbin/init ] || [ "$(readlink /sbin/init)" != "/nix/var/nix/profiles/system/init" ]; then
+      rm -f /sbin/init
+      ln -s /nix/var/nix/profiles/system/init /sbin/init
+    fi
+  '';
 
   # Networking via DHCP (Proxmox handles this)
   networking.useDHCP = true;
