@@ -67,6 +67,11 @@
           z "$@" && printf "\U000F17A9 " && pwd || echo "Error: Directory not found"
         fi
       } 
+
+      keep_current_path() {
+        printf "\e]9;9;%s\e\\" "$(wslpath -w "$PWD")"
+      } 
+      precmd_functions+=(keep_current_path)
     '';
   };
 }
