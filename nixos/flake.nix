@@ -19,13 +19,10 @@
 
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
     codex-cli-nix.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Moltbot AI assistant
-    nix-moltbot.url = "github:moltbot/nix-moltbot";
   };
 
   outputs =
-    inputs@{ self, nixpkgs, nixpkgs-stable, nixos-wsl, home-manager, home-manager-stable, nix-moltbot, ... }:
+    inputs@{ self, nixpkgs, nixpkgs-stable, nixos-wsl, home-manager, home-manager-stable, ... }:
     let
       system = "x86_64-linux";
 
@@ -112,7 +109,6 @@
 
         # LXC containers (Proxmox)
         syncthing-lxc = mkLXCHost "syncthing-lxc";
-        ela-lxc = mkLXCHost "ela-lxc";
       };
     };
 }
