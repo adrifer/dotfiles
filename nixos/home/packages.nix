@@ -2,11 +2,6 @@
 
 let
   nodejs = pkgs.nodejs_22;
-  npmGlobalPkgs = [
-    "@github/copilot"
-    "opencode-ai"
-  ];
-  npmInstallCmd = lib.concatStringsSep " " npmGlobalPkgs;
 in
 {
   home.packages = with pkgs; [
@@ -64,12 +59,6 @@ in
     mkdir -p "${config.home.homeDirectory}/.config/npm"
     touch "${config.home.homeDirectory}/.config/npm/npmrc"
     chmod 600 "${config.home.homeDirectory}/.config/npm/npmrc"
-  '';
-
-  home.activation.installNpmGlobalPkgs = lib.hm.dag.entryAfter [ "writeBoundary" "ensureWritableNpmrc" ] ''
-    export NPM_CONFIG_PREFIX="${config.home.homeDirectory}/.npm-global"
-    export PATH="${nodejs}/bin:${pkgs.bun}/bin:$PATH"
-    ${nodejs}/bin/npm i -g ${npmInstallCmd}
   '';
 
   # Add their bin dirs to PATH
