@@ -33,9 +33,10 @@
       lg = "lazygit";
       cd = "zd";
       ci = "code-insiders";
-      co = "copilot";
-      coc = "copilot --continue";
-      cor = "copilot --resume";
+      co = "copilot --yolo";
+      coc = "co --continue";
+      cor = "co --resume";
+      cou = "copilot update";
       ta = "tmux attach-session";
       ".." = "cd ..";
       "..." = "cd ../..";
