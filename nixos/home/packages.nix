@@ -26,6 +26,7 @@ in
     ripgrep
     fd
     jq
+    openssl
 
     # dev
     neovim
