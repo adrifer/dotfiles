@@ -35,41 +35,27 @@ return {
         cmp_nvim_lsp.default_capabilities()
       )
 
-      local lspconfig = require("lspconfig")
+      local servers = {
+        "lua_ls",
+        "ts_ls",
+        "astro",
+        "azure_pipelines_ls",
+        "omnisharp",
+        "tailwindcss",
+        "html",
+        "biome",
+        "yamlls",
+        "zls",
+        "nixd",
+      }
 
-      lspconfig.lua_ls.setup({
-        capabilities = capabilities
-      })
-      lspconfig.ts_ls.setup({
-        capabilities = capabilities
-      })
-      lspconfig.astro.setup({
-        capabilities = capabilities
-      })
-      lspconfig.azure_pipelines_ls.setup({
-        capabilities = capabilities
-      })
-      lspconfig.omnisharp.setup({
-        capabilities = capabilities
-      })
-      lspconfig.tailwindcss.setup({
-        capabilities = capabilities
-      })
-      lspconfig.html.setup({
-        capabilities = capabilities
-      })
-      lspconfig.biome.setup({
-        capabilities = capabilities
-      })
-      lspconfig.yamlls.setup({
-        capabilities = capabilities
-      })
-      lspconfig.zls.setup({
-        capabilities = capabilities
-      })
-      lspconfig.nixd.setup({
-        capabilities = capabilities
-      })
+      for _, server in ipairs(servers) do
+        vim.lsp.config(server, {
+          capabilities = capabilities,
+        })
+      end
+
+      vim.lsp.enable(servers)
 
       vim.keymap.set("n", "gh", vim.lsp.buf.hover, {})
       vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
