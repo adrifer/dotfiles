@@ -8,6 +8,17 @@ in
   wsl.enable = true;
   wsl.defaultUser = lib.mkDefault "adrifer";
 
+  # Binaries for Docker Desktop wsl-distro-proxy
+  wsl.extraBin = with pkgs; [
+    { src = "${coreutils}/bin/mkdir"; }
+    { src = "${coreutils}/bin/cat"; }
+    { src = "${coreutils}/bin/whoami"; }
+    { src = "${coreutils}/bin/ls"; }
+    { src = "${busybox}/bin/addgroup"; }
+    { src = "${su}/bin/groupadd"; }
+    { src = "${su}/bin/usermod"; }
+  ];
+
   wsl.wslConf.interop = {
     enabled = true;
     appendWindowsPath = false; # ⬅️ don't import Windows PATH into WSL
