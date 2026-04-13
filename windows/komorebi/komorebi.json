@@ -53,6 +53,13 @@
       ]
     },
     {
+      "window_based_work_area_offset_limit": 1,
+      "window_based_work_area_offset": {
+        "left": 960,
+        "top": 501,
+        "right": 1920,
+        "bottom": 1002
+      },
       "workspaces": [
         {
           "name": "I",
@@ -61,27 +68,39 @@
         },
         {
           "name": "II",
-          "layout": "VerticalStack"
+          "layout": "HorizontalStack",
+          "layout_flip": "Vertical",
+          "apply_window_based_work_area_offset": false
         },
         {
           "name": "III",
-          "layout": "HorizontalStack"
+          "layout": "HorizontalStack",
+          "layout_flip": "Vertical",
+          "apply_window_based_work_area_offset": false
         },
         {
           "name": "IV",
-          "layout": "UltrawideVerticalStack"
+          "layout": "HorizontalStack",
+          "layout_flip": "Vertical",
+          "apply_window_based_work_area_offset": false
         },
         {
           "name": "V",
-          "layout": "Rows"
+          "layout": "HorizontalStack",
+          "layout_flip": "Vertical",
+          "apply_window_based_work_area_offset": false
         },
         {
           "name": "VI",
-          "layout": "Grid"
+          "layout": "HorizontalStack",
+          "layout_flip": "Vertical",
+          "apply_window_based_work_area_offset": false
         },
         {
           "name": "VII",
-          "layout": "RightMainVerticalStack"
+          "layout": "HorizontalStack",
+          "layout_flip": "Vertical",
+          "apply_window_based_work_area_offset": false
         }
       ]
     },
