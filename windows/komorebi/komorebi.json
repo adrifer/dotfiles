@@ -70,37 +70,31 @@
           "name": "II",
           "layout": "HorizontalStack",
           "layout_flip": "Vertical",
-          "apply_window_based_work_area_offset": false
         },
         {
           "name": "III",
           "layout": "HorizontalStack",
           "layout_flip": "Vertical",
-          "apply_window_based_work_area_offset": false
         },
         {
           "name": "IV",
           "layout": "HorizontalStack",
           "layout_flip": "Vertical",
-          "apply_window_based_work_area_offset": false
         },
         {
           "name": "V",
           "layout": "HorizontalStack",
           "layout_flip": "Vertical",
-          "apply_window_based_work_area_offset": false
         },
         {
           "name": "VI",
           "layout": "HorizontalStack",
           "layout_flip": "Vertical",
-          "apply_window_based_work_area_offset": false
         },
         {
           "name": "VII",
           "layout": "HorizontalStack",
           "layout_flip": "Vertical",
-          "apply_window_based_work_area_offset": false
         }
       ]
     },
