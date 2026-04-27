@@ -1,114 +1,199 @@
 # AGENTS.md
 
-This document provides context for AI agents working with this NixOS flake configuration.
+This document gives AI agents the conventions for working with Adri's NixOS flake.
 
-## Repository Structure
+## Architecture
 
-```
+This repository uses the dendritic pattern with `flake-parts`: every `.nix` file outside entry points such as `flake.nix` and `import-tree.nix` is a top-level flake-parts module.
+
+```text
 nixos/
-├── flake.nix              # Main flake configuration with inputs and host definitions
-├── flake.lock             # Locked input versions
-├── home/                  # Home Manager configuration
-│   ├── default.nix        # Main HM entry point, imports all HM modules
-│   ├── packages.nix       # Common packages for all hosts
-│   ├── packages-wsl.nix   # WSL-specific packages (imported conditionally)
-│   ├── zsh.nix            # Zsh shell configuration
-│   ├── git.nix            # Git configuration
-│   ├── starship.nix       # Starship prompt configuration
-│   ├── fzf.nix            # Fzf configuration
-│   ├── zoxide.nix         # Zoxide configuration
-│   └── dotfiles.nix       # Dotfile symlinks
-├── hosts/                 # Host-specific configurations
-│   ├── wsl/               # Personal WSL host
-│   │   └── configuration.nix
-│   ├── wsl-work/          # Work WSL host
-│   │   └── configuration.nix
-│   ├── syncthing-lxc/     # Syncthing LXC container (Proxmox)
-│   │   └── configuration.nix
-│   └── ela-lxc/           # Ela LXC container (Proxmox)
-│       └── configuration.nix
-└── modules/               # Shared NixOS modules
-    ├── common-system.nix  # Common system settings (bash symlink, auto gc)
-    ├── user-adrifer.nix   # User account configuration
-    ├── wsl-only.nix       # WSL-specific settings (interop, credential helper)
-    └── lxc-base.nix       # LXC container settings (boot, SSH, minimal packages)
+├── flake.nix              # flake-parts entry point; imports features/, profiles/, hosts/
+├── import-tree.nix        # tiny helper that imports all .nix files in a directory
+├── features/              # atomic capabilities; one file per feature/tool/concern
+├── profiles/              # reusable machine roles composed from features
+├── hosts/                 # concrete host declarations
+├── docs/                  # operational and architecture docs
+├── flake.lock             # locked input versions
+└── README.md              # human setup overview
 ```
 
-## Key Concepts
+The old `home/` and `modules/` directories are intentionally gone. Do not recreate them.
 
-### Flake Structure
-- **nixpkgs**: Points to `nixos-unstable` (latest packages by default)
-- **nixpkgs-stable**: Available as `pkgs.stable.*` for fallback
-- **mkWSLHost**: Helper function to create WSL host configurations
-- **mkLXCHost**: Helper function to create LXC container configurations (headless servers)
+## Mental Model
 
-### Conditional Configuration
-- **`isWSL`**: Boolean passed via `extraSpecialArgs` to Home Manager modules
-- **`hostname`**: Current host name passed to HM for host-specific conditionals
+- **Features** publish reusable NixOS and/or Home Manager modules.
+- **Profiles** compose features into reusable roles.
+- **Hosts** compose one or more profiles plus host-specific settings into `flake.nixosConfigurations.*`.
 
-Example usage in HM modules:
-```nix
-{ lib, isWSL ? false, hostname ? "unknown", ... }:
-{
-  imports = lib.optionals isWSL [ ./packages-wsl.nix ];
-  
-  home.packages = lib.optionals (hostname == "wsl-work") [ some-package ];
-}
+Examples:
+
+```text
+features/git.nix        -> config.flake.homeModules.git
+features/wsl.nix        -> config.flake.nixosModules.wsl-custom + config.flake.homeModules.wsl
+profiles/base.nix       -> config.flake.nixosModules.profile-base
+profiles/wsl.nix        -> config.flake.nixosModules.profile-wsl
+hosts/wsl.nix           -> flake.nixosConfigurations.wsl
 ```
 
-### Package Management
-- Most packages come from unstable nixpkgs (default)
-- Use `pkgs.stable.packageName` for stable versions
-- NPM global packages defined in `npmGlobalPkgs` list in `packages.nix`
-- `codex-cli-nix` is a separate flake input
+## Current Modules
+
+### Features
+
+| File | Purpose |
+| --- | --- |
+| `features/packages.nix` | Plain miscellaneous user packages only. Do not add env vars or activation hooks here. |
+| `features/javascript.nix` | Node.js, Bun, PNPM, npm globals, npm/PNPM env vars and paths. |
+| `features/dotnet.nix` | .NET SDK, DOTNET env vars, Aspire CLI activation, .NET tool paths. |
+| `features/neovim.nix` | Neovim package and `EDITOR=nvim`. |
+| `features/git.nix` | Home Manager Git config and identity/includes. |
+| `features/zsh.nix` | Zsh config, aliases, plugins, shell functions. |
+| `features/starship.nix` | Starship prompt config. |
+| `features/fzf.nix` | Fzf Home Manager integration. |
+| `features/zoxide.nix` | Zoxide Home Manager integration. |
+| `features/dotfiles.nix` | Symlinks repo dotfiles into XDG config paths. |
+| `features/playwright.nix` | Chromium package and Playwright browser env vars. |
+| `features/wsl.nix` | WSL NixOS config plus WSL-specific Home Manager bits such as stable `wslu`, browser, credential helper. |
+| `features/user-adrifer.nix` | System user and Home Manager base user settings. |
+| `features/nix-gc.nix` | Common Nix garbage collection and `/usr/bin/bash` symlink. |
+| `features/overlays.nix` | Stable nixpkgs overlay exposed as `pkgs.stable`. |
+| `features/flake-options.nix` | Declares custom mergeable `flake.homeModules` option. |
+
+### Profiles
+
+| File | Purpose |
+| --- | --- |
+| `profiles/base.nix` | Base interactive Adri machine profile: Home Manager plumbing, user, nixpkgs settings, nix-gc, and dev/user feature imports. |
+| `profiles/wsl.nix` | WSL role: upstream NixOS-WSL module, custom WSL module, WSL home module, Playwright. |
+| `profiles/lxc.nix` | LXC container role: container mode, SSH, root shell, server packages, system Git, Nix settings. |
+
+### Hosts
+
+| File | Purpose |
+| --- | --- |
+| `hosts/wsl.nix` | Personal WSL host; imports `profile-base` and `profile-wsl`. |
+| `hosts/wsl-work.nix` | Work WSL host; imports `profile-base` and `profile-wsl`, plus work sysctls. |
+| `hosts/syncthing-lxc.nix` | Syncthing Proxmox LXC; imports `profile-lxc`, then defines Syncthing and backup timer. |
 
 ## Common Tasks
 
-### Adding a New Package
-1. Add to `home/packages.nix` in the `home.packages` list
-2. For WSL-only packages, add to `home/packages-wsl.nix`
-3. For work-only packages, use `lib.optionals (hostname == "wsl-work") [ pkg ]`
+### Adding a Plain Package
 
-### Adding a New WSL Host
-1. Create `hosts/<hostname>/configuration.nix` with hostname and stateVersion
-2. Add to `flake.nix`: `<hostname> = mkWSLHost "<hostname>";`
+Add it to `features/packages.nix` only if it is just installed and needs no config.
 
-### Adding a New LXC Host
-1. Create `hosts/<hostname>/configuration.nix` with hostname and stateVersion
-2. Add to `flake.nix`: `<hostname> = mkLXCHost "<hostname>";`
-3. See Proxmox NixOS LXC guide for deployment instructions
+If the package needs any of the following, create or update a dedicated feature file instead:
 
-### Adding a Non-WSL Host
-Create a new helper function similar to `mkWSLHost` but without:
-- `nixos-wsl.nixosModules.wsl`
-- `./modules/wsl-only.nix`
-- Set `isWSL = false` in `extraSpecialArgs`
+- session variables
+- shell integration
+- Home Manager `programs.*` config
+- activation hooks
+- custom PATH entries
+- companion packages
+- host/profile-specific composition
 
-## Build Commands
+Examples:
 
-```bash
-# Rebuild current host (uses hostname to find config)
-sudo nixos-rebuild switch --flake /etc/nixos
+- `starship` belongs in `features/starship.nix`, not `features/packages.nix`.
+- `nodejs`, `pnpm`, npm globals, and npm paths belong in `features/javascript.nix`.
+- `dotnet` and Aspire setup belong in `features/dotnet.nix`.
+- WSL-only user tooling belongs in `features/wsl.nix`.
+- Playwright browser setup belongs in `features/playwright.nix`.
 
-# Rebuild specific host
-sudo nixos-rebuild switch --flake /etc/nixos#wsl-work
+### Adding a New Feature
 
-# Update flake inputs and rebuild
-nix flake update --flake /etc/nixos && sudo nixos-rebuild switch --flake /etc/nixos
+1. Create `features/<feature>.nix`.
+2. Publish one or more modules:
 
-# Garbage collect old generations
-sudo nix-collect-garbage -d
+   ```nix
+   { ... }:
+
+   {
+     flake.homeModules.example = { pkgs, ... }: {
+       home.packages = [ pkgs.example ];
+     };
+
+     flake.nixosModules.example = { ... }: {
+       # Optional NixOS config for the same feature.
+     };
+   }
+   ```
+
+3. Import the published module from the relevant profile or host.
+4. For new files, remember that Nix flakes only see tracked/staged files. Use `git add -N` or `git add` before evaluation.
+
+### Adding a New Profile
+
+Create `profiles/<role>.nix` when a group of features represents a reusable machine role.
+
+```nix
+{ config, ... }:
+
+{
+  flake.nixosModules.profile-example = { ... }: {
+    imports = [
+      config.flake.nixosModules.some-feature
+    ];
+
+    home-manager.users.adrifer.imports = [
+      config.flake.homeModules.some-home-feature
+    ];
+  };
+}
 ```
 
-## Shell Aliases (defined in zsh.nix)
+Use profiles for roles such as WSL, LXC, desktop, server, or base interactive machine setup.
 
-- `i` - Rebuild NixOS (`sudo nixos-rebuild switch --flake /etc/nixos`)
-- `u` - Update flake and rebuild
-- `gc` - Garbage collect (`sudo nix-collect-garbage -d`)
+### Adding a New WSL Host
 
-## Important Notes
+1. Create `hosts/<hostname>.nix`.
+2. Define `flake.nixosConfigurations.<hostname>`.
+3. Import:
+   - `config.flake.nixosModules.profile-base`
+   - `config.flake.nixosModules.profile-wsl`
+4. Add only host-specific settings in the host file, such as `networking.hostName`, `system.stateVersion`, or host-only sysctls.
 
-1. **stateVersion**: Keep at the version you first installed (25.05), don't update it
-2. **Git credential helper**: Uses a wrapper script for Windows Git Credential Manager
-3. **WSL interop**: Must be enabled for Windows exe execution; restart WSL after changes
-4. **New files**: Must be `git add`ed before Nix can see them in the flake
+### Adding a New LXC Host
+
+1. Create `hosts/<hostname>.nix`.
+2. Use `inputs.nixpkgs-stable.lib.nixosSystem` unless there is a clear reason to use unstable.
+3. Import `config.flake.nixosModules.profile-lxc`.
+4. Put only that container's service configuration in the host file.
+5. See `docs/proxmox-nixos-lxc.md` for deployment details.
+
+## Rules for Future Changes
+
+- Do not pass `specialArgs` or `extraSpecialArgs` just to share repo-local values. Prefer publishing values/modules through the top-level flake-parts `config`.
+- Do not reintroduce `isWSL` or `hostname` conditionals for shared Home Manager imports. Compose the right modules in the host/profile instead.
+- Keep `features/packages.nix` boring: plain package installs only.
+- Prefer a feature file over a package-list entry when config is required.
+- Prefer a profile when the concept is a machine role or reusable bundle.
+- Keep host files small and concrete.
+- Do not update `system.stateVersion` unless intentionally reinstalling/rebaselining that machine.
+- New `.nix` files must be staged before `nix flake check` or `nix build` can see them.
+
+## Build and Validation Commands
+
+```bash
+# Evaluate all flake outputs without building
+nix flake check ./nixos --no-build
+
+# Build all current host toplevels without creating result symlinks
+nix build ./nixos#nixosConfigurations.wsl.config.system.build.toplevel \
+          ./nixos#nixosConfigurations.wsl-work.config.system.build.toplevel \
+          ./nixos#nixosConfigurations.syncthing-lxc.config.system.build.toplevel \
+          --no-link
+
+# Rebuild current host from /etc/nixos
+sudo nixos-rebuild switch --flake /etc/nixos
+
+# Rebuild a specific host
+sudo nixos-rebuild switch --flake /etc/nixos#wsl-work
+```
+
+## Shell Aliases
+
+Defined in `features/zsh.nix`:
+
+- `i` - rebuild NixOS: `sudo nixos-rebuild switch --flake /etc/nixos`
+- `u` - update flake and rebuild
+- `gc` - garbage collect: `sudo nix-collect-garbage -d`

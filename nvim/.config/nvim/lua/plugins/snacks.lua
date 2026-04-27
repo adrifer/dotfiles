@@ -22,12 +22,19 @@ return {
         ]],
       },
     },
-    indent = { enabled = true },
+    indent = {
+      enabled = true,
+      scope = {
+        treesitter = {
+          injections = false,
+        },
+      },
+    },
     input = { enabled = true },
     git = { enabled = true },
     picker = { enabled = true },
     notifier = { enabled = true },
-    quickfile = { enabled = true },
+    quickfile = { enabled = false },
     scroll = { enabled = false },
     statuscolumn = { enabled = true },
     words = { enabled = true },

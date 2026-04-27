@@ -173,7 +173,7 @@ nixos-rebuild switch --flake .#syncthing-lxc --target-host root@<CONTAINER_IP>
 
 **Adding sync folders:**
 1. Use the web GUI to add folders/devices
-2. Or configure declaratively in `hosts/syncthing-lxc/configuration.nix`:
+2. Or configure declaratively in `hosts/syncthing-lxc.nix`:
 
 ```nix
 services.syncthing = {

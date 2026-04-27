@@ -136,7 +136,7 @@ cp /var/lib/syncthing/TrackVault/.stversions/myfile~20260127-143022.md \
 
 ## Adding a New Folder
 
-1. Edit `hosts/syncthing-lxc/configuration.nix`:
+1. Edit `hosts/syncthing-lxc.nix`:
 
 ```nix
 folders = {
@@ -169,7 +169,7 @@ nixos-rebuild switch --flake /etc/nixos#syncthing-lxc
 
 1. Get the device ID from the new device's Syncthing GUI (Actions → Show ID)
 
-2. Edit `hosts/syncthing-lxc/configuration.nix`:
+2. Edit `hosts/syncthing-lxc.nix`:
 
 ```nix
 devices = {
