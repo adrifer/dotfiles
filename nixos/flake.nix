@@ -19,9 +19,6 @@
     # Home Manager for stable (LXC containers)
     home-manager-stable.url = "github:nix-community/home-manager/release-25.11";
     home-manager-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
-
-    codex-cli-nix.url = "github:sadjow/codex-cli-nix";
-    codex-cli-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =

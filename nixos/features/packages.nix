@@ -27,7 +27,6 @@
         gcc
         nixfmt
         nixd
-        inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
         azure-cli
         python3
         gnumake
