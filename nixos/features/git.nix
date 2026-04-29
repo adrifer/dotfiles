@@ -8,6 +8,8 @@
         enable = true;
 
         settings = {
+          # Lazygit delegates Ctrl+T to `git difftool`; use terminal-native
+          # Neovim diff mode so it works reliably without a graphical session.
           diff.tool = "nvimdiff";
           difftool = {
             prompt = false;

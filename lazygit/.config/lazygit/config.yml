@@ -1,1 +1,2 @@
+# Return directly to lazygit after external tools such as `git difftool` exit.
 promptToReturnFromSubprocess: false
