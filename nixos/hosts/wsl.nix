@@ -12,6 +12,10 @@ in
       {
         networking.hostName = "wsl";
         system.stateVersion = "25.05";
+
+        home-manager.users.adrifer.imports = [
+          config.flake.homeModules.dotnet
+        ];
       }
     ];
   };

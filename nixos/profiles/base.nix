@@ -30,7 +30,6 @@ in
         config.flake.homeModules.user-adrifer
         config.flake.homeModules.packages
         config.flake.homeModules.javascript
-        config.flake.homeModules.dotnet
         config.flake.homeModules.neovim
         config.flake.homeModules.dotfiles
         config.flake.homeModules.zsh
