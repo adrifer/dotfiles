@@ -12,6 +12,7 @@ in
         { pkgs, ... }:
         {
           networking.hostName = "syncthing-lxc";
+          system.stateVersion = "25.05";
 
           environment.systemPackages = with pkgs; [
             gh
@@ -85,8 +86,6 @@ in
           };
 
           networking.firewall.allowedTCPPorts = [ 8384 ];
-
-          system.stateVersion = "25.05";
 
           nixpkgs = {
             config.allowUnfree = true;

@@ -11,6 +11,7 @@ in
       config.flake.nixosModules.profile-wsl
       {
         networking.hostName = "wsl-work";
+        system.stateVersion = "25.05";
 
         boot.kernel.sysctl = {
           "net.ipv4.ip_unprivileged_port_start" = 443;
@@ -18,8 +19,6 @@ in
           "fs.inotify.max_user_instances" = 1024;
           "fs.inotify.max_queued_events" = 65536;
         };
-
-        system.stateVersion = "25.05";
       }
     ];
   };
