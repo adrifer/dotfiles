@@ -87,6 +87,7 @@ return {
 					map("gd", vim.lsp.buf.definition, "LSP definition")
 					map("gr", vim.lsp.buf.references, "LSP references")
 					map("ga", vim.lsp.buf.code_action, "LSP code action")
+					map("<leader>d", vim.diagnostic.open_float, "Show diagnostic")
 					map("<leader>rn", vim.lsp.buf.rename, "LSP rename")
 				end,
 			})
