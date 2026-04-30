@@ -17,8 +17,8 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		opts = {},
 		keys = {
-			{ "<leader>gp", "<cmd>Gitsigns preview_hunk<cr>", desc = "Preview git hunk" },
-			{ "<leader>gt", "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "Toggle git blame" },
+			{ "<leader>gp", "<cmd>Gitsigns preview_hunk<cr>", desc = "Git: preview hunk" },
+			{ "<leader>gt", "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "Git: toggle line blame" },
 		},
 	},
 }

@@ -45,70 +45,70 @@ return {
 			function()
 				Snacks.scratch()
 			end,
-			desc = "Toggle Scratch Buffer",
+			desc = "Scratch: toggle buffer",
 		},
 		{
 			"<leader>S",
 			function()
 				Snacks.scratch.select()
 			end,
-			desc = "Select Scratch Buffer",
+			desc = "Scratch: select buffer",
 		},
 		{
 			"<leader>gl",
 			function()
 				Snacks.lazygit.log_file()
 			end,
-			desc = "Lazygit Log (cwd)",
+			desc = "Git: lazygit file log",
 		},
 		{
 			"<leader>lg",
 			function()
 				Snacks.lazygit()
 			end,
-			desc = "Lazygit",
+			desc = "Git: open lazygit",
 		},
 		{
 			"<C-p>",
 			function()
 				Snacks.picker.pick("files")
 			end,
-			desc = "Find Files",
+			desc = "Find files",
 		},
 		{
 			"<leader><leader>",
 			function()
 				Snacks.picker.recent()
 			end,
-			desc = "Recent Files",
+			desc = "Find recent files",
 		},
 		{
 			"<leader>fb",
 			function()
 				Snacks.picker.buffers()
 			end,
-			desc = "Buffers",
+			desc = "Find open buffers",
 		},
 		{
 			"<leader>fg",
 			function()
 				Snacks.picker.grep()
 			end,
-			desc = "Grep Files",
+			desc = "Search text in project",
 		},
 		{
 			"<leader>e",
 			function()
 				Snacks.explorer()
 			end,
-			desc = "Explorer",
+			desc = "File explorer",
 		},
 		{
 			"<C-n>",
 			function()
 				Snacks.explorer()
 			end,
-			desc = "Explorer",
+			desc = "File explorer",
 		},
 	},
 	config = function(_, opts)

@@ -70,9 +70,12 @@ return {
 			}
 
 			for _, server in ipairs(servers) do
-				vim.lsp.config(server, vim.tbl_deep_extend("force", server_configs[server] or {}, {
-					capabilities = capabilities,
-				}))
+				vim.lsp.config(
+					server,
+					vim.tbl_deep_extend("force", server_configs[server] or {}, {
+						capabilities = capabilities,
+					})
+				)
 			end
 
 			vim.lsp.enable(servers)
@@ -83,12 +86,12 @@ return {
 						vim.keymap.set("n", keys, action, { buffer = event.buf, desc = desc })
 					end
 
-					map("gh", vim.lsp.buf.hover, "LSP hover")
-					map("gd", vim.lsp.buf.definition, "LSP definition")
-					map("gr", vim.lsp.buf.references, "LSP references")
-					map("ga", vim.lsp.buf.code_action, "LSP code action")
-					map("<leader>d", vim.diagnostic.open_float, "Show diagnostic")
-					map("<leader>rn", vim.lsp.buf.rename, "LSP rename")
+					map("gh", vim.lsp.buf.hover, "LSP: hover documentation")
+					map("gd", vim.lsp.buf.definition, "LSP: go to definition")
+					map("gr", vim.lsp.buf.references, "LSP: find references")
+					map("ga", vim.lsp.buf.code_action, "LSP: code action")
+					map("<leader>d", vim.diagnostic.open_float, "Diagnostics: show line details")
+					map("<leader>rn", vim.lsp.buf.rename, "LSP: rename symbol")
 				end,
 			})
 		end,

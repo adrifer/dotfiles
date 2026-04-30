@@ -7,14 +7,14 @@ vim.opt.shiftwidth = 2
 vim.opt.number = true
 vim.opt.relativenumber = true
 
-vim.keymap.set("i", "jj", "<Esc>", { noremap = true, silent = true })
-vim.keymap.set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
-vim.keymap.set("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true })
+vim.keymap.set("i", "jj", "<Esc>", { noremap = true, silent = true, desc = "Exit insert mode" })
+vim.keymap.set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true, desc = "Scroll down and center" })
+vim.keymap.set("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true, desc = "Scroll up and center" })
 
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Yank to system clipboard" })
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Yank selection to system clipboard" })
 vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Yank line to system clipboard" })
 
-vim.keymap.set({ "n", "v" }, "<leader>p", [["+p]], { desc = "Paste from system clipboard" })
+vim.keymap.set({ "n", "v" }, "<leader>p", [["+p]], { desc = "Paste after from system clipboard" })
 vim.keymap.set({ "n", "v" }, "<leader>P", [["+P]], { desc = "Paste before from system clipboard" })
 
 -- In `nvim -d` sessions launched by Git difftool, make q exit the whole diff.

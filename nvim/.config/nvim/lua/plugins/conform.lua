@@ -4,12 +4,12 @@ return {
 	event = "BufWritePre",
 	keys = {
 		{
-			"<leader>f",
+			"<leader>ff",
 			function()
 				require("conform").format({ async = true, lsp_format = "fallback" })
 			end,
 			mode = { "n", "v" },
-			desc = "Format buffer",
+			desc = "Format buffer or selection",
 		},
 	},
 	opts = {
