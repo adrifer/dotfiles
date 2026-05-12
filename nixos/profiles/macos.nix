@@ -8,7 +8,9 @@ in
     { ... }:
     {
       imports = [
+        inputs.nix-homebrew.darwinModules.nix-homebrew
         inputs.home-manager.darwinModules.home-manager
+        config.flake.darwinModules.homebrew
         config.flake.darwinModules.macos-custom
       ];
 
@@ -28,6 +30,7 @@ in
       home-manager.users.adrifer.imports = [
         config.flake.homeModules.user-adrifer-macos
         config.flake.homeModules.packages-macos
+        config.flake.homeModules.git-credential-manager
         config.flake.homeModules.profile-home-base
       ];
     };

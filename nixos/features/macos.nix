@@ -6,6 +6,8 @@
     {
       programs.zsh.enable = true;
 
+      system.primaryUser = "adrifer";
+
       nix.enable = false;
 
       security.pam.services.sudo_local.touchIdAuth = true;
