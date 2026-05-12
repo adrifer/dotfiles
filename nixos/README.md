@@ -16,7 +16,7 @@ nixos/
   docs/             # architecture and operational docs
 ```
 
-Feature modules publish reusable pieces under `config.flake.nixosModules.*` and `config.flake.homeModules.*`. Profile modules bundle common feature sets, such as `profile-base` for interactive Adri machines and `profile-wsl` for WSL-specific behavior. Host modules in `hosts/` compose one or more profiles plus host-specific settings into `flake.nixosConfigurations.*`.
+Feature modules publish reusable pieces under `config.flake.nixosModules.*`, `config.flake.darwinModules.*`, and `config.flake.homeModules.*`. Profile modules bundle common feature sets, such as `profile-linux` for interactive Linux machines, `profile-macos` for macOS machines, and `profile-wsl` for WSL-specific behavior. Host modules in `hosts/` compose one or more profiles plus host-specific settings into `flake.nixosConfigurations.*` or `flake.darwinConfigurations.*`.
 
 Current hosts:
 
@@ -24,6 +24,7 @@ Current hosts:
 | --- | --- |
 | `wsl` | Personal NixOS-WSL environment |
 | `wsl-work` | Work NixOS-WSL environment |
+| `macbook-pro` | macOS nix-darwin environment |
 | `syncthing-lxc` | Proxmox LXC container running Syncthing |
 
 ## How to Make Changes
@@ -32,7 +33,9 @@ Use this rule of thumb:
 
 | Change | Put it in |
 | --- | --- |
-| Plain package with no extra config | `features/packages.nix` |
+| Cross-platform plain package with no extra config | `features/packages.nix` |
+| Linux-only plain package with no extra config | `features/packages-linux.nix` |
+| macOS-only plain package with no extra config | `features/packages-macos.nix` |
 | Tool with env vars, activation hooks, shell integration, or multiple packages | `features/<tool>.nix` |
 | WSL-specific behavior | `features/wsl.nix` and/or `profiles/wsl.nix` |
 | Playwright/browser runtime setup | `features/playwright.nix` |
@@ -44,7 +47,8 @@ Examples:
 - JavaScript tooling lives in `features/javascript.nix`.
 - .NET and Aspire setup lives in `features/dotnet.nix`.
 - Neovim and `EDITOR=nvim` live in `features/neovim.nix`.
-- WSL hosts import both `profile-base` and `profile-wsl`.
+- WSL hosts import both `profile-linux` and `profile-wsl`.
+- macOS hosts import `profile-macos`.
 - The Syncthing LXC host imports `profile-lxc`.
 
 See `docs/dendritic-architecture.md` for the detailed architecture and decision guide.
@@ -58,6 +62,8 @@ nix build ./nixos#nixosConfigurations.wsl.config.system.build.toplevel \
           ./nixos#nixosConfigurations.wsl-work.config.system.build.toplevel \
           ./nixos#nixosConfigurations.syncthing-lxc.config.system.build.toplevel \
           --no-link
+
+nix eval ./nixos#darwinConfigurations.macbook-pro.config.system.build.toplevel.drvPath
 ```
 
 New files must be staged before Nix flakes can see them during evaluation:

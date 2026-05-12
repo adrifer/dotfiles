@@ -31,9 +31,12 @@ Examples:
 ```text
 features/git.nix        -> config.flake.homeModules.git
 features/wsl.nix        -> config.flake.nixosModules.wsl-custom + config.flake.homeModules.wsl
-profiles/base.nix       -> config.flake.nixosModules.profile-base
+features/macos.nix      -> config.flake.darwinModules.macos-custom
+profiles/linux.nix      -> config.flake.nixosModules.profile-linux
+profiles/macos.nix      -> config.flake.darwinModules.profile-macos
 profiles/wsl.nix        -> config.flake.nixosModules.profile-wsl
 hosts/wsl.nix           -> flake.nixosConfigurations.wsl
+hosts/macbook-pro.nix   -> flake.darwinConfigurations.macbook-pro
 ```
 
 ## Current Modules
@@ -42,7 +45,9 @@ hosts/wsl.nix           -> flake.nixosConfigurations.wsl
 
 | File | Purpose |
 | --- | --- |
-| `features/packages.nix` | Plain miscellaneous user packages only. Do not add env vars or activation hooks here. |
+| `features/packages.nix` | Plain miscellaneous cross-platform user packages only. Do not add env vars or activation hooks here. |
+| `features/packages-linux.nix` | Plain miscellaneous Linux user packages only. Do not add env vars or activation hooks here. |
+| `features/packages-macos.nix` | Plain miscellaneous macOS user packages only. Do not add env vars or activation hooks here. |
 | `features/javascript.nix` | Node.js, Bun, PNPM, npm globals, npm/PNPM env vars and paths. |
 | `features/dotnet.nix` | .NET SDK, DOTNET env vars, Aspire CLI activation, .NET tool paths. |
 | `features/neovim.nix` | Neovim package and `EDITOR=nvim`. |
@@ -53,17 +58,20 @@ hosts/wsl.nix           -> flake.nixosConfigurations.wsl
 | `features/zoxide.nix` | Zoxide Home Manager integration. |
 | `features/dotfiles.nix` | Symlinks repo dotfiles into XDG config paths. |
 | `features/playwright.nix` | Chromium package and Playwright browser env vars. |
+| `features/macos.nix` | macOS nix-darwin settings. |
 | `features/wsl.nix` | WSL NixOS config plus WSL-specific Home Manager bits such as stable `wslu`, browser, credential helper. |
 | `features/user-adrifer.nix` | System user and Home Manager base user settings. |
 | `features/nix-gc.nix` | Common Nix garbage collection and `/usr/bin/bash` symlink. |
 | `features/overlays.nix` | Stable nixpkgs overlay exposed as `pkgs.stable`. |
-| `features/flake-options.nix` | Declares custom mergeable `flake.homeModules` option. |
+| `features/flake-options.nix` | Declares custom mergeable `flake.homeModules` and `flake.darwinModules` options. |
 
 ### Profiles
 
 | File | Purpose |
 | --- | --- |
-| `profiles/base.nix` | Base interactive Adri machine profile: Home Manager plumbing, user, nixpkgs settings, nix-gc, and dev/user feature imports. |
+| `profiles/home-base.nix` | Shared Home Manager imports for interactive Adri machines. |
+| `profiles/linux.nix` | Base interactive Linux profile: Home Manager plumbing, user, nixpkgs settings, nix-gc, and Linux package imports. |
+| `profiles/macos.nix` | Base macOS profile: nix-darwin/Home Manager plumbing, nixpkgs settings, GC, and macOS package imports. |
 | `profiles/wsl.nix` | WSL role: upstream NixOS-WSL module, custom WSL module, WSL home module, Playwright. |
 | `profiles/lxc.nix` | LXC container role: container mode, SSH, root shell, server packages, system Git, Nix settings. |
 
@@ -71,15 +79,16 @@ hosts/wsl.nix           -> flake.nixosConfigurations.wsl
 
 | File | Purpose |
 | --- | --- |
-| `hosts/wsl.nix` | Personal WSL host; imports `profile-base` and `profile-wsl`. |
-| `hosts/wsl-work.nix` | Work WSL host; imports `profile-base` and `profile-wsl`, plus work sysctls. |
+| `hosts/wsl.nix` | Personal WSL host; imports `profile-linux` and `profile-wsl`. |
+| `hosts/wsl-work.nix` | Work WSL host; imports `profile-linux` and `profile-wsl`, plus work sysctls. |
+| `hosts/macbook-pro.nix` | Personal macOS host; imports `profile-macos`. |
 | `hosts/syncthing-lxc.nix` | Syncthing Proxmox LXC; imports `profile-lxc`, then defines Syncthing and backup timer. |
 
 ## Common Tasks
 
 ### Adding a Plain Package
 
-Add it to `features/packages.nix` only if it is just installed and needs no config.
+Add it to `features/packages.nix`, `features/packages-linux.nix`, or `features/packages-macos.nix` only if it is just installed and needs no config.
 
 If the package needs any of the following, create or update a dedicated feature file instead:
 
@@ -93,7 +102,7 @@ If the package needs any of the following, create or update a dedicated feature 
 
 Examples:
 
-- `starship` belongs in `features/starship.nix`, not `features/packages.nix`.
+- `starship` belongs in `features/starship.nix`, not a package-list feature.
 - `nodejs`, `pnpm`, npm globals, and npm paths belong in `features/javascript.nix`.
 - `dotnet` and Aspire setup belong in `features/dotnet.nix`.
 - WSL-only user tooling belongs in `features/wsl.nix`.
@@ -148,7 +157,7 @@ Use profiles for roles such as WSL, LXC, desktop, server, or base interactive ma
 1. Create `hosts/<hostname>.nix`.
 2. Define `flake.nixosConfigurations.<hostname>`.
 3. Import:
-   - `config.flake.nixosModules.profile-base`
+   - `config.flake.nixosModules.profile-linux`
    - `config.flake.nixosModules.profile-wsl`
 4. Add only host-specific settings in the host file, such as `networking.hostName`, `system.stateVersion`, or host-only sysctls.
 
@@ -164,7 +173,7 @@ Use profiles for roles such as WSL, LXC, desktop, server, or base interactive ma
 
 - Do not pass `specialArgs` or `extraSpecialArgs` just to share repo-local values. Prefer publishing values/modules through the top-level flake-parts `config`.
 - Do not reintroduce `isWSL` or `hostname` conditionals for shared Home Manager imports. Compose the right modules in the host/profile instead.
-- Keep `features/packages.nix` boring: plain package installs only.
+- Keep package-list features boring: plain package installs only.
 - Prefer a feature file over a package-list entry when config is required.
 - Prefer a profile when the concept is a machine role or reusable bundle.
 - Keep host files small and concrete.

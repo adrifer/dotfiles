@@ -7,7 +7,7 @@ in
   flake.nixosConfigurations.wsl = inputs.nixpkgs.lib.nixosSystem {
     inherit system;
     modules = [
-      config.flake.nixosModules.profile-base
+      config.flake.nixosModules.profile-linux
       config.flake.nixosModules.profile-wsl
       {
         networking.hostName = "wsl";

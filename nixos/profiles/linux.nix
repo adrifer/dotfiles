@@ -4,7 +4,7 @@ let
   system = "x86_64-linux";
 in
 {
-  flake.nixosModules.profile-base =
+  flake.nixosModules.profile-linux =
     { ... }:
     {
       imports = [
@@ -27,16 +27,9 @@ in
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
       home-manager.users.adrifer.imports = [
-        config.flake.homeModules.user-adrifer
-        config.flake.homeModules.packages
-        config.flake.homeModules.javascript
-        config.flake.homeModules.neovim
-        config.flake.homeModules.dotfiles
-        config.flake.homeModules.zsh
-        config.flake.homeModules.starship
-        config.flake.homeModules.fzf
-        config.flake.homeModules.zoxide
-        config.flake.homeModules.git
+        config.flake.homeModules.user-adrifer-linux
+        config.flake.homeModules.packages-linux
+        config.flake.homeModules.profile-home-base
       ];
     };
 }

@@ -12,7 +12,9 @@ The dendritic layout keeps related behavior together:
 features/wsl.nix        # WSL NixOS + WSL Home Manager config
 features/javascript.nix # Node/Bun/PNPM/npm globals and paths
 features/dotnet.nix     # .NET SDK, DOTNET env vars, Aspire CLI
+features/macos.nix      # macOS nix-darwin settings
 profiles/wsl.nix        # WSL machine role
+profiles/macos.nix      # macOS machine role
 hosts/wsl.nix           # concrete machine
 ```
 
@@ -25,6 +27,7 @@ The goal is not fewer files. The goal is that each file owns one concept across 
 `features/` contains atomic capabilities. A feature can publish:
 
 - a NixOS module under `flake.nixosModules.*`
+- a nix-darwin module under `flake.darwinModules.*`
 - a Home Manager module under `flake.homeModules.*`
 - an overlay under `flake.overlays.*`
 - any other flake output needed by that feature
@@ -49,12 +52,15 @@ Current feature conventions:
 
 | File | Owns |
 | --- | --- |
-| `packages.nix` | Plain package list only. |
+| `packages.nix` | Plain cross-platform package list only. |
+| `packages-linux.nix` | Plain Linux-only package list only. |
+| `packages-macos.nix` | Plain macOS-only package list only. |
 | `javascript.nix` | Node.js, Bun, PNPM, npm globals, npm/PNPM env/path setup. |
 | `dotnet.nix` | .NET SDK, DOTNET env vars, Aspire CLI activation. |
 | `neovim.nix` | Neovim package and editor environment. |
 | `playwright.nix` | Chromium and Playwright browser env vars. |
 | `wsl.nix` | WSL system config and WSL user integration. Uses stable `wslu` because unstable removed it. |
+| `macos.nix` | macOS system config for nix-darwin. |
 | `git.nix`, `zsh.nix`, `starship.nix`, `fzf.nix`, `zoxide.nix` | Dedicated Home Manager program config. |
 
 ### Profiles
@@ -65,7 +71,9 @@ Current profiles:
 
 | Profile | Purpose |
 | --- | --- |
-| `profile-base` | Common interactive Adri machine: user, Home Manager plumbing, nixpkgs settings, GC, and dev/user features. |
+| `profile-home-base` | Shared Home Manager imports for interactive Adri machines. |
+| `profile-linux` | Common interactive Linux machine: user, Home Manager plumbing, nixpkgs settings, GC, and Linux packages. |
+| `profile-macos` | Common macOS machine: nix-darwin/Home Manager plumbing, nixpkgs settings, GC, and macOS packages. |
 | `profile-wsl` | WSL role: upstream NixOS-WSL module, custom WSL behavior, WSL user integration, Playwright setup. |
 | `profile-lxc` | Proxmox LXC role: container mode, SSH, root shell, server packages, system Git, Nix settings. |
 
@@ -109,7 +117,7 @@ in
   flake.nixosConfigurations.wsl = inputs.nixpkgs.lib.nixosSystem {
     inherit system;
     modules = [
-      config.flake.nixosModules.profile-base
+      config.flake.nixosModules.profile-linux
       config.flake.nixosModules.profile-wsl
       {
         networking.hostName = "wsl";
@@ -122,9 +130,11 @@ in
 
 ## Decision Guide
 
-### Should this go in `packages.nix`?
+### Should this go in a package-list feature?
 
 Only if it is a plain package install.
+
+Use `features/packages.nix` for cross-platform plain packages, `features/packages-linux.nix` for Linux-only plain packages, and `features/packages-macos.nix` for macOS-only plain packages.
 
 Use a dedicated feature instead if the package needs:
 
@@ -138,7 +148,7 @@ Use a dedicated feature instead if the package needs:
 
 Examples:
 
-- `starship` is not in `packages.nix`; it belongs to `features/starship.nix`.
+- `starship` is not in a package-list feature; it belongs to `features/starship.nix`.
 - `nodejs`, `bun`, `pnpm`, npm globals, and npm paths belong to `features/javascript.nix`.
 - `dotnet` and Aspire belong to `features/dotnet.nix`.
 - `chromium` for Playwright belongs to `features/playwright.nix`.
@@ -152,6 +162,7 @@ Use a **profile** when the concept describes a machine role or reusable bundle:
 - WSL machine
 - LXC container
 - base interactive machine
+- macOS machine
 - future desktop/server roles
 
 ### Should this be host-specific?

@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ ... }:
 
 {
   flake.homeModules.packages =
@@ -21,10 +21,8 @@
 
         lazygit
         gh
-        azure-artifacts-credprovider
         icu
         mkcert
-        gcc
         nixfmt
         nixd
         azure-cli

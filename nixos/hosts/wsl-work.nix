@@ -7,7 +7,7 @@ in
   flake.nixosConfigurations.wsl-work = inputs.nixpkgs.lib.nixosSystem {
     inherit system;
     modules = [
-      config.flake.nixosModules.profile-base
+      config.flake.nixosModules.profile-linux
       config.flake.nixosModules.profile-wsl
       (
         { pkgs, ... }:

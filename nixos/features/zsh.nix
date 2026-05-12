@@ -3,6 +3,19 @@
 {
   flake.homeModules.zsh =
     { pkgs, ... }:
+    let
+      nixosAliases = {
+        i = "sudo nixos-rebuild switch --flake /etc/nixos";
+        u = "nix flake update --flake /etc/nixos && sudo nixos-rebuild switch --flake /etc/nixos";
+        gc = "sudo nix-collect-garbage -d";
+      };
+
+      darwinAliases = {
+        i = "darwin-rebuild switch --flake ~/dotfiles/nixos#macbook-pro";
+        u = "nix flake update --flake ~/dotfiles/nixos && darwin-rebuild switch --flake ~/dotfiles/nixos#macbook-pro";
+        gc = "nix-collect-garbage -d";
+      };
+    in
     {
       programs.zsh = {
         enable = true;
@@ -37,11 +50,9 @@
           ta = "tmux attach-session";
           ".." = "cd ..";
           "..." = "cd ../..";
-          i = "sudo nixos-rebuild switch --flake /etc/nixos";
-          u = "nix flake update --flake /etc/nixos && sudo nixos-rebuild switch --flake /etc/nixos";
-          gc = "sudo nix-collect-garbage -d";
           n = "nvim";
-        };
+        }
+        // (if pkgs.stdenv.isDarwin then darwinAliases else nixosAliases);
         initContent = ''
           export  ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
 
