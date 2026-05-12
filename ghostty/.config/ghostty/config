@@ -1,5 +1,5 @@
-theme = tokyonight-storm
+theme = TokyoNight Storm
 window-colorspace = display-p3
-font-size = 18
+font-size = 14
 window-width = 140
 window-height = 35

@@ -6,6 +6,12 @@
     {
       programs.zsh.enable = true;
 
+      nix.enable = false;
+
+      security.pam.services.sudo_local.touchIdAuth = true;
+
+      home-manager.users.adrifer.manual.manpages.enable = false;
+
       environment.shells = [
         pkgs.zsh
       ];
@@ -13,16 +19,6 @@
       users.users.adrifer = {
         home = "/Users/adrifer";
         shell = pkgs.zsh;
-      };
-
-      nix.gc = {
-        automatic = true;
-        interval = {
-          Weekday = 0;
-          Hour = 3;
-          Minute = 15;
-        };
-        options = "--delete-older-than 7d";
       };
     };
 }

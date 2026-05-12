@@ -11,8 +11,8 @@
       };
 
       darwinAliases = {
-        i = "darwin-rebuild switch --flake ~/dotfiles/nixos#macbook-pro";
-        u = "nix flake update --flake ~/dotfiles/nixos && darwin-rebuild switch --flake ~/dotfiles/nixos#macbook-pro";
+        i = "sudo darwin-rebuild switch --flake ~/dotfiles/nixos#macbook-pro";
+        u = "nix flake update --flake ~/dotfiles/nixos && sudo darwin-rebuild switch --flake ~/dotfiles/nixos#macbook-pro";
         gc = "nix-collect-garbage -d";
       };
     in

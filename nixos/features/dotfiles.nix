@@ -2,7 +2,12 @@
 
 {
   flake.homeModules.dotfiles =
-    { config, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
       dotfiles = "${config.home.homeDirectory}/dotfiles";
       createSymlink = path: config.lib.file.mkOutOfStoreSymlink path;
@@ -11,6 +16,8 @@
         eza = "eza";
         lazygit = "lazygit";
         yazi = "yazi";
+      } // lib.optionalAttrs pkgs.stdenv.isDarwin {
+        ghostty = "ghostty";
       };
     in
     {
