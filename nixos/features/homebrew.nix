@@ -14,6 +14,7 @@
         enable = true;
         casks = [
           "scroll-reverser"
+          "visual-studio-code@insiders"
         ];
       };
     };
