@@ -1,4 +1,4 @@
-import { feature, pkg, raw } from "winix";
+import { escape, feature, pkg } from "winix";
 
 export const dotnet = feature("dotnet", () => [
   {
@@ -13,16 +13,16 @@ export const dotnet = feature("dotnet", () => [
           "${config.home.homeDirectory}/.dotnet/tools",
           "${config.home.homeDirectory}/.aspire/bin",
         ],
+        activation: {
+          installAspireCli: escape(`lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+            export DOTNET_CLI_HOME="\${config.home.homeDirectory}"
+            export PATH="\${pkgs.dotnet-sdk_10}/bin:$PATH"
+            if [ ! -x "\${config.home.homeDirectory}/.dotnet/tools/aspire" ]; then
+              \${pkgs.dotnet-sdk_10}/bin/dotnet tool install --global Aspire.Cli
+            fi
+          ''`),
+        },
       },
     },
   },
-  raw.home(`
-    home.activation.installAspireCli = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      export DOTNET_CLI_HOME="\${config.home.homeDirectory}"
-      export PATH="\${pkgs.dotnet-sdk_10}/bin:$PATH"
-      if [ ! -x "\${config.home.homeDirectory}/.dotnet/tools/aspire" ]; then
-        \${pkgs.dotnet-sdk_10}/bin/dotnet tool install --global Aspire.Cli
-      fi
-    '';
-  `),
 ]);

@@ -1,7 +1,7 @@
 import { platform } from "winix";
 import { stableOverlay } from "./shared.ts";
 
-export const darwin = platform("darwin", (system = "aarch64-darwin") => ({
+export const darwin = platform("darwin", (system: string = "aarch64-darwin") => ({
   darwin: {
     imports: [
       "inputs.nix-homebrew.darwinModules.nix-homebrew",

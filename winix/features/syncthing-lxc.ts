@@ -1,4 +1,4 @@
-import { feature, raw } from "winix";
+import { escape, feature, pkg } from "winix";
 
 export const syncthingLxc = feature("syncthing-lxc", () => [
   {
@@ -55,36 +55,36 @@ export const syncthingLxc = feature("syncthing-lxc", () => [
           },
         },
       },
+      systemd: {
+        services: {
+          "vault-git-backup": {
+            description: "Backup TrackVault to GitHub",
+            path: [pkg("git"), pkg("openssh")],
+            serviceConfig: {
+              Type: "oneshot",
+              User: "syncthing",
+              WorkingDirectory: "/var/lib/syncthing/TrackVault",
+            },
+            script: escape(`''
+              if [[ -n $(git status --porcelain) ]]; then
+                git add .
+                git commit -m "Auto backup $(date '+%Y-%m-%d %H:%M')"
+                git push
+              fi
+            ''`),
+          },
+        },
+        timers: {
+          "vault-git-backup": {
+            description: "Run Vault backup every 6 hours",
+            wantedBy: ["timers.target"],
+            timerConfig: {
+              OnCalendar: "*-*-* 00/6:00:00",
+              Persistent: true,
+            },
+          },
+        },
+      },
     },
   },
-  raw.nixos(`
-    systemd.services.vault-git-backup = {
-      description = "Backup TrackVault to GitHub";
-      path = [
-        pkgs.git
-        pkgs.openssh
-      ];
-      serviceConfig = {
-        Type = "oneshot";
-        User = "syncthing";
-        WorkingDirectory = "/var/lib/syncthing/TrackVault";
-      };
-      script = ''
-        if [[ -n $(git status --porcelain) ]]; then
-          git add .
-          git commit -m "Auto backup $(date '+%Y-%m-%d %H:%M')"
-          git push
-        fi
-      '';
-    };
-
-    systemd.timers.vault-git-backup = {
-      description = "Run Vault backup every 6 hours";
-      wantedBy = [ "timers.target" ];
-      timerConfig = {
-        OnCalendar = "*-*-* 00/6:00:00";
-        Persistent = true;
-      };
-    };
-  `),
 ]);

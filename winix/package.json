@@ -9,5 +9,8 @@
   },
   "dependencies": {
     "winix": "file:../../repos/winix"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
   }
 }

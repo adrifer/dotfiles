@@ -1,9 +1,9 @@
-import { feature, raw } from "winix";
+import { escape, feature } from "winix";
 
-export const dotfiles = feature("dotfiles", () =>
-  raw.home(`
-    xdg.configFile =
-      let
+export const dotfiles = feature("dotfiles", () => ({
+  home: {
+    xdg: {
+      configFile: escape(`let
         dotfiles = "\${config.home.homeDirectory}/dotfiles";
         createSymlink = path: config.lib.file.mkOutOfStoreSymlink path;
         configs = {
@@ -18,6 +18,7 @@ export const dotfiles = feature("dotfiles", () =>
       builtins.mapAttrs (name: subpath: {
         source = createSymlink "\${dotfiles}/\${subpath}/.config/\${subpath}";
         recursive = true;
-      }) configs;
-  `)
-);
+      }) configs`),
+    },
+  },
+}));

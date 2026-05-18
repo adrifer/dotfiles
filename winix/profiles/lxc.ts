@@ -1,4 +1,4 @@
-import { feature, pkg, raw } from "winix";
+import { escape, feature, pkg } from "winix";
 
 export const lxcProfile = feature("lxc", () => [
   {
@@ -55,14 +55,16 @@ export const lxcProfile = feature("lxc", () => [
         },
         settings: { "experimental-features": ["nix-command", "flakes"] },
       },
+      system: {
+        activationScripts: {
+          fixInit: escape(`lib.stringAfter [ "specialfs" ] ''
+            if [ ! -L /sbin/init ] || [ "$(readlink /sbin/init)" != "/nix/var/nix/profiles/system/init" ]; then
+              rm -f /sbin/init
+              ln -s /nix/var/nix/profiles/system/init /sbin/init
+            fi
+          ''`),
+        },
+      },
     },
   },
-  raw.nixos(`
-    system.activationScripts.fixInit = lib.stringAfter [ "specialfs" ] ''
-      if [ ! -L /sbin/init ] || [ "$(readlink /sbin/init)" != "/nix/var/nix/profiles/system/init" ]; then
-        rm -f /sbin/init
-        ln -s /nix/var/nix/profiles/system/init /sbin/init
-      fi
-    '';
-  `),
 ]);

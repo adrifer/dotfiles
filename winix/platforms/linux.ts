@@ -1,6 +1,6 @@
 import { platform } from "winix";
 
-export const nixos = platform("nixos", (system = "x86_64-linux") => ({
+export const nixos = platform("nixos", (system: string = "x86_64-linux") => ({
   nixos: {
     imports: ["home-manager"],
     nixpkgs: {
