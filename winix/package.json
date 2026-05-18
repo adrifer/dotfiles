@@ -1,0 +1,13 @@
+{
+  "name": "adrifer-winix-config",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "winix check",
+    "apply": "winix apply",
+    "dry": "winix apply --dry"
+  },
+  "dependencies": {
+    "winix": "file:../../repos/winix"
+  }
+}
