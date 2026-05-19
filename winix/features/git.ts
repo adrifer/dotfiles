@@ -1,7 +1,7 @@
-import { feature, git as gitProgram, nix } from "winix";
+import { feature, home, nix } from "winix";
 
 export const git = feature("git", () =>
-  gitProgram({
+  home.program("git", {
     settings: {
       diff: {
         tool: "nvimdiff",

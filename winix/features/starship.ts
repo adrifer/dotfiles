@@ -1,7 +1,7 @@
-import { feature, programs } from "winix";
+import { feature, home } from "winix";
 
 export const starship = feature("starship", () =>
-  programs.enable("starship", {
+  home.program("starship", {
     enableZshIntegration: true,
     settings: {
       add_newline: false,

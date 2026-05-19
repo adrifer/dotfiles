@@ -1,4 +1,4 @@
-import { feature, nix, platforms, programs } from "winix";
+import { feature, home, nix, platforms } from "winix";
 import { wsl } from "./wsl.ts";
 
 export const zsh = feature("zsh", () => {
@@ -41,7 +41,7 @@ export const zsh = feature("zsh", () => {
     );
   }
 
-  return programs.enable("zsh", {
+  return home.program("zsh", {
     autosuggestion: {
       enable: true,
     },

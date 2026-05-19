@@ -31,4 +31,6 @@ export const packagesLinux = feature("packages-linux", () =>
   home.packages("azure-artifacts-credprovider", "gcc")
 );
 
-export const packagesMacos = feature("packages-macos", () => home.packages());
+export const packagesMacos = feature("packages-macos", () => 
+  home.packages("nerd-fonts.jetbrains-mono")
+);

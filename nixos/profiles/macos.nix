@@ -10,6 +10,7 @@ in
       imports = [
         inputs.nix-homebrew.darwinModules.nix-homebrew
         inputs.home-manager.darwinModules.home-manager
+        config.flake.darwinModules.fonts-macos
         config.flake.darwinModules.homebrew
         config.flake.darwinModules.macos-custom
       ];

@@ -1,5 +1,5 @@
-import { feature, programs } from "winix";
+import { feature, home } from "winix";
 
 export const fzf = feature("fzf", () =>
-  programs.enable("fzf", { enableZshIntegration: true })
+  home.program("fzf", { enableZshIntegration: true })
 );
