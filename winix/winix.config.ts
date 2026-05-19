@@ -1,4 +1,4 @@
-import { host, home, platforms, sysctl, workspace } from "winix";
+import { host, home, nixos, platforms, workspace } from "winix";
 import { inputs } from "./inputs.ts";
 import { syncthingLxc } from "./features/syncthing-lxc.ts";
 import { linuxProfile } from "./profiles/linux.ts";
@@ -18,7 +18,7 @@ export default workspace({
     host("wsl-work", platforms.nixos({ stateVersion: "25.05" }), [
       linuxProfile(),
       wsl(),
-      sysctl({
+      nixos.sysctl({
         "net.ipv4.ip_unprivileged_port_start": 443,
         "fs.inotify.max_user_watches": 1048576,
         "fs.inotify.max_user_instances": 1024,

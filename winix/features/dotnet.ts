@@ -1,4 +1,4 @@
-import { activation, feature, home, nix } from "winix";
+import { feature, home, nix } from "winix";
 
 export const dotnet = feature("dotnet", () => [
   home.packages(nix.pkg("dotnet-sdk_10")),
@@ -10,7 +10,7 @@ export const dotnet = feature("dotnet", () => [
     "${config.home.homeDirectory}/.dotnet/tools",
     "${config.home.homeDirectory}/.aspire/bin"
   ),
-  activation("installAspireCli", {
+  home.activation("installAspireCli", {
     script: `
       export DOTNET_CLI_HOME="\${config.home.homeDirectory}"
       export PATH="\${pkgs.dotnet-sdk_10}/bin:$PATH"

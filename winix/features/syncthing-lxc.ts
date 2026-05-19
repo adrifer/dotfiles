@@ -1,9 +1,9 @@
-import { feature, firewall, nix, packages, services, systemd } from "winix";
+import { feature, nix, nixos } from "winix";
 
 export const syncthingLxc = feature("syncthing-lxc", () => [
-  firewall.tcp(8384),
-  packages("gh"),
-  services.enable("syncthing", {
+  nixos.firewall({ allowedTCPPorts: [8384] }),
+  nixos.packages("gh"),
+  nixos.service("syncthing", {
     user: "syncthing",
     group: "syncthing",
     dataDir: "/var/lib/syncthing",
@@ -40,28 +40,36 @@ export const syncthingLxc = feature("syncthing-lxc", () => [
       },
     },
   }),
-  systemd.service("vault-git-backup", {
-    description: "Backup TrackVault to GitHub",
-    path: [nix.pkg("git"), nix.pkg("openssh")],
-    serviceConfig: {
-      Type: "oneshot",
-      User: "syncthing",
-      WorkingDirectory: "/var/lib/syncthing/TrackVault",
+  nixos.systemd({
+    services: {
+      "vault-git-backup": {
+        description: "Backup TrackVault to GitHub",
+        path: [nix.pkg("git"), nix.pkg("openssh")],
+        serviceConfig: {
+          Type: "oneshot",
+          User: "syncthing",
+          WorkingDirectory: "/var/lib/syncthing/TrackVault",
+        },
+        script: nix.script(`
+          if [[ -n $(git status --porcelain) ]]; then
+            git add .
+            git commit -m "Auto backup $(date '+%Y-%m-%d %H:%M')"
+            git push
+          fi
+        `),
+      },
     },
-    script: nix.script(`
-      if [[ -n $(git status --porcelain) ]]; then
-        git add .
-        git commit -m "Auto backup $(date '+%Y-%m-%d %H:%M')"
-        git push
-      fi
-    `),
   }),
-  systemd.timer("vault-git-backup", {
-    description: "Run Vault backup every 6 hours",
-    wantedBy: ["timers.target"],
-    timerConfig: {
-      OnCalendar: "*-*-* 00/6:00:00",
-      Persistent: true,
+  nixos.systemd({
+    timers: {
+      "vault-git-backup": {
+        description: "Run Vault backup every 6 hours",
+        wantedBy: ["timers.target"],
+        timerConfig: {
+          OnCalendar: "*-*-* 00/6:00:00",
+          Persistent: true,
+        },
+      },
     },
   }),
   {
