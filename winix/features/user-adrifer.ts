@@ -1,7 +1,12 @@
 import { account } from "winix";
 
-export const homeUser = (homeDirectory: string) =>
-  account("adrifer", { homeDirectory, shell: "zsh", stateVersion: "25.05", wslDefault: true });
-
-export const userAdrifer = () =>
-  account("adrifer", { admin: true, shell: "zsh", stateVersion: "25.05", uid: 1000, wslDefault: true });
+/**
+ * Primary user account. Context-aware: adjusts home directory,
+ * system user config, and WSL default user based on platform.
+ */
+export const adrifer = () => account("adrifer", {
+  admin: true,
+  shell: "zsh",
+  stateVersion: "25.05",
+  wslDefault: true,
+});
