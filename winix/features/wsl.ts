@@ -1,8 +1,8 @@
-import { escape, feature, mkDefault, pkg } from "winix";
+import { escape, feature, mkDefault, nixStr, pkg, script, withPkgs } from "winix";
 import { playwright } from "./playwright.ts";
 
 const bin = (packageName: string, executable: string) => ({
-  src: escape(`"\${pkgs.${packageName}}/bin/${executable}"`),
+  src: nixStr`${pkg(packageName)}/bin/${executable}`,
 });
 
 export const wsl = feature("wsl", () => [
@@ -33,7 +33,7 @@ export const wsl = feature("wsl", () => [
       },
       environment: {
         systemPackages: ["wl-clipboard"],
-        interactiveShellInit: escape(`''
+        interactiveShellInit: script(`
           # Derive Windows username from WSL home (no cmd.exe needed)
           win_home="$(wslpath -w "$HOME")"
           win_home_slash="''\${win_home//\\\\//}"
@@ -52,12 +52,12 @@ export const wsl = feature("wsl", () => [
           done
 
           export PATH
-        ''`),
+        `),
       },
       programs: {
         "nix-ld": {
           enable: true,
-          libraries: [pkg("icu"), pkg("zlib"), pkg("openssl")],
+          libraries: withPkgs(["icu", "zlib", "openssl"]),
         },
       },
     },
@@ -67,9 +67,9 @@ export const wsl = feature("wsl", () => [
         git: {
           settings: {
             credential: {
-              helper: escape(`"\${pkgs.writeShellScriptBin "git-credential-manager-windows" ''
+              helper: nixStr`${escape(`pkgs.writeShellScriptBin "git-credential-manager-windows" ''
                 "/mnt/c/Program Files/Git/mingw64/bin/git-credential-manager.exe" "$@"
-              ''}/bin/git-credential-manager-windows"`),
+              ''`)}/bin/git-credential-manager-windows`,
             },
           },
         },

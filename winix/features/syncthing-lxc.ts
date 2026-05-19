@@ -1,4 +1,4 @@
-import { escape, feature, pkg } from "winix";
+import { feature, pkg, script } from "winix";
 
 export const syncthingLxc = feature("syncthing-lxc", () => [
   {
@@ -65,13 +65,13 @@ export const syncthingLxc = feature("syncthing-lxc", () => [
               User: "syncthing",
               WorkingDirectory: "/var/lib/syncthing/TrackVault",
             },
-            script: escape(`''
+            script: script(`
               if [[ -n $(git status --porcelain) ]]; then
                 git add .
                 git commit -m "Auto backup $(date '+%Y-%m-%d %H:%M')"
                 git push
               fi
-            ''`),
+            `),
           },
         },
         timers: {

@@ -1,4 +1,4 @@
-import { escape, feature, pkg } from "winix";
+import { feature, nixStr, pkg } from "winix";
 
 export const gitCredentialManager = feature("git-credential-manager", () => [
   {
@@ -10,7 +10,7 @@ export const gitCredentialManager = feature("git-credential-manager", () => [
             credential: {
               helper: [
                 "",
-                escape("\"${pkgs.git-credential-manager}/bin/git-credential-manager\""),
+                nixStr`${pkg("git-credential-manager")}/bin/git-credential-manager`,
               ],
               credentialStore: "keychain",
               azreposCredentialType: "oauth",

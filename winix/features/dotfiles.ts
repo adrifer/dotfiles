@@ -1,4 +1,4 @@
-import { escape, feature } from "winix";
+import { escape, feature, ifDarwinAttrs } from "winix";
 
 export const dotfiles = feature("dotfiles", () => ({
   home: {
@@ -11,9 +11,7 @@ export const dotfiles = feature("dotfiles", () => ({
           eza = "eza";
           lazygit = "lazygit";
           yazi = "yazi";
-        } // lib.optionalAttrs pkgs.stdenv.isDarwin {
-          ghostty = "ghostty";
-        };
+        } // ${ifDarwinAttrs({ ghostty: "ghostty" }).expr};
       in
       builtins.mapAttrs (name: subpath: {
         source = createSymlink "\${dotfiles}/\${subpath}/.config/\${subpath}";

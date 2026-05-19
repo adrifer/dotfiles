@@ -1,4 +1,4 @@
-import { escape, feature } from "winix";
+import { feature, nixStr, pkg } from "winix";
 
 export const git = feature("git", () => ({
   home: {
@@ -12,7 +12,7 @@ export const git = feature("git", () => ({
           difftool: {
             prompt: false,
             nvimdiff: {
-              cmd: escape("''${pkgs.neovim}/bin/nvim -d \"$LOCAL\" \"$REMOTE\"''"),
+              cmd: nixStr`${pkg("neovim")}/bin/nvim -d "$LOCAL" "$REMOTE"`,
             },
           },
           user: {

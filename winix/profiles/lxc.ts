@@ -1,4 +1,4 @@
-import { escape, feature, pkg } from "winix";
+import { escape, feature, pkg, script } from "winix";
 
 export const lxcProfile = feature("lxc", () => [
   {
@@ -57,12 +57,12 @@ export const lxcProfile = feature("lxc", () => [
       },
       system: {
         activationScripts: {
-          fixInit: escape(`lib.stringAfter [ "specialfs" ] ''
+          fixInit: escape(`lib.stringAfter [ "specialfs" ] ${script(`
             if [ ! -L /sbin/init ] || [ "$(readlink /sbin/init)" != "/nix/var/nix/profiles/system/init" ]; then
               rm -f /sbin/init
               ln -s /nix/var/nix/profiles/system/init /sbin/init
             fi
-          ''`),
+          `).expr}`),
         },
       },
     },

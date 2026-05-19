@@ -1,4 +1,4 @@
-import { escape, feature, pkg } from "winix";
+import { escape, feature, ifDarwinAttrs, ifLinuxAttrs, pkg, script, scriptConcat } from "winix";
 
 export const zsh = feature("zsh", () => ({
   home: {
@@ -41,18 +41,18 @@ export const zsh = feature("zsh", () => ({
           ".." = "cd ..";
           "..." = "cd ../..";
           n = "nvim";
-        }
-        // (if pkgs.stdenv.isDarwin then {
-          i = "cd ~/dotfiles/winix && npx winix apply && sudo darwin-rebuild switch --flake path:$PWD/.winix/out#macbook-pro";
-          u = "cd ~/dotfiles/winix/.winix/out && nix flake update && sudo darwin-rebuild switch --flake path:$PWD#macbook-pro";
-          gc = "nix-collect-garbage -d";
-          foundry-dev = "sudo CHOKIDAR_USEPOLLING=true CHOKIDAR_INTERVAL=1000 pnpm dev";
-        } else {
-          i = "cd ~/dotfiles/winix && npx winix apply && sudo nixos-rebuild switch --flake path:$PWD/.winix/out";
-          u = "cd ~/dotfiles/winix/.winix/out && nix flake update && sudo nixos-rebuild switch --flake path:$PWD";
-          gc = "sudo nix-collect-garbage -d";
-        })`),
-        initContent: escape(`''
+        } // ${ifDarwinAttrs({
+          i: "cd ~/dotfiles/winix && npx winix apply && sudo darwin-rebuild switch --flake path:$PWD/.winix/out#macbook-pro",
+          u: "cd ~/dotfiles/winix/.winix/out && nix flake update && sudo darwin-rebuild switch --flake path:$PWD#macbook-pro",
+          gc: "nix-collect-garbage -d",
+          "foundry-dev": "sudo CHOKIDAR_USEPOLLING=true CHOKIDAR_INTERVAL=1000 pnpm dev",
+        }).expr} // ${ifLinuxAttrs({
+          i: "cd ~/dotfiles/winix && npx winix apply && sudo nixos-rebuild switch --flake path:$PWD/.winix/out",
+          u: "cd ~/dotfiles/winix/.winix/out && nix flake update && sudo nixos-rebuild switch --flake path:$PWD",
+          gc: "sudo nix-collect-garbage -d",
+        }).expr}`),
+        initContent: scriptConcat(
+          script(`
           export  ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
 
           y() {
@@ -74,14 +74,16 @@ export const zsh = feature("zsh", () => ({
               z "$@" && printf "\\U000F17A9 " && pwd || echo "Error: Directory not found"
             fi
           }
-        '' + lib.optionalString pkgs.stdenv.isLinux ''
+        `),
+          escape(`lib.optionalString pkgs.stdenv.isLinux ${script(`
           export BROWSER=wslview
 
           keep_current_path() {
             printf "\\e]9;9;%s\\e\\\\" "$(wslpath -w "$PWD")"
           }
           precmd_functions+=(keep_current_path)
-        ''`),
+        `).expr}`)
+        ),
       },
     },
   },
