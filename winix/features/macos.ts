@@ -1,4 +1,4 @@
-import { feature, pkg } from "winix";
+import { feature, nix } from "winix";
 
 export const macos = feature("macos", () => ({
   darwin: {
@@ -18,18 +18,18 @@ export const macos = feature("macos", () => ({
       },
     },
     environment: {
-      shells: [pkg("zsh")],
+      shells: [nix.pkg("zsh")],
     },
     users: {
       users: {
         adrifer: {
           home: "/Users/adrifer",
-          shell: pkg("zsh"),
+          shell: nix.pkg("zsh"),
         },
       },
     },
   },
-  home: {
+  homeManager: {
     manual: {
       manpages: {
         enable: false,

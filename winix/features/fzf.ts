@@ -1,12 +1,5 @@
-import { feature } from "winix";
+import { feature, programs } from "winix";
 
-export const fzf = feature("fzf", () => ({
-  home: {
-    programs: {
-      fzf: {
-        enable: true,
-        enableZshIntegration: true,
-      },
-    },
-  },
-}));
+export const fzf = feature("fzf", () =>
+  programs.enable("fzf", { enableZshIntegration: true })
+);

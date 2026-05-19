@@ -1,22 +1,18 @@
-import { escape, feature, ifDarwinAttrs } from "winix";
+import { feature, home, nix, platforms } from "winix";
+
+const dotfile = (name: string) => ({
+  source: nix.expr(
+    `config.lib.file.mkOutOfStoreSymlink "\${config.home.homeDirectory}/dotfiles/${name}/.config/${name}"`
+  ),
+  recursive: true,
+});
 
 export const dotfiles = feature("dotfiles", () => ({
-  home: {
-    xdg: {
-      configFile: escape(`let
-        dotfiles = "\${config.home.homeDirectory}/dotfiles";
-        createSymlink = path: config.lib.file.mkOutOfStoreSymlink path;
-        configs = {
-          nvim = "nvim";
-          eza = "eza";
-          lazygit = "lazygit";
-          yazi = "yazi";
-        } // ${ifDarwinAttrs({ ghostty: "ghostty" }).expr};
-      in
-      builtins.mapAttrs (name: subpath: {
-        source = createSymlink "\${dotfiles}/\${subpath}/.config/\${subpath}";
-        recursive = true;
-      }) configs`),
-    },
-  },
+  ...home.configFiles({
+    nvim: dotfile("nvim"),
+    eza: dotfile("eza"),
+    lazygit: dotfile("lazygit"),
+    yazi: dotfile("yazi"),
+    ...(platforms.darwin.isActive && { ghostty: dotfile("ghostty") }),
+  }),
 }));

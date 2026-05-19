@@ -1,3 +1,4 @@
+import { profile } from "winix";
 import { dotfiles } from "../features/dotfiles.ts";
 import { fzf } from "../features/fzf.ts";
 import { git } from "../features/git.ts";
@@ -8,7 +9,7 @@ import { starship } from "../features/starship.ts";
 import { zoxide } from "../features/zoxide.ts";
 import { zsh } from "../features/zsh.ts";
 
-export const homeBase = [
+export const homeBase = profile("home-base", [
   packages(),
   javascript(),
   neovim(),
@@ -18,4 +19,4 @@ export const homeBase = [
   fzf(),
   zoxide(),
   git(),
-];
+]);

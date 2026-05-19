@@ -1,8 +1,6 @@
-import { host, workspace } from "winix";
+import { host, platforms, workspace } from "winix";
 import { inputs } from "./inputs.ts";
 import { syncthingLxc } from "./features/syncthing-lxc.ts";
-import { darwin } from "./platforms/darwin.ts";
-import { nixos } from "./platforms/linux.ts";
 import { linuxProfile } from "./profiles/linux.ts";
 import { lxcProfile } from "./profiles/lxc.ts";
 import { macosProfile } from "./profiles/macos.ts";
@@ -12,24 +10,16 @@ import { dotnet } from "./features/dotnet.ts";
 export default workspace({
   inputs,
   hosts: [
-    host("wsl", nixos(), [
-      ...linuxProfile,
-      ...wslProfile,
+    host("wsl", platforms.nixos({ stateVersion: "25.05" }), [
+      linuxProfile(),
+      wslProfile(),
       dotnet(),
-      {
-        nixos: {
-          networking: { hostName: "wsl" },
-          system: { stateVersion: "25.05" },
-        },
-      },
     ]),
-    host("wsl-work", nixos(), [
-      ...linuxProfile,
-      ...wslProfile,
+    host("wsl-work", platforms.nixos({ stateVersion: "25.05" }), [
+      linuxProfile(),
+      wslProfile(),
       {
         nixos: {
-          networking: { hostName: "wsl-work" },
-          system: { stateVersion: "25.05" },
           boot: {
             kernel: {
               sysctl: {
@@ -41,23 +31,19 @@ export default workspace({
             },
           },
         },
-        home: {
-          packages: ["socat", "bubblewrap"],
+        homeManager: {
+          home: {
+            packages: ["socat", "bubblewrap"],
+          },
         },
       },
     ]),
-    host("syncthing-lxc", nixos(), [
+    host("syncthing-lxc", platforms.nixos({ stateVersion: "25.05", homeManager: false }), [
       lxcProfile(),
       syncthingLxc(),
     ]),
-    host("macbook-pro", darwin(), [
-      ...macosProfile,
-      {
-        darwin: {
-          networking: { hostName: "macbook-pro" },
-          system: { stateVersion: 6 },
-        },
-      },
+    host("macbook-pro", platforms.darwin({ stateVersion: 6, homebrew: true }), [
+      macosProfile(),
     ]),
   ],
 });

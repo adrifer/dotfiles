@@ -1,22 +1,16 @@
-import { activation, feature } from "winix";
+import { activation, feature, home } from "winix";
 
 export const javascript = feature("javascript", () => [
-  {
-    home: {
-      packages: ["bun", "nodejs_22", "pnpm"],
-      home: {
-        sessionVariables: {
-          NPM_CONFIG_PREFIX: "${config.home.homeDirectory}/.npm-global",
-          NPM_CONFIG_USERCONFIG: "${config.home.homeDirectory}/.config/npm/npmrc",
-          PNPM_HOME: "${config.home.homeDirectory}/.local/share/pnpm",
-        },
-        sessionPath: [
-          "${config.home.homeDirectory}/.npm-global/bin",
-          "${config.home.homeDirectory}/.local/share/pnpm",
-        ],
-      },
-    },
-  },
+  home.packages("bun", "nodejs_22", "pnpm"),
+  home.env({
+    NPM_CONFIG_PREFIX: "${config.home.homeDirectory}/.npm-global",
+    NPM_CONFIG_USERCONFIG: "${config.home.homeDirectory}/.config/npm/npmrc",
+    PNPM_HOME: "${config.home.homeDirectory}/.local/share/pnpm",
+  }),
+  home.path(
+    "${config.home.homeDirectory}/.npm-global/bin",
+    "${config.home.homeDirectory}/.local/share/pnpm"
+  ),
   activation("ensureWritableNpmrc", {
     script: `
       mkdir -p "\${config.home.homeDirectory}/.config/npm"

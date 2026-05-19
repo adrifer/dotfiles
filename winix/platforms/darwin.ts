@@ -1,5 +1,4 @@
 import { platform } from "winix";
-import { stableOverlay } from "./shared.ts";
 
 export const darwin = platform("darwin", (system: string = "aarch64-darwin") => ({
   darwin: {
@@ -8,7 +7,6 @@ export const darwin = platform("darwin", (system: string = "aarch64-darwin") => 
       "inputs.home-manager.darwinModules.home-manager",
     ],
     nixpkgs: {
-      overlays: [stableOverlay],
       config: { allowUnfree: true },
       hostPlatform: system,
     },

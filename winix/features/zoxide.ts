@@ -1,12 +1,5 @@
-import { feature } from "winix";
+import { feature, programs } from "winix";
 
-export const zoxide = feature("zoxide", () => ({
-  home: {
-    programs: {
-      zoxide: {
-        enable: true,
-        enableZshIntegration: true,
-      },
-    },
-  },
-}));
+export const zoxide = feature("zoxide", () =>
+  programs.enable("zoxide", { enableZshIntegration: true })
+);

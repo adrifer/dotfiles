@@ -1,12 +1,6 @@
-import { feature } from "winix";
+import { feature, home } from "winix";
 
-export const neovim = feature("neovim", () => ({
-  home: {
-    packages: ["neovim"],
-    home: {
-      sessionVariables: {
-        EDITOR: "nvim",
-      },
-    },
-  },
-}));
+export const neovim = feature("neovim", () => [
+  home.packages("neovim"),
+  home.env({ EDITOR: "nvim" }),
+]);

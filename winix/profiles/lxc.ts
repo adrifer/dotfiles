@@ -1,6 +1,6 @@
-import { escape, feature, pkg, script } from "winix";
+import { nix, profile } from "winix";
 
-export const lxcProfile = feature("lxc", () => [
+export const lxcProfile = profile("lxc", [
   {
     nixos: {
       boot: {
@@ -29,7 +29,7 @@ export const lxcProfile = feature("lxc", () => [
       users: {
         users: {
           root: {
-            shell: pkg("bash"),
+            shell: nix.pkg("bash"),
           },
         },
       },
@@ -57,7 +57,7 @@ export const lxcProfile = feature("lxc", () => [
       },
       system: {
         activationScripts: {
-          fixInit: escape(`lib.stringAfter [ "specialfs" ] ${script(`
+          fixInit: nix.expr(`lib.stringAfter [ "specialfs" ] ${nix.script(`
             if [ ! -L /sbin/init ] || [ "$(readlink /sbin/init)" != "/nix/var/nix/profiles/system/init" ]; then
               rm -f /sbin/init
               ln -s /nix/var/nix/profiles/system/init /sbin/init
