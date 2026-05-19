@@ -4,7 +4,7 @@ import { syncthingLxc } from "./features/syncthing-lxc.ts";
 import { linuxProfile } from "./profiles/linux.ts";
 import { lxcProfile } from "./profiles/lxc.ts";
 import { macosProfile } from "./profiles/macos.ts";
-import { wslProfile } from "./profiles/wsl.ts";
+import { wsl } from "./features/wsl.ts";
 import { dotnet } from "./features/dotnet.ts";
 
 export default workspace({
@@ -12,12 +12,12 @@ export default workspace({
   hosts: [
     host("wsl", platforms.nixos({ stateVersion: "25.05" }), [
       linuxProfile(),
-      wslProfile(),
+      wsl(),
       dotnet(),
     ]),
     host("wsl-work", platforms.nixos({ stateVersion: "25.05" }), [
       linuxProfile(),
-      wslProfile(),
+      wsl(),
       sysctl({
         "net.ipv4.ip_unprivileged_port_start": 443,
         "fs.inotify.max_user_watches": 1048576,
