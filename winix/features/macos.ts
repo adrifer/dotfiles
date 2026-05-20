@@ -1,7 +1,7 @@
 import { darwin, feature, home } from "winix";
 
 export const macos = feature("macos", () => [
-  darwin.raw({
+  darwin({
     security: {
       pam: {
         services: {
@@ -10,5 +10,5 @@ export const macos = feature("macos", () => [
       },
     },
   }),
-  home.raw({ manual: { manpages: { enable: false } } }),
+  home({ manual: { manpages: { enable: false } } }),
 ]);

@@ -6,31 +6,31 @@ const bin = (packageName: string, executable: string) => ({
 });
 
 export const wsl = feature("wsl", () => [
-  nixos.raw({
-      imports: ["nixos-wsl"],
-      wsl: {
-        enable: true,
-        wslConf: {
-          interop: {
-            enabled: true,
-            appendWindowsPath: false,
-          },
-        },
+  nixos({
+    imports: ["nixos-wsl"],
+    wsl: {
+      enable: true,
+      wslConf: {
         interop: {
-          register: true,
+          enabled: true,
+          appendWindowsPath: false,
         },
-        extraBin: [
-          bin("coreutils", "mkdir"),
-          bin("coreutils", "cat"),
-          bin("coreutils", "whoami"),
-          bin("coreutils", "ls"),
-          bin("busybox", "addgroup"),
-          bin("su", "groupadd"),
-          bin("su", "usermod"),
-        ],
       },
-      environment: {
-        interactiveShellInit: nix.script(`
+      interop: {
+        register: true,
+      },
+      extraBin: [
+        bin("coreutils", "mkdir"),
+        bin("coreutils", "cat"),
+        bin("coreutils", "whoami"),
+        bin("coreutils", "ls"),
+        bin("busybox", "addgroup"),
+        bin("su", "groupadd"),
+        bin("su", "usermod"),
+      ],
+    },
+    environment: {
+      interactiveShellInit: nix.script(`
           # Derive Windows username from WSL home (no cmd.exe needed)
           win_home="$(wslpath -w "$HOME")"
           win_home_slash="''\${win_home//\\\\//}"
@@ -50,8 +50,8 @@ export const wsl = feature("wsl", () => [
 
           export PATH
         `),
-      },
-    }),
+    },
+  }),
   nixos.packages("wl-clipboard"),
   nixos.program("nix-ld", {
     libraries: nix.withPkgs(["icu", "zlib", "openssl"]),
