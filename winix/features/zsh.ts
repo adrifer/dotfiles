@@ -16,6 +16,15 @@ export const zsh = feature("zsh", () => {
             rm -f -- "$tmp"
           }
 
+          mkcd() {
+            if [ $# -ne 1 ]; then
+              echo "usage: mkcd <directory>" >&2
+              return 2
+            fi
+
+            mkdir -p -- "$1" && builtin cd -- "$1"
+          }
+ 
           zd() {
             if [ $# -eq 0 ]; then
               builtin cd ~ && return

@@ -23,6 +23,7 @@ export const wsl = feature("wsl", () => [
         bin("coreutils", "mkdir"),
         bin("coreutils", "cat"),
         bin("coreutils", "whoami"),
+        bin("coreutils", "uname"),
         bin("coreutils", "ls"),
         bin("busybox", "addgroup"),
         bin("su", "groupadd"),
