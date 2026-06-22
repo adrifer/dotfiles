@@ -1,0 +1,3 @@
+theme = "catppuccin-macchiato"
+mode = "split"
+line_numbers = true

@@ -89,13 +89,13 @@ export const zsh = feature("zsh", () => {
       n: "nvim",
       ...(platforms.darwin.isActive && {
         i: "cd ~/dotfiles/winix && npx winix apply && sudo darwin-rebuild switch --flake path:$PWD/.winix/out#macbook-pro",
-        u: "cd ~/dotfiles/winix/.winix/out && nix flake update && sudo darwin-rebuild switch --flake path:$PWD#macbook-pro",
+        u: "cd ~/dotfiles/winix && npx winix update && npx winix switch --host macbook-pro",
         gc: "nix-collect-garbage -d",
         "foundry-dev": "sudo CHOKIDAR_USEPOLLING=true CHOKIDAR_INTERVAL=1000 pnpm dev",
       }),
       ...(platforms.nixos.isActive && {
         i: "cd ~/dotfiles/winix && npx winix apply && sudo nixos-rebuild switch --flake path:$PWD/.winix/out",
-        u: "cd ~/dotfiles/winix/.winix/out && nix flake update && sudo nixos-rebuild switch --flake path:$PWD",
+        u: "cd ~/dotfiles/winix && npx winix update && npx winix switch",
         gc: "sudo nix-collect-garbage -d",
       }),
     },

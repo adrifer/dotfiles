@@ -22,4 +22,7 @@ export const inputs = defineInputs({
     nixName: "home-manager-stable",
     follows: { nixpkgs: "nixpkgs-stable" },
   }),
+  hunk: input("github:modem-dev/hunk", {
+    follows: { nixpkgs: "nixpkgs" },
+  }),
 });

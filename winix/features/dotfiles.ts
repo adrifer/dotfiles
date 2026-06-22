@@ -11,6 +11,7 @@ export const dotfiles = feature("dotfiles", () => ({
   ...home.configFiles({
     nvim: dotfile("nvim"),
     eza: dotfile("eza"),
+    hunk: dotfile("hunk"),
     lazygit: dotfile("lazygit"),
     yazi: dotfile("yazi"),
     ...(platforms.darwin.isActive && { ghostty: dotfile("ghostty") }),
