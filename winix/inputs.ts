@@ -2,7 +2,7 @@ import { defineInputs, input } from "winix";
 
 export const inputs = defineInputs({
   nixpkgs: "nixos-unstable",
-  nixpkgsStable: input("github:NixOS/nixpkgs/nixos-25.11", {
+  nixpkgsStable: input("github:NixOS/nixpkgs/nixos-26.05", {
     nixName: "nixpkgs-stable",
   }),
   nixosWsl: input("github:nix-community/NixOS-WSL", {
@@ -18,7 +18,7 @@ export const inputs = defineInputs({
   nixHomebrew: input("github:zhaofengli/nix-homebrew", {
     nixName: "nix-homebrew",
   }),
-  homeManagerStable: input("github:nix-community/home-manager/release-25.11", {
+  homeManagerStable: input("github:nix-community/home-manager/release-26.05", {
     nixName: "home-manager-stable",
     follows: { nixpkgs: "nixpkgs-stable" },
   }),

@@ -4,12 +4,12 @@ export const git = feature("git", () =>
   home.program("git", {
     settings: {
       diff: {
-        tool: "nvimdiff",
+        tool: "hunk",
       },
       difftool: {
         prompt: false,
-        nvimdiff: {
-          cmd: nix.str`${nix.pkg("neovim")}/bin/nvim -d "$LOCAL" "$REMOTE"`,
+        hunk: {
+          cmd: nix.str`${nix.expr("config.programs.hunk.package")}/bin/hunk difftool "$LOCAL" "$REMOTE" "$MERGED"`,
         },
       },
       user: {

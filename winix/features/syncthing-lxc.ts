@@ -1,7 +1,10 @@
 import { feature, nix, nixos } from "winix";
 
 export const syncthingLxc = feature("syncthing-lxc", () => [
-  nixos.firewall({ allowedTCPPorts: [8384] }),
+  nixos.networking({
+    hostName: "syncthing-lxc",
+    firewall: { allowedTCPPorts: [8384] },
+  }),
   nixos.packages("gh"),
   nixos.service("syncthing", {
     user: "syncthing",
@@ -40,46 +43,33 @@ export const syncthingLxc = feature("syncthing-lxc", () => [
       },
     },
   }),
-  nixos.systemd({
-    services: {
-      "vault-git-backup": {
-        description: "Backup TrackVault to GitHub",
-        path: [nix.pkg("git"), nix.pkg("openssh")],
-        serviceConfig: {
-          Type: "oneshot",
-          User: "syncthing",
-          WorkingDirectory: "/var/lib/syncthing/TrackVault",
-        },
-        script: nix.script(`
-          if [[ -n $(git status --porcelain) ]]; then
-            git add .
-            git commit -m "Auto backup $(date '+%Y-%m-%d %H:%M')"
-            git push
-          fi
-        `),
-      },
+  nixos.systemd.service("vault-git-backup", {
+    description: "Backup TrackVault to GitHub",
+    path: [nix.pkg("git"), nix.pkg("openssh")],
+    serviceConfig: {
+      Type: "oneshot",
+      User: "syncthing",
+      WorkingDirectory: "/var/lib/syncthing/TrackVault",
+    },
+    script: nix.script(`
+      if [[ -n $(git status --porcelain) ]]; then
+        git add .
+        git commit -m "Auto backup $(date '+%Y-%m-%d %H:%M')"
+        git push
+      fi
+    `),
+  }),
+  nixos.systemd.timer("vault-git-backup", {
+    description: "Run Vault backup every 6 hours",
+    wantedBy: ["timers.target"],
+    timerConfig: {
+      OnCalendar: "*-*-* 00/6:00:00",
+      Persistent: true,
     },
   }),
-  nixos.systemd({
-    timers: {
-      "vault-git-backup": {
-        description: "Run Vault backup every 6 hours",
-        wantedBy: ["timers.target"],
-        timerConfig: {
-          OnCalendar: "*-*-* 00/6:00:00",
-          Persistent: true,
-        },
-      },
+  nixos({
+    system: {
+      stateVersion: "25.05",
     },
   }),
-  {
-    nixos: {
-      networking: {
-        hostName: "syncthing-lxc",
-      },
-      system: {
-        stateVersion: "25.05",
-      },
-    },
-  },
 ]);

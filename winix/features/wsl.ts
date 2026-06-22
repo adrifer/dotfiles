@@ -6,8 +6,8 @@ const bin = (packageName: string, executable: string) => ({
 });
 
 export const wsl = feature("wsl", () => [
+  nixos.imports("nixos-wsl"),
   nixos({
-    imports: ["nixos-wsl"],
     wsl: {
       enable: true,
       wslConf: {
@@ -30,34 +30,34 @@ export const wsl = feature("wsl", () => [
         bin("su", "usermod"),
       ],
     },
-    environment: {
-      interactiveShellInit: nix.script(`
-          # Derive Windows username from WSL home (no cmd.exe needed)
-          win_home="$(wslpath -w "$HOME")"
-          win_home_slash="''\${win_home//\\\\//}"
-          win_user="''\${win_home_slash##*/}"
+  }),
+  nixos.environment({
+    interactiveShellInit: nix.script(`
+        # Derive Windows username from WSL home (no cmd.exe needed)
+        win_home="$(wslpath -w "$HOME")"
+        win_home_slash="''\${win_home//\\\\//}"
+        win_user="''\${win_home_slash##*/}"
 
-          hardcoded_bin="/mnt/c/Users/track/AppData/Local/Programs/Microsoft VS Code Insiders/bin"
-          user_bin="/mnt/c/Users/$win_user/AppData/Local/Programs/Microsoft VS Code Insiders/bin"
+        hardcoded_bin="/mnt/c/Users/track/AppData/Local/Programs/Microsoft VS Code Insiders/bin"
+        user_bin="/mnt/c/Users/$win_user/AppData/Local/Programs/Microsoft VS Code Insiders/bin"
 
-          for d in "$hardcoded_bin" "$user_bin"; do
-            if [ -d "$d" ]; then
-              case ":$PATH:" in
-                *":$d:"*) ;;
-                *) PATH="$PATH:$d" ;;
-              esac
-            fi
-          done
+        for d in "$hardcoded_bin" "$user_bin"; do
+          if [ -d "$d" ]; then
+            case ":$PATH:" in
+              *":$d:"*) ;;
+              *) PATH="$PATH:$d" ;;
+            esac
+          fi
+        done
 
-          export PATH
-        `),
-    },
+        export PATH
+      `),
   }),
   nixos.packages("wl-clipboard"),
   nixos.program("nix-ld", {
     libraries: nix.withPkgs(["icu", "zlib", "openssl"]),
   }),
-  home.packages(nix.pkg.stable("wslu")),
+  home.packages("wsl-open"),
   home.program("git", {
     settings: {
       credential: {

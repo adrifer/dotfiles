@@ -1,14 +1,12 @@
-import { feature, nix } from "winix";
+import { feature, nixos } from "winix";
 
 export const nixGc = feature("nix-gc", () => [
-  {
-    nixos: {
-      systemd: {
-        tmpfiles: {
-          rules: ["L+ /usr/bin/bash - - - - ${pkgs.bash}/bin/bash"],
-        },
-      },
+  nixos.systemd.tmpfiles(["L+ /usr/bin/bash - - - - ${pkgs.bash}/bin/bash"]),
+  nixos.nix({
+    gc: {
+      automatic: true,
+      dates: "weekly",
+      options: "--delete-older-than 7d",
     },
-  },
-  nix.gc({ olderThan: "7d" }),
+  }),
 ]);

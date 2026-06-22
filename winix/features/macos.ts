@@ -1,23 +1,23 @@
 import { darwin, feature, home, nix } from "winix";
 
 export const macos = feature("macos", () => [
-  darwin({
-    security: {
-      pam: {
-        services: {
-          sudo_local: { touchIdAuth: true },
-        },
-      },
-      // sudo strips npm/pnpm env by default; keep these so sudo pnpm can use the user's npmrc/auth.
-      sudo: {
-        extraConfig: `
-          Defaults env_keep += NPM_CONFIG_PREFIX
-          Defaults env_keep += NPM_CONFIG_USERCONFIG
-          Defaults env_keep += PNPM_CONFIG_MANAGE_PACKAGE_MANAGER_VERSIONS
-          Defaults env_keep += PNPM_HOME
-        `,
+  darwin.security({
+    pam: {
+      services: {
+        sudo_local: { touchIdAuth: true },
       },
     },
+    // sudo strips npm/pnpm env by default; keep these so sudo pnpm can use the user's npmrc/auth.
+    sudo: {
+      extraConfig: `
+        Defaults env_keep += NPM_CONFIG_PREFIX
+        Defaults env_keep += NPM_CONFIG_USERCONFIG
+        Defaults env_keep += PNPM_CONFIG_MANAGE_PACKAGE_MANAGER_VERSIONS
+        Defaults env_keep += PNPM_HOME
+      `,
+    },
+  }),
+  darwin({
     nix: {
       settings: {
         // Determinate Nix adds install.determinate.systems, which was slow here.
@@ -28,14 +28,12 @@ export const macos = feature("macos", () => [
         ]),
       },
     },
-    system: {
-      defaults: {
-        CustomUserPreferences: {
-          NSGlobalDomain: {
-            // Enables Ctrl+Cmd dragging from anywhere inside a window.
-            NSWindowShouldDragOnGesture: true,
-          },
-        },
+  }),
+  darwin.defaults({
+    CustomUserPreferences: {
+      NSGlobalDomain: {
+        // Enables Ctrl+Cmd dragging from anywhere inside a window.
+        NSWindowShouldDragOnGesture: true,
       },
     },
   }),
