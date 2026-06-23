@@ -1,4 +1,4 @@
-import { feature, home, nix } from "winix";
+import { feature, home, nix } from "@adrifer/winix";
 
 export const dotnet = feature("dotnet", () => [
   home.packages(nix.pkg("dotnet-sdk_10")),

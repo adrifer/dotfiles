@@ -1,4 +1,4 @@
-import { feature, nixos } from "winix";
+import { feature, nixos } from "@adrifer/winix";
 
 export const nixGc = feature("nix-gc", () => [
   nixos.systemd.tmpfiles(["L+ /usr/bin/bash - - - - ${pkgs.bash}/bin/bash"]),

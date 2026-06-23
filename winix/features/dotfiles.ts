@@ -1,4 +1,4 @@
-import { feature, home, platforms } from "winix";
+import { feature, home, platforms } from "@adrifer/winix";
 
 const dotfile = (name: string) =>
   home.symlink(`~/dotfiles/${name}/.config/${name}`, { recursive: true });

@@ -1,4 +1,4 @@
-import { overlay, profile } from "winix";
+import { overlay, profile } from "@adrifer/winix";
 import { nixGc } from "../features/nix-gc.ts";
 import { packagesLinux } from "../features/packages.ts";
 import { adrifer } from "../features/user-adrifer.ts";

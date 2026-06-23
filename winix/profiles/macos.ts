@@ -1,4 +1,4 @@
-import { overlay, profile } from "winix";
+import { overlay, profile } from "@adrifer/winix";
 import { gitCredentialManager } from "../features/git-credential-manager.ts";
 import { homebrew } from "../features/homebrew.ts";
 import { macos } from "../features/macos.ts";

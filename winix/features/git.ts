@@ -1,4 +1,4 @@
-import { feature, home, nix } from "winix";
+import { feature, home, nix } from "@adrifer/winix";
 
 export const git = feature("git", () =>
   home.program("git", {

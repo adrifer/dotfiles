@@ -1,4 +1,4 @@
-import { feature, home } from "winix";
+import { feature, home } from "@adrifer/winix";
 
 export const hunk = feature("hunk", () => [
   home.imports("inputs.hunk.homeManagerModules.default"),

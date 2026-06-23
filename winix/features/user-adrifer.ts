@@ -1,4 +1,4 @@
-import { account } from "winix";
+import { account } from "@adrifer/winix";
 
 /**
  * Primary user account. Context-aware: adjusts home directory,

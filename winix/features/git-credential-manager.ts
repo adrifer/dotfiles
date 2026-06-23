@@ -1,4 +1,4 @@
-import { feature, home, nix } from "winix";
+import { feature, home, nix } from "@adrifer/winix";
 
 export const gitCredentialManager = feature("git-credential-manager", () => [
   home.packages(nix.pkg("git-credential-manager")),

@@ -1,4 +1,4 @@
-import { feature, nix, nixos } from "winix";
+import { feature, nix, nixos } from "@adrifer/winix";
 
 export const syncthingLxc = feature("syncthing-lxc", () => [
   nixos.networking({

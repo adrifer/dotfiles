@@ -1,4 +1,4 @@
-import { feature, home } from "winix";
+import { feature, home } from "@adrifer/winix";
 
 export const packages = feature("packages", () =>
   home.packages(

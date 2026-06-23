@@ -1,4 +1,4 @@
-import { nix, nixos, profile } from "winix";
+import { nix, nixos, profile } from "@adrifer/winix";
 
 export const lxcProfile = profile("lxc", [
   nixos.boot({

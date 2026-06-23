@@ -1,4 +1,4 @@
-import { feature, home } from "winix";
+import { feature, home } from "@adrifer/winix";
 
 export const javascript = feature("javascript", () => [
   home.packages("bun", "nodejs_22", "pnpm"),

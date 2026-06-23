@@ -1,4 +1,4 @@
-import { feature, home, nix, nixos } from "winix";
+import { feature, home, nix, nixos } from "@adrifer/winix";
 import { playwright } from "./playwright.ts";
 
 const bin = (packageName: string, executable: string) => ({

@@ -1,4 +1,4 @@
-import { feature, home } from "winix";
+import { feature, home } from "@adrifer/winix";
 
 export const playwright = feature("playwright", () => [
   home.packages("chromium"),

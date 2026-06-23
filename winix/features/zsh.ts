@@ -1,4 +1,4 @@
-import { feature, home, nix, platforms } from "winix";
+import { feature, home, nix, platforms } from "@adrifer/winix";
 import { wsl } from "./wsl.ts";
 
 export const zsh = feature("zsh", () => {
@@ -88,14 +88,14 @@ export const zsh = feature("zsh", () => {
       "...": "cd ../..",
       n: "nvim",
       ...(platforms.darwin.isActive && {
-        i: "cd ~/dotfiles/winix && npx winix apply && sudo darwin-rebuild switch --flake path:$PWD/.winix/out#macbook-pro",
-        u: "cd ~/dotfiles/winix && npx winix update && npx winix switch --host macbook-pro",
+        i: "cd ~/dotfiles/winix && npx @adrifer/winix switch --host macbook-pro",
+        u: "cd ~/dotfiles/winix && npx @adrifer/winix update && npx @adrifer/winix switch --host macbook-pro",
         gc: "nix-collect-garbage -d",
         "foundry-dev": "sudo CHOKIDAR_USEPOLLING=true CHOKIDAR_INTERVAL=1000 pnpm dev",
       }),
       ...(platforms.nixos.isActive && {
-        i: "cd ~/dotfiles/winix && npx winix apply && sudo nixos-rebuild switch --flake path:$PWD/.winix/out",
-        u: "cd ~/dotfiles/winix && npx winix update && npx winix switch",
+        i: "cd ~/dotfiles/winix && npx @adrifer/winix switch",
+        u: "cd ~/dotfiles/winix && npx @adrifer/winix update && npx @adrifer/winix switch",
         gc: "sudo nix-collect-garbage -d",
       }),
     },

@@ -1,4 +1,4 @@
-import { darwin, feature } from "winix";
+import { darwin, feature } from "@adrifer/winix";
 
 export const homebrew = feature("homebrew", () =>
   darwin.homebrew({

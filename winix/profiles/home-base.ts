@@ -1,4 +1,4 @@
-import { profile } from "winix";
+import { profile } from "@adrifer/winix";
 import { dotfiles } from "../features/dotfiles.ts";
 import { fzf } from "../features/fzf.ts";
 import { git } from "../features/git.ts";

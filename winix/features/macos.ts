@@ -1,4 +1,4 @@
-import { darwin, feature, home, nix } from "winix";
+import { darwin, feature, home, nix } from "@adrifer/winix";
 
 export const macos = feature("macos", () => [
   darwin.security({

@@ -1,4 +1,4 @@
-import { host, home, nixos, platforms, workspace } from "winix";
+import { host, home, nixos, platforms, workspace } from "@adrifer/winix";
 import { inputs } from "./inputs.ts";
 import { syncthingLxc } from "./features/syncthing-lxc.ts";
 import { linuxProfile } from "./profiles/linux.ts";

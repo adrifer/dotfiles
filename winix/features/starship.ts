@@ -1,4 +1,4 @@
-import { feature, home } from "winix";
+import { feature, home } from "@adrifer/winix";
 
 export const starship = feature("starship", () =>
   home.program("starship", {
