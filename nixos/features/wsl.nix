@@ -11,6 +11,7 @@
         { src = "${coreutils}/bin/mkdir"; }
         { src = "${coreutils}/bin/cat"; }
         { src = "${coreutils}/bin/whoami"; }
+        { src = "${coreutils}/bin/uname"; }
         { src = "${coreutils}/bin/ls"; }
         { src = "${busybox}/bin/addgroup"; }
         { src = "${su}/bin/groupadd"; }

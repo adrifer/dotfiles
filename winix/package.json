@@ -8,7 +8,7 @@
     "dry": "winix apply --dry"
   },
   "dependencies": {
-    "@adrifer/winix": "^0.1.1-preview.1"
+    "@adrifer/winix": "^0.1.2-preview.3"
   },
   "devDependencies": {
     "typescript": "^6.0.3"

@@ -22,6 +22,10 @@ in
             "fs.inotify.max_queued_events" = 65536;
           };
 
+          home-manager.users.adrifer.imports = [
+            config.flake.homeModules.azure-dev-cli
+          ];
+
           home-manager.users.adrifer.home.packages = with pkgs; [
             socat # Need this for copilot being able to query app insights
             bubblewrap # Need this for copilot being able to query app insights

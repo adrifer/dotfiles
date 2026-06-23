@@ -6,6 +6,7 @@ import { lxcProfile } from "./profiles/lxc.ts";
 import { macosProfile } from "./profiles/macos.ts";
 import { wsl } from "./features/wsl.ts";
 import { dotnet } from "./features/dotnet.ts";
+import { azureDevCli } from "./features/azure-dev-cli.ts";
 
 export default workspace({
   inputs,
@@ -24,6 +25,7 @@ export default workspace({
         "fs.inotify.max_user_instances": 1024,
         "fs.inotify.max_queued_events": 65536,
       }),
+      azureDevCli(),
       home.packages("socat", "bubblewrap"),
     ]),
     host("syncthing-lxc", platforms.nixos({ stateVersion: "25.05", homeManager: false }), [
