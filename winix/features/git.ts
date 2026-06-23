@@ -13,7 +13,7 @@ export const git = feature("git", () =>
         },
       },
       user: {
-        name: "Adrian Fernandez Garcia",
+        name: "Adrian Fernandez",
         email: "tracker086@outlook.com",
       },
       credential: {
@@ -33,5 +33,5 @@ export const git = feature("git", () =>
         },
       },
     ],
-  })
+  }),
 );
