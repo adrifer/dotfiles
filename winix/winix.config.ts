@@ -1,5 +1,12 @@
-import { host, home, nixos, platforms, workspace } from "@adrifer/winix";
-import { inputs } from "./inputs.ts";
+import {
+  defineInputs,
+  host,
+  home,
+  input,
+  nixos,
+  platforms,
+  workspace,
+} from "@adrifer/winix";
 import { syncthingLxc } from "./features/syncthing-lxc.ts";
 import { linuxProfile } from "./profiles/linux.ts";
 import { lxcProfile } from "./profiles/lxc.ts";
@@ -9,7 +16,35 @@ import { dotnet } from "./features/dotnet.ts";
 import { azureDevCli } from "./features/azure-dev-cli.ts";
 
 export default workspace({
-  inputs,
+  inputs: defineInputs({
+    nixpkgs: "nixos-unstable",
+    nixpkgsStable: input("github:NixOS/nixpkgs/nixos-26.05", {
+      nixName: "nixpkgs-stable",
+    }),
+    nixosWsl: input("github:nix-community/NixOS-WSL", {
+      follows: { nixpkgs: "nixpkgs" },
+    }),
+    nixDarwin: input("github:nix-darwin/nix-darwin", {
+      nixName: "nix-darwin",
+      follows: { nixpkgs: "nixpkgs" },
+    }),
+    homeManager: input("github:nix-community/home-manager", {
+      follows: { nixpkgs: "nixpkgs" },
+    }),
+    nixHomebrew: input("github:zhaofengli/nix-homebrew", {
+      nixName: "nix-homebrew",
+    }),
+    homeManagerStable: input(
+      "github:nix-community/home-manager/release-26.05",
+      {
+        nixName: "home-manager-stable",
+        follows: { nixpkgs: "nixpkgs-stable" },
+      },
+    ),
+    hunk: input("github:modem-dev/hunk", {
+      follows: { nixpkgs: "nixpkgs" },
+    }),
+  }),
   hosts: [
     host("wsl", platforms.nixos({ stateVersion: "25.05" }), [
       linuxProfile(),
@@ -28,10 +63,11 @@ export default workspace({
       azureDevCli(),
       home.packages("socat", "bubblewrap"),
     ]),
-    host("syncthing-lxc", platforms.nixos({ stateVersion: "25.05", homeManager: false }), [
-      lxcProfile(),
-      syncthingLxc(),
-    ]),
+    host(
+      "syncthing-lxc",
+      platforms.nixos({ stateVersion: "25.05", homeManager: false }),
+      [lxcProfile(), syncthingLxc()],
+    ),
     host("macbook-pro", platforms.darwin({ stateVersion: 6, homebrew: true }), [
       macosProfile(),
     ]),
