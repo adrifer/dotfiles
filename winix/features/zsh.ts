@@ -89,15 +89,15 @@ export const zsh = feature("zsh", () => {
       n: "nvim",
       winix: "npx @adrifer/winix",
       ...(platforms.darwin.isActive && {
-        i: "cd ~/dotfiles/winix && npx @adrifer/winix switch --host macbook-pro",
-        u: "cd ~/dotfiles/winix && npx @adrifer/winix update && npx @adrifer/winix switch --host macbook-pro",
+        i: "cd ~/dotfiles/winix && npm install && npx @adrifer/winix switch --host macbook-pro",
+        u: "cd ~/dotfiles/winix && npm install && npx @adrifer/winix update && npx @adrifer/winix switch --host macbook-pro",
         gc: "nix-collect-garbage -d",
         "foundry-dev":
           "sudo CHOKIDAR_USEPOLLING=true CHOKIDAR_INTERVAL=1000 pnpm dev",
       }),
       ...(platforms.nixos.isActive && {
-        i: "cd ~/dotfiles/winix && npx @adrifer/winix switch",
-        u: "cd ~/dotfiles/winix && npx @adrifer/winix update && npx @adrifer/winix switch",
+        i: "cd ~/dotfiles/winix && npm install && npx @adrifer/winix switch",
+        u: "cd ~/dotfiles/winix && npm install && npx @adrifer/winix update && npx @adrifer/winix switch",
         gc: "sudo nix-collect-garbage -d",
       }),
     },
