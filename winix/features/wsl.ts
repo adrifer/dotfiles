@@ -6,7 +6,7 @@ const bin = (packageName: string, executable: string) => ({
 });
 
 export const wsl = feature("wsl", () => [
-  nixos.imports("nixos-wsl"),
+  nixos.imports("inputs.nixos-wsl.nixosModules.wsl"),
   nixos({
     wsl: {
       enable: true,

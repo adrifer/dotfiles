@@ -46,7 +46,7 @@ export const zsh = feature("zsh", () => {
             printf "\\e]9;9;%s\\e\\\\" "$(wslpath -w "$PWD")"
            }
            precmd_functions+=(keep_current_path)
-        `)
+        `),
     );
   }
 
@@ -87,11 +87,13 @@ export const zsh = feature("zsh", () => {
       "..": "cd ..",
       "...": "cd ../..",
       n: "nvim",
+      winix: "npx @adrifer/winix",
       ...(platforms.darwin.isActive && {
         i: "cd ~/dotfiles/winix && npx @adrifer/winix switch --host macbook-pro",
         u: "cd ~/dotfiles/winix && npx @adrifer/winix update && npx @adrifer/winix switch --host macbook-pro",
         gc: "nix-collect-garbage -d",
-        "foundry-dev": "sudo CHOKIDAR_USEPOLLING=true CHOKIDAR_INTERVAL=1000 pnpm dev",
+        "foundry-dev":
+          "sudo CHOKIDAR_USEPOLLING=true CHOKIDAR_INTERVAL=1000 pnpm dev",
       }),
       ...(platforms.nixos.isActive && {
         i: "cd ~/dotfiles/winix && npx @adrifer/winix switch",
@@ -99,6 +101,7 @@ export const zsh = feature("zsh", () => {
         gc: "sudo nix-collect-garbage -d",
       }),
     },
-    initContent: initParts.length === 1 ? initParts[0] : nix.concat(...initParts),
+    initContent:
+      initParts.length === 1 ? initParts[0] : nix.concat(...initParts),
   });
 });
