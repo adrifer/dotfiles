@@ -1,12 +1,12 @@
-import { feature, home, nix, nixos } from "@adrifer/winix";
+import { feature, nix, profile } from "@adrifer/winix";
 import { playwright } from "./playwright.ts";
 
 const bin = (packageName: string, executable: string) => ({
   src: nix.bin(packageName, executable),
 });
 
-export const wsl = feature("wsl", () => [
-  nixos.imports("inputs.nixos-wsl.nixosModules.wsl"),
+const wslBase = feature("wsl-base", ({ home, nixos }) => {
+  nixos.imports("inputs.nixos-wsl.nixosModules.wsl");
   nixos({
     wsl: {
       enable: true,
@@ -30,7 +30,7 @@ export const wsl = feature("wsl", () => [
         bin("su", "usermod"),
       ],
     },
-  }),
+  });
   nixos.environment({
     interactiveShellInit: nix.script(`
         # Derive Windows username from WSL home (no cmd.exe needed)
@@ -52,12 +52,12 @@ export const wsl = feature("wsl", () => [
 
         export PATH
       `),
-  }),
-  nixos.packages("wl-clipboard"),
+  });
+  nixos.packages("wl-clipboard");
   nixos.program("nix-ld", {
     libraries: nix.withPkgs(["icu", "zlib", "openssl"]),
-  }),
-  home.packages("wsl-open"),
+  });
+  home.packages("wsl-open");
   home.program("git", {
     settings: {
       credential: {
@@ -66,6 +66,7 @@ export const wsl = feature("wsl", () => [
         ''`)}/bin/git-credential-manager-windows`,
       },
     },
-  }),
-  playwright(),
-]);
+  });
+});
+
+export const wsl = profile("wsl", [wslBase(), playwright()]);

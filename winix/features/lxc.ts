@@ -1,9 +1,9 @@
-import { nix, nixos, profile } from "@adrifer/winix";
+import { feature, nix } from "@adrifer/winix";
 
-export const lxcProfile = profile("lxc", [
+export const lxc = feature("lxc", ({ nixos }) => {
   nixos.boot({
     isContainer: true,
-  }),
+  });
   nixos.nix({
     gc: {
       automatic: true,
@@ -11,13 +11,13 @@ export const lxcProfile = profile("lxc", [
       options: "--delete-older-than 14d",
     },
     settings: { "experimental-features": ["nix-command", "flakes"] },
-  }),
+  });
   nixos.networking({
     useDHCP: true,
-  }),
+  });
   nixos.environment({
     systemPackages: ["vim", "htop", "curl", "git", "lazygit"],
-  }),
+  });
   nixos.systemd({
     mounts: [
       {
@@ -25,13 +25,13 @@ export const lxcProfile = profile("lxc", [
         enable: false,
       },
     ],
-  }),
+  });
   nixos.service("openssh", {
     settings: {
       PermitRootLogin: "yes",
       PasswordAuthentication: true,
     },
-  }),
+  });
   nixos.program("git", {
     config: {
       user: {
@@ -39,14 +39,14 @@ export const lxcProfile = profile("lxc", [
         email: "tracker086@outlook.com",
       },
     },
-  }),
+  });
   nixos.users({
     users: {
       root: {
         shell: nix.pkg("bash"),
       },
     },
-  }),
+  });
   nixos.system({
     activationScripts: {
       fixInit: nix.expr(`lib.stringAfter [ "specialfs" ] ${nix.script(`
@@ -56,5 +56,5 @@ export const lxcProfile = profile("lxc", [
         fi
       `).expr}`),
     },
-  }),
-]);
+  });
+});

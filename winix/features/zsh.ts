@@ -1,7 +1,7 @@
-import { feature, home, nix, platforms } from "@adrifer/winix";
+import { feature, nix } from "@adrifer/winix";
 import { wsl } from "./wsl.ts";
 
-export const zsh = feature("zsh", () => {
+export const zsh = feature("zsh", ({ home, platforms }) => {
   const initParts = [
     nix.script(`
            export  ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
@@ -50,7 +50,7 @@ export const zsh = feature("zsh", () => {
     );
   }
 
-  return home.program("zsh", {
+  home.program("zsh", {
     autosuggestion: {
       enable: true,
     },

@@ -1,6 +1,6 @@
-import { feature, home, nix } from "@adrifer/winix";
+import { feature, nix } from "@adrifer/winix";
 
-export const azureDevCli = feature("azure-dev-cli", () =>
+export const azureDevCli = feature("azure-dev-cli", ({ home }) => {
   home.packages(
     nix.binaryRelease({
       name: "azure-dev-cli",
@@ -37,5 +37,5 @@ export const azureDevCli = feature("azure-dev-cli", () =>
         license: "mit",
       },
     }),
-  ),
-);
+  );
+});

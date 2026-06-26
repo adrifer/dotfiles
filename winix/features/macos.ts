@@ -1,6 +1,6 @@
-import { darwin, feature, home, nix } from "@adrifer/winix";
+import { feature, nix } from "@adrifer/winix";
 
-export const macos = feature("macos", () => [
+export const macos = feature("macos", ({ darwin, home }) => {
   darwin.security({
     pam: {
       services: {
@@ -16,7 +16,7 @@ export const macos = feature("macos", () => [
         Defaults env_keep += PNPM_HOME
       `,
     },
-  }),
+  });
   darwin({
     nix: {
       settings: {
@@ -28,7 +28,7 @@ export const macos = feature("macos", () => [
         ]),
       },
     },
-  }),
+  });
   darwin.defaults({
     CustomUserPreferences: {
       NSGlobalDomain: {
@@ -36,6 +36,6 @@ export const macos = feature("macos", () => [
         NSWindowShouldDragOnGesture: true,
       },
     },
-  }),
-  home({ manual: { manpages: { enable: false } } }),
-]);
+  });
+  home({ manual: { manpages: { enable: false } } });
+});

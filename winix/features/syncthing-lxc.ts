@@ -1,11 +1,11 @@
-import { feature, nix, nixos } from "@adrifer/winix";
+import { feature, nix } from "@adrifer/winix";
 
-export const syncthingLxc = feature("syncthing-lxc", () => [
+export const syncthingLxc = feature("syncthing-lxc", ({ nixos }) => {
   nixos.networking({
     hostName: "syncthing-lxc",
     firewall: { allowedTCPPorts: [8384] },
-  }),
-  nixos.packages("gh"),
+  });
+  nixos.packages("gh");
   nixos.service("syncthing", {
     user: "syncthing",
     group: "syncthing",
@@ -42,7 +42,7 @@ export const syncthingLxc = feature("syncthing-lxc", () => [
         },
       },
     },
-  }),
+  });
   nixos.systemd.service("vault-git-backup", {
     description: "Backup TrackVault to GitHub",
     path: [nix.pkg("git"), nix.pkg("openssh")],
@@ -58,7 +58,7 @@ export const syncthingLxc = feature("syncthing-lxc", () => [
         git push
       fi
     `),
-  }),
+  });
   nixos.systemd.timer("vault-git-backup", {
     description: "Run Vault backup every 6 hours",
     wantedBy: ["timers.target"],
@@ -66,10 +66,10 @@ export const syncthingLxc = feature("syncthing-lxc", () => [
       OnCalendar: "*-*-* 00/6:00:00",
       Persistent: true,
     },
-  }),
+  });
   nixos({
     system: {
       stateVersion: "25.05",
     },
-  }),
-]);
+  });
+});

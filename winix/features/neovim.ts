@@ -1,6 +1,6 @@
-import { feature, home } from "@adrifer/winix";
+import { feature } from "@adrifer/winix";
 
-export const neovim = feature("neovim", () => [
-  home.packages("neovim"),
-  home.env({ EDITOR: "nvim" }),
-]);
+export const neovim = feature("neovim", ({ home }) => {
+  home.packages("neovim");
+  home.env({ EDITOR: "nvim" });
+});

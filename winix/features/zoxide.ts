@@ -1,5 +1,5 @@
-import { feature, home } from "@adrifer/winix";
+import { feature } from "@adrifer/winix";
 
-export const zoxide = feature("zoxide", () =>
-  home.program("zoxide", { enableZshIntegration: true })
-);
+export const zoxide = feature("zoxide", ({ home }) => {
+  home.program("zoxide", { enableZshIntegration: true });
+});

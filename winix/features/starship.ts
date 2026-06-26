@@ -1,6 +1,6 @@
-import { feature, home } from "@adrifer/winix";
+import { feature } from "@adrifer/winix";
 
-export const starship = feature("starship", () =>
+export const starship = feature("starship", ({ home }) => {
   home.program("starship", {
     enableZshIntegration: true,
     settings: {
@@ -33,5 +33,5 @@ export const starship = feature("starship", () =>
         ],
       },
     },
-  })
-);
+  });
+});

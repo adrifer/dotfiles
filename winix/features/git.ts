@@ -1,6 +1,6 @@
-import { feature, home, nix } from "@adrifer/winix";
+import { feature, nix } from "@adrifer/winix";
 
-export const git = feature("git", () =>
+export const git = feature("git", ({ home }) => {
   home.program("git", {
     settings: {
       diff: {
@@ -33,5 +33,5 @@ export const git = feature("git", () =>
         },
       },
     ],
-  }),
-);
+  });
+});
