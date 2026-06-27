@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "generatedAt": "2026-06-26T22:21:00.565Z",
+  "packages": {
+    "Neovim.Neovim": {
+      "source": "winget",
+      "version": "0.12.3",
+      "resolvedAt": "2026-06-26T22:21:00.565Z"
+    }
+  }
+}

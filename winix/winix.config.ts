@@ -44,6 +44,10 @@ export default workspace({
     }),
   }),
   hosts: [
+    host("ADRIFER-VISION", platforms.windows(), ({ windows }) => {
+      windows.package("Neovim.Neovim");
+      windows.env.set("EDITOR", "nvim");
+    }),
     host("wsl", platforms.nixos({ stateVersion: "25.05" }), [
       linuxProfile(),
       wsl(),
@@ -60,11 +64,11 @@ export default workspace({
 
       return [linuxProfile(), wsl(), azureDevCli()];
     }),
-    host("syncthing-lxc", platforms.nixos({ stateVersion: "25.05", homeManager: false }),
-      [lxc(), syncthingLxc()],
-    ),
     host("macbook-pro", platforms.darwin({ stateVersion: 6, homebrew: true }), [
       macosProfile(),
     ]),
+    host("syncthing-lxc", platforms.nixos({ stateVersion: "25.05", homeManager: false }),
+      [lxc(), syncthingLxc()],
+    ),
   ],
 });
