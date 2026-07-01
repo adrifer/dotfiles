@@ -4,29 +4,29 @@ export const azureDevCli = feature("azure-dev-cli", ({ home }) => {
   home.packages(
     nix.binaryRelease({
       name: "azure-dev-cli",
-      version: "1.25.5",
+      version: "1.26.0",
       binary: "azd",
       urlTemplate:
         "https://github.com/Azure/azure-dev/releases/download/azure-dev-cli_{version}/{file}",
       platforms: {
         "x86_64-linux": {
           file: "azd-linux-amd64.tar.gz",
-          hash: "sha256-h45MPTkA/qTmXV56A3GCjKEnoKx9G1jALEpa81ZNHEk=",
+          hash: "sha256-DEU06gxx2D9jPEaev8FCTKcPJHCEvbFGjVJQ3ONvEiY=",
           binary: "azd-linux-amd64",
         },
         "aarch64-linux": {
           file: "azd-linux-arm64.tar.gz",
-          hash: "sha256-4qKxal8wKt3Uh+Ubrw8TyhD/qL59hKxEGuq91Dxx4hk=",
+          hash: "sha256-dmOzlxPWW+bddMvzi11Srw5/L2y1dQ7JoA2F4GpAct8=",
           binary: "azd-linux-arm64",
         },
         "x86_64-darwin": {
           file: "azd-darwin-amd64.zip",
-          hash: "sha256-ph7ts7Oy4nVXxu0H79i9Rokp8BDG1d7zan6AhfxZUAY=",
+          hash: "sha256-qFFGsQGQPlzTjMMwwX+7Y9GOSjcdcoKErocGWreVugY=",
           binary: "azd-darwin-amd64",
         },
         "aarch64-darwin": {
           file: "azd-darwin-arm64.zip",
-          hash: "sha256-pO+HW/udYlfJRDJdNyD8g0Ftck94X67cU6+rjRDbUcc=",
+          hash: "sha256-CDgg0Hjhf0FUq5asNj8y1T03wq4kCTymfy3dxUNuBuE=",
           binary: "azd-darwin-arm64",
         },
       },

@@ -1,4 +1,4 @@
-import { feature } from "@adrifer/winix";
+import { feature, nix } from "@adrifer/winix";
 
 export const packages = feature("packages", ({ home }) => {
   home.packages(
@@ -8,6 +8,7 @@ export const packages = feature("packages", ({ home }) => {
     "bat",
     "tree",
     "fastfetch",
+    "btop",
     "unzip",
     "yazi",
     "powershell",
@@ -21,7 +22,9 @@ export const packages = feature("packages", ({ home }) => {
     "mkcert",
     "nixfmt",
     "nixd",
-    "azure-cli",
+    nix.expr(
+      "(pkgs.azure-cli.withExtensions [ pkgs.azure-cli.extensions.azure-devops ])",
+    ),
     "python3",
     "gnumake",
   );
