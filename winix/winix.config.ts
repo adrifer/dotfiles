@@ -42,6 +42,9 @@ export default workspace({
     hunk: input("github:modem-dev/hunk", {
       follows: { nixpkgs: "nixpkgs" },
     }),
+    herdr: input("github:ogulcancelik/herdr", {
+      follows: { nixpkgs: "nixpkgs" },
+    }),
   }),
   hosts: [
     host("ADRIFER-VISION", platforms.windows(), ({ windows }) => {

@@ -2,6 +2,7 @@ import { profile } from "@adrifer/winix";
 import { dotfiles } from "../features/dotfiles.ts";
 import { fzf } from "../features/fzf.ts";
 import { git } from "../features/git.ts";
+import { herdr } from "../features/herdr.ts";
 import { hunk } from "../features/hunk.ts";
 import { javascript } from "../features/javascript.ts";
 import { neovim } from "../features/neovim.ts";
@@ -20,5 +21,6 @@ export const homeBase = profile("home-base", [
   fzf(),
   zoxide(),
   git(),
+  herdr(),
   hunk(),
 ]);

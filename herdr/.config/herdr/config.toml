@@ -1,0 +1,32 @@
+# Herdr reads this file from ~/.config/herdr/config.toml.
+# Defaults remain active for anything not listed here.
+
+[keys]
+prefix = "ctrl+a"
+
+# Keep the tmux-style prefix, and add direct ctrl+alt chords for daily pane/tab
+# movement as recommended in Herdr's keyboard guide.
+focus_pane_left = ["prefix+h", "ctrl+alt+h"]
+focus_pane_down = ["prefix+j", "ctrl+alt+j"]
+focus_pane_up = ["prefix+k", "ctrl+alt+k"]
+focus_pane_right = ["prefix+l", "ctrl+alt+l"]
+
+previous_tab = ["prefix+p", "ctrl+alt+["]
+next_tab = ["prefix+n", "ctrl+alt+]"]
+new_tab = ["prefix+c", "ctrl+alt+c"]
+switch_tab = ["prefix+1..9", "ctrl+alt+1..9"]
+
+split_vertical = ["prefix+v", "ctrl+alt+v"]
+split_horizontal = ["prefix+minus", "ctrl+alt+minus"]
+zoom = ["prefix+z", "ctrl+alt+z"]
+
+navigate_workspace_down = "j"
+navigate_workspace_up = "k"
+
+[ui]
+agent_panel_sort = "spaces"
+show_agent_labels_on_pane_borders = false
+
+[ui.toast]
+delivery = "herdr"
+delay_seconds = 1

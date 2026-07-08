@@ -7,6 +7,10 @@ export const dotfiles = feature("dotfiles", ({ home, platforms }) => {
   home.configFiles({
     nvim: dotfile(home, "nvim"),
     eza: dotfile(home, "eza"),
+    "herdr/config.toml": home.symlink(
+      "~/dotfiles/herdr/.config/herdr/config.toml",
+      { force: true },
+    ),
     hunk: dotfile(home, "hunk"),
     lazygit: dotfile(home, "lazygit"),
     yazi: dotfile(home, "yazi"),
