@@ -76,6 +76,7 @@ export const zsh = feature("zsh", ({ home, platforms }) => {
       ff: "fzf --preview 'bat --style=numbers --color=always {}'",
       grep: "grep --color=auto",
       g: "lazygit",
+      h: "herdr",
       lg: "lazygit",
       cd: "zd",
       ci: "code-insiders",
