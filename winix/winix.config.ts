@@ -40,7 +40,7 @@ export default workspace({
       },
     ),
     hunk: input("github:modem-dev/hunk", {
-      follows: { nixpkgs: "nixpkgs" },
+      follows: { nixpkgs: "nixpkgs-stable" },
     }),
     herdr: input("github:ogulcancelik/herdr", {
       follows: { nixpkgs: "nixpkgs" },
