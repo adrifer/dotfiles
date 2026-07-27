@@ -1,3 +1,4 @@
+onboarding = false
 # Herdr reads this file from ~/.config/herdr/config.toml.
 # Defaults remain active for anything not listed here.
 
@@ -14,6 +15,11 @@ switch_tab = ["prefix+1..9", "ctrl+alt+1..9"]
 
 split_vertical = ["prefix+v", "ctrl+alt+v"]
 split_horizontal = ["prefix+minus", "ctrl+alt+minus"]
+
+settings = ["prefix+shift+s"]
+goto = ["prefix+s"]
+toggle_sidebar = ["prefix+e"]
+copy_mode = ["prefix+b"]
 
 navigate_workspace_down = "j"
 navigate_workspace_up = "k"
@@ -44,3 +50,11 @@ key = "ctrl+l"
 type = "plugin_action"
 command = "vim-herdr-navigation.right"
 description = "navigate right (vim/herdr)"
+
+[[keys.command]]
+key = "prefix+g"
+type = "popup"
+command = "lazygit"
+description = "run lazygit"
+width = "80%"
+height = "80%"
