@@ -8,13 +8,13 @@ name = "catppuccin"
 [keys]
 prefix = "ctrl+a"
 
-previous_tab = ["prefix+y", "ctrl+alt+["]
-next_tab = ["prefix+u", "ctrl+alt+]"]
-new_tab = ["prefix+c", "ctrl+alt+c"]
-switch_tab = ["prefix+1..9", "ctrl+alt+1..9"]
+previous_tab = ["prefix+y"]
+next_tab = ["prefix+u"]
+new_tab = ["prefix+c"]
+switch_tab = ["prefix+1..9"]
 
-split_vertical = ["prefix+v", "ctrl+alt+v"]
-split_horizontal = ["prefix+minus", "ctrl+alt+minus"]
+split_vertical = ["prefix+v"]
+split_horizontal = ["prefix+minus"]
 
 settings = ["prefix+shift+s"]
 goto = ["prefix+s"]
