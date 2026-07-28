@@ -22,9 +22,15 @@ const wslBase = feature("wsl-base", ({ home, nixos }) => {
       extraBin: [
         bin("coreutils", "mkdir"),
         bin("coreutils", "cat"),
+        bin("coreutils", "install"),
+        bin("coreutils", "mktemp"),
+        bin("coreutils", "rm"),
         bin("coreutils", "whoami"),
         bin("coreutils", "uname"),
         bin("coreutils", "ls"),
+        bin("findutils", "find"),
+        bin("gzip", "gzip"),
+        bin("gnutar", "tar"),
         bin("busybox", "addgroup"),
         bin("su", "groupadd"),
         bin("su", "usermod"),
@@ -57,7 +63,16 @@ const wslBase = feature("wsl-base", ({ home, nixos }) => {
   nixos.program("nix-ld", {
     libraries: nix.withPkgs(["icu", "zlib", "openssl"]),
   });
+  home.path("${config.home.homeDirectory}/.local/bin");
   home.packages("wsl-open");
+  home.program("bash", {
+    enable: true,
+    profileExtra: nix.script(`
+      copilotd() {
+        SHELL=/bin/bash command copilotd "$@"
+      }
+    `),
+  });
   home.program("git", {
     settings: {
       credential: {
