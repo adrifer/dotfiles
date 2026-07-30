@@ -6,6 +6,7 @@ const dotfile = (home: HomeHelper, name: string) =>
 export const dotfiles = feature("dotfiles", ({ home, platforms }) => {
   home.configFiles({
     nvim: dotfile(home, "nvim"),
+    btop: dotfile(home, "btop"),
     eza: dotfile(home, "eza"),
     "herdr/config.toml": home.symlink(
       "~/dotfiles/herdr/.config/herdr/config.toml",
