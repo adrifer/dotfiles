@@ -1,16 +1,10 @@
-import { feature, nix } from "@adrifer/winix";
+import { feature } from "@adrifer/winix";
 
 export const git = feature("git", ({ home }) => {
   home.program("git", {
     settings: {
-      diff: {
-        tool: "hunk",
-      },
-      difftool: {
-        prompt: false,
-        hunk: {
-          cmd: nix.str`${nix.expr("config.programs.hunk.package")}/bin/hunk difftool "$LOCAL" "$REMOTE" "$MERGED"`,
-        },
+      alias: {
+        review: "!tuicr",
       },
       user: {
         name: "Adrian Fernandez",

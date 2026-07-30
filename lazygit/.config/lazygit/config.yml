@@ -1,2 +1,9 @@
-# Return directly to lazygit after external tools such as `git difftool` exit.
+# Return directly to lazygit after external tools exit.
 promptToReturnFromSubprocess: false
+
+customCommands:
+  - key: "t"
+    context: "files"
+    command: "tuicr -w --path {{.SelectedFile.Name | quote}}"
+    description: "Review selected file with tuicr"
+    output: terminal
