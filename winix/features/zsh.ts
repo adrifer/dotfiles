@@ -85,6 +85,7 @@ export const zsh = feature("zsh", ({ home, platforms }) => {
       coc: "co --continue",
       cor: "co --resume",
       cou: "copilot update",
+      cco: "(source custom.env && co)",
       ta: "tmux attach-session",
       "..": "cd ..",
       "...": "cd ../..",
