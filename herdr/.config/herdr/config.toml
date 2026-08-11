@@ -75,8 +75,16 @@ description = "run btop"
 width = "80%"
 height = "80%"
 
+[[keys.command]]
+key = "prefix+n"
+type = "popup"
+command = "nvim"
+description = "run neovim"
+width = "80%"
+height = "80%"
+
 [ui]
-agent_panel_sort = "spaces"
+agent_panel_sort = "priority"
 status_indicators = "symbols"
 
 [ui.sidebar.agents]
