@@ -273,6 +273,15 @@
       }
     ]
   },
+  "Battle.net": {
+    "ignore": [
+      {
+        "kind": "Exe",
+        "id": "Battle.net.exe",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
   "Beeper": {
     "tray_and_multi_window": [
       {
@@ -2368,18 +2377,16 @@
       }
     ],
     "ignore": [
-      [
-        {
-          "kind": "Exe",
-          "id": "steamwebhelper.exe",
-          "matching_strategy": "Equals"
-        },
-        {
-          "kind": "Title",
-          "id": "Steam",
-          "matching_strategy": "DoesNotEqual"
-        }
-      ]
+      {
+        "kind": "Exe",
+        "id": "steam.exe",
+        "matching_strategy": "Equals"
+      },
+      {
+        "kind": "Exe",
+        "id": "steamwebhelper.exe",
+        "matching_strategy": "Equals"
+      }
     ],
     "floating": [
       [
