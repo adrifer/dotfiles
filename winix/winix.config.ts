@@ -32,13 +32,6 @@ export default workspace({
     nixHomebrew: input("github:zhaofengli/nix-homebrew", {
       nixName: "nix-homebrew",
     }),
-    homeManagerStable: input(
-      "github:nix-community/home-manager/release-26.05",
-      {
-        nixName: "home-manager-stable",
-        follows: { nixpkgs: "nixpkgs-stable" },
-      },
-    ),
   }),
   hosts: [
     host("ADRIFER-VISION", platforms.windows(), ({ windows }) => {
