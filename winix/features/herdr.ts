@@ -1,12 +1,10 @@
 import { feature, nix } from "@adrifer/winix";
 
 export const herdr = feature("herdr", ({ home }) => {
-  home.packages(
-    nix.expr("inputs.herdr.packages.${pkgs.stdenv.hostPlatform.system}.default"),
-  );
+  home.packages(nix.pkg("herdr"));
   home.activation("installHerdrVimNavigation", {
     script: `
-      HERDR="\${inputs.herdr.packages.\${pkgs.stdenv.hostPlatform.system}.default}/bin/herdr"
+      HERDR="$newGenPath/home-path/bin/herdr"
       JQ="\${pkgs.jq}/bin/jq"
       export HOME="\${config.home.homeDirectory}"
       export PATH="\${pkgs.git}/bin:\${pkgs.openssh}/bin:\${pkgs.bash}/bin:\${pkgs.coreutils}/bin:$PATH"

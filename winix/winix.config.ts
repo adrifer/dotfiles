@@ -39,9 +39,6 @@ export default workspace({
         follows: { nixpkgs: "nixpkgs-stable" },
       },
     ),
-    herdr: input("github:ogulcancelik/herdr", {
-      follows: { nixpkgs: "nixpkgs" },
-    }),
   }),
   hosts: [
     host("ADRIFER-VISION", platforms.windows(), ({ windows }) => {
