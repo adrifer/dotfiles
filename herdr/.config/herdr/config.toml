@@ -83,6 +83,14 @@ description = "run neovim"
 width = "80%"
 height = "80%"
 
+[[keys.command]]
+key = "prefix+o"
+type = "popup"
+command = "copilot --add-dir \"$HERDR_ACTIVE_PANE_CWD\" --yolo"
+description = "run copilot"
+width = "80%"
+height = "80%"
+
 [ui]
 agent_panel_sort = "priority"
 # status_indicators = "symbols"

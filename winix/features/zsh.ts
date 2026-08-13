@@ -24,7 +24,7 @@ export const zsh = feature("zsh", ({ home, platforms }) => {
 
             mkdir -p -- "$1" && builtin cd -- "$1"
           }
- 
+
           zd() {
             if [ $# -eq 0 ]; then
               builtin cd ~ && return
@@ -81,7 +81,7 @@ export const zsh = feature("zsh", ({ home, platforms }) => {
       lg: "lazygit",
       cd: "zd",
       ci: "code-insiders",
-      co: "copilot --yolo",
+      co: 'copilot --add-dir "$PWD" --yolo',
       coc: "co --continue",
       cor: "co --resume",
       cou: "copilot update",
