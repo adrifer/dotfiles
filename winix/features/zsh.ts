@@ -1,7 +1,7 @@
 import { feature, nix } from "@adrifer/winix";
 import { wsl } from "./wsl.ts";
 
-export const zsh = feature("zsh", ({ home, platforms }) => {
+export const zsh = feature("zsh", ({ home, nixos, platforms }) => {
   const initParts = [
     nix.script(`
            export  ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
@@ -48,6 +48,20 @@ export const zsh = feature("zsh", ({ home, platforms }) => {
            precmd_functions+=(keep_current_path)
         `),
     );
+  }
+
+  if (platforms.nixos.isActive) {
+    nixos.program("zsh", {
+      shellInit: nix.script(`
+        # Herdr can inherit Home Manager's sourced flags without the variables
+        # they guard. Reset only that inconsistent state so ~/.zshenv reloads
+        # the active generation's canonical hm-session-vars.sh.
+        # Remove once Herdr no longer preserves partial environment snapshots.
+        if [[ -n "''\${__HM_SESS_VARS_SOURCED-}" && -z "''\${NPM_CONFIG_PREFIX-}" ]]; then
+          unset __HM_SESS_VARS_SOURCED __HM_ZSH_SESS_VARS_SOURCED
+        fi
+      `),
+    });
   }
 
   home.program("zsh", {
