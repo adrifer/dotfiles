@@ -63,7 +63,7 @@ const wslBase = feature("wsl-base", ({ home, nixos }) => {
   nixos.program("nix-ld", {
     libraries: nix.withPkgs(["icu", "zlib", "openssl"]),
   });
-  home.path("${config.home.homeDirectory}/.local/bin");
+  home.path(nix.homePath(".local/bin"));
   home.packages("wsl-open");
   home.program("bash", {
     enable: true,

@@ -1,14 +1,16 @@
 import { feature, nix } from "@adrifer/winix";
 
 export const dotnet = feature("dotnet", ({ home }) => {
-  home.packages(nix.pkg("dotnet-sdk_10"));
+  const dotnetSdk = nix.pkg("dotnet-sdk_10");
+
+  home.packages(dotnetSdk);
   home.env({
-    DOTNET_ROOT: "${pkgs.dotnet-sdk_10}/share/dotnet",
-    DOTNET_ROOT_X64: "${pkgs.dotnet-sdk_10}/share/dotnet",
+    DOTNET_ROOT: nix.pkgPath("dotnet-sdk_10", "share/dotnet"),
+    DOTNET_ROOT_X64: nix.pkgPath("dotnet-sdk_10", "share/dotnet"),
   });
   home.path(
-    "${config.home.homeDirectory}/.dotnet/tools",
-    "${config.home.homeDirectory}/.aspire/bin"
+    nix.homePath(".dotnet/tools"),
+    nix.homePath(".aspire/bin"),
   );
   home.activation("installAspireCli", {
     script: `

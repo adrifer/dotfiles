@@ -1,19 +1,17 @@
 import { feature, nix } from "@adrifer/winix";
 
 export const javascript = feature("javascript", ({ home }) => {
-  const homeDirectory = nix.expr("config.home.homeDirectory");
-
   home.packages("bun", "nodejs_22", "pnpm");
   home.env({
-    NPM_CONFIG_PREFIX: nix.str`${homeDirectory}/.npm-global`,
-    NPM_CONFIG_USERCONFIG: nix.str`${homeDirectory}/.config/npm/npmrc`,
+    NPM_CONFIG_PREFIX: nix.homePath(".npm-global"),
+    NPM_CONFIG_USERCONFIG: nix.homePath(".config/npm/npmrc"),
     // Prevent pnpm from self-downloading the packageManager version from a private project registry.
     PNPM_CONFIG_MANAGE_PACKAGE_MANAGER_VERSIONS: "false",
-    PNPM_HOME: nix.str`${homeDirectory}/.local/share/pnpm`,
+    PNPM_HOME: nix.homePath(".local/share/pnpm"),
   });
   home.path(
-    nix.str`${homeDirectory}/.npm-global/bin`,
-    nix.str`${homeDirectory}/.local/share/pnpm`,
+    nix.homePath(".npm-global/bin"),
+    nix.homePath(".local/share/pnpm"),
   );
   home.activation("ensureWritableNpmrc", {
     script: `
