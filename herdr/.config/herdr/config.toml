@@ -95,7 +95,7 @@ height = "80%"
 agent_panel_sort = "priority"
 # status_indicators = "symbols"
 
-status_indicators = "dots"
+status_indicators = "symbols"
 [ui.sidebar.agents]
 rows = [["state_icon", "workspace"], ["state_text", "tab"]]
 

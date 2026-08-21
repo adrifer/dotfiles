@@ -64,7 +64,7 @@ const wslBase = feature("wsl-base", ({ home, nixos }) => {
     libraries: nix.withPkgs(["icu", "zlib", "openssl"]),
   });
   home.path(nix.homePath(".local/bin"));
-  home.packages("wsl-open");
+  home.packages("wsl-open", "pulseaudio");
   home.program("bash", {
     enable: true,
     profileExtra: nix.script(`
