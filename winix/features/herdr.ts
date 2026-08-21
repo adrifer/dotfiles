@@ -1,7 +1,42 @@
 import { feature, nix } from "@adrifer/winix";
 
 export const herdr = feature("herdr", ({ home }) => {
-  home.packages(nix.pkg("herdr"));
+  home.packages(
+    nix.binaryRelease({
+      name: "herdr",
+      version: "0.8.2",
+      binary: "herdr",
+      urlTemplate:
+        "https://github.com/herdrdev/herdr/releases/download/v{version}/{file}",
+      platforms: {
+        "x86_64-linux": {
+          file: "herdr-linux-x86_64",
+          hash: "sha256-l2FQoU1JDJSyQ+ouGn6y37Z/EuNrGC25CTb2co5q7PQ=",
+          format: "raw",
+        },
+        "aarch64-linux": {
+          file: "herdr-linux-aarch64",
+          hash: "sha256-9VYQZY4cLg0qrvcwtLKriF9/i6AChas3K/sU8uPVtA0=",
+          format: "raw",
+        },
+        "x86_64-darwin": {
+          file: "herdr-macos-x86_64",
+          hash: "sha256-q1AmLIGQzXqpBW0knSVcCMMow+hxbenPop208TG44sE=",
+          format: "raw",
+        },
+        "aarch64-darwin": {
+          file: "herdr-macos-aarch64",
+          hash: "sha256-pdT01QTYswnJH4EQUFWTAPq6MSWEJfU8UIUvyW9q5XQ=",
+          format: "raw",
+        },
+      },
+      meta: {
+        description: "Terminal workspace manager for AI coding agents",
+        homepage: "https://herdr.dev",
+        license: "asl20",
+      },
+    }),
+  );
   home.activation("installHerdrVimNavigation", {
     script: `
       HERDR="$newGenPath/home-path/bin/herdr"
