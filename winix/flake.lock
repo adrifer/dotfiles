@@ -151,7 +151,28 @@
         "nix-homebrew": "nix-homebrew",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-stable": "nixpkgs-stable"
+        "nixpkgs-stable": "nixpkgs-stable",
+        "sonarctl": "sonarctl"
+      }
+    },
+    "sonarctl": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1787594258,
+        "narHash": "sha256-XSM6oGLQC0O4kWnGkYqRQqIBf6TlLpNxV6MBVFcvhkM=",
+        "owner": "adrifer",
+        "repo": "sonarctl",
+        "rev": "3a8a4a7f6506fddc55461981d731490cd2b4a690",
+        "type": "github"
+      },
+      "original": {
+        "owner": "adrifer",
+        "repo": "sonarctl",
+        "type": "github"
       }
     }
   },

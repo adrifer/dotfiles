@@ -12,6 +12,8 @@ import { macosProfile } from "./profiles/macos.ts";
 import { wsl } from "./features/wsl.ts";
 import { dotnet } from "./features/dotnet.ts";
 import { azureDevCli } from "./features/azure-dev-cli.ts";
+import { rust } from "./features/rust.ts";
+import { sonarctl } from "./features/sonarctl.ts";
 
 export default workspace({
   inputs: defineInputs({
@@ -32,6 +34,9 @@ export default workspace({
     nixHomebrew: input("github:zhaofengli/nix-homebrew", {
       nixName: "nix-homebrew",
     }),
+    sonarctl: input("github:adrifer/sonarctl", {
+      follows: { nixpkgs: "nixpkgs" },
+    }),
   }),
   hosts: [
     host("ADRIFER-VISION", platforms.windows(), ({ windows }) => {
@@ -42,6 +47,8 @@ export default workspace({
       linuxProfile(),
       wsl(),
       dotnet(),
+      rust(),
+      sonarctl(),
     ]),
     host("wsl-work", platforms.nixos({ stateVersion: "25.05" }), ({ home, nixos }) => {
       nixos.sysctl({
