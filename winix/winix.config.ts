@@ -14,6 +14,8 @@ import { dotnet } from "./features/dotnet.ts";
 import { azureDevCli } from "./features/azure-dev-cli.ts";
 import { rust } from "./features/rust.ts";
 import { sonarctl } from "./features/sonarctl.ts";
+import { docker } from "./features/docker.ts";
+import { adrifer } from "./features/user-adrifer.ts";
 
 export default workspace({
   inputs: defineInputs({
@@ -49,6 +51,7 @@ export default workspace({
       dotnet(),
       rust(),
       sonarctl(),
+      docker(adrifer),
     ]),
     host("wsl-work", platforms.nixos({ stateVersion: "25.05" }), ({ home, nixos }) => {
       nixos.sysctl({
