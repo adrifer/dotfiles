@@ -20,7 +20,7 @@ alt + shift + f : $t='Adrifer-Devbox'; $p=Get-Process | ? { $_.MainWindowTitle -
 # The apps will be focused if open, or launched if not open
 # alt + f                 : if ($wshell.AppActivate('Firefox') -eq $False) { start firefox }
 # alt + b                 : if ($wshell.AppActivate('Chrome') -eq $False) { start chrome }
-alt + return            : if ($wshell.AppActivate('Windows Terminal') -eq $False) { start wt }
+alt + return            : $p=Get-Process WindowsTerminal -ErrorAction SilentlyContinue | ? { $_.MainWindowHandle -ne 0 } | Select-Object -First 1; if($p){ $null=$wshell.AppActivate($p.Id) } else { Start-Process wt }
 alt + b                 : start msedge
 alt + q                 : Start-Process msedge -ArgumentList @('--app=https://www.chatgpt.com')
 alt + shift + q         : Start-Process msedge -ArgumentList @('--app=https://www.chatgpt.com/?temporary-chat=true')
