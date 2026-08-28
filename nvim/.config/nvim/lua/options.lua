@@ -7,6 +7,14 @@ vim.opt.shiftwidth = 2
 vim.opt.number = true
 vim.opt.relativenumber = true
 
+vim.diagnostic.config({
+	virtual_text = {
+		spacing = 2,
+		source = "if_many",
+	},
+	severity_sort = true,
+})
+
 vim.keymap.set("i", "jj", "<Esc>", { noremap = true, silent = true, desc = "Exit insert mode" })
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true, desc = "Scroll down and center" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true, desc = "Scroll up and center" })
