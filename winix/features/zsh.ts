@@ -34,6 +34,12 @@ export const zsh = feature("zsh", ({ home, nixos, platforms }) => {
              z "$@" && printf "\\U000F17A9 " && pwd || echo "Error: Directory not found"
            fi
          }
+
+          if (( $+commands[trackseries] )); then
+            completion_script="$(trackseries completion zsh 2>/dev/null)" &&
+              eval "$completion_script"
+            unset completion_script
+          fi
         `),
   ];
 
@@ -100,7 +106,7 @@ export const zsh = feature("zsh", ({ home, nixos, platforms }) => {
       cor: "co --resume",
       cou: "copilot update",
       cco: "(source ~/custom.env && co)",
-      ta: "tmux attach-session",
+      ts: "trackseries",
       "..": "cd ..",
       "...": "cd ../..",
       n: "nvim",

@@ -66,7 +66,6 @@ const wslBase = feature("wsl-base", ({ home, nixos }) => {
   home.path(nix.homePath(".local/bin"));
   home.packages("wsl-open", "pulseaudio");
   home.program("bash", {
-    enable: true,
     profileExtra: nix.script(`
       copilotd() {
         SHELL=/bin/bash command copilotd "$@"
