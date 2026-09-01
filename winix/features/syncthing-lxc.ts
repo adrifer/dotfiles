@@ -5,7 +5,6 @@ export const syncthingLxc = feature("syncthing-lxc", ({ nixos }) => {
     hostName: "syncthing-lxc",
     firewall: { allowedTCPPorts: [8384] },
   });
-  nixos.packages("gh");
   nixos.service("syncthing", {
     user: "syncthing",
     group: "syncthing",

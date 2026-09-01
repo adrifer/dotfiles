@@ -10,13 +10,12 @@ export const lxc = feature("lxc", ({ nixos }) => {
       dates: "weekly",
       options: "--delete-older-than 14d",
     },
-    settings: { "experimental-features": ["nix-command", "flakes"] },
   });
   nixos.networking({
     useDHCP: true,
   });
   nixos.environment({
-    systemPackages: ["vim", "htop", "curl", "git", "lazygit"],
+    systemPackages: ["vim", "htop", "curl", "git", "lazygit", "gh"],
   });
   nixos.systemd({
     mounts: [
