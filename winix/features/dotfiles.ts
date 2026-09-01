@@ -12,7 +12,7 @@ const skills = (home: HomeHelper, ...names: string[]) =>
   );
 
 export const dotfiles = feature("dotfiles", ({ home, platforms }) => {
-  home.files(skills(home, "herdr", "tuicr"));
+  home.files(skills(home, "herdr", "tuicr", "show-me"));
 
   home.configFiles({
     nvim: dotfile(home, "nvim"),
