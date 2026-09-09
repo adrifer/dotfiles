@@ -4,6 +4,7 @@ onboarding = false
 
 [theme]
 name = "catppuccin"
+auto_switch = false
 
 [keys]
 prefix = "ctrl+a"

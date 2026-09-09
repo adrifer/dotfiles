@@ -16,6 +16,7 @@ import { rust } from "./features/rust.ts";
 import { sonarctl } from "./features/sonarctl.ts";
 import { docker } from "./features/docker.ts";
 import { adrifer } from "./features/user-adrifer.ts";
+import { trackagents } from "./features/trackagents.ts";
 
 export default workspace({
   inputs: defineInputs({
@@ -39,6 +40,9 @@ export default workspace({
     sonarctl: input("github:adrifer/sonarctl", {
       follows: { nixpkgs: "nixpkgs" },
     }),
+    trackagents: input("https://ai.adrifer.com/install/latest.tar.gz", {
+      follows: { nixpkgs: "nixpkgs" },
+    }),
   }),
   hosts: [
     host("ADRIFER-VISION", platforms.windows(), ({ windows }) => {
@@ -51,6 +55,7 @@ export default workspace({
       dotnet(),
       rust(),
       sonarctl(),
+      trackagents(),
       docker(adrifer),
     ]),
     host("wsl-work", platforms.nixos({ stateVersion: "25.05" }), ({ home, nixos }) => {

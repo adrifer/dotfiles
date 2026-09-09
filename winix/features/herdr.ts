@@ -4,29 +4,29 @@ export const herdr = feature("herdr", ({ home }) => {
   home.packages(
     nix.binaryRelease({
       name: "herdr",
-      version: "0.8.2",
+      version: "0.9.0",
       binary: "herdr",
       urlTemplate:
         "https://github.com/herdrdev/herdr/releases/download/v{version}/{file}",
       platforms: {
         "x86_64-linux": {
           file: "herdr-linux-x86_64",
-          hash: "sha256-l2FQoU1JDJSyQ+ouGn6y37Z/EuNrGC25CTb2co5q7PQ=",
+          hash: "sha256-T6GgEVjdgEPaktMbJweAsNzBBgMDjZthysTYGrY/tx8=",
           format: "raw",
         },
         "aarch64-linux": {
           file: "herdr-linux-aarch64",
-          hash: "sha256-9VYQZY4cLg0qrvcwtLKriF9/i6AChas3K/sU8uPVtA0=",
+          hash: "sha256-nI2yD7fnQnsTjVNnET8WIf/TGfL2XW8AniWUApEV8NI=",
           format: "raw",
         },
         "x86_64-darwin": {
           file: "herdr-macos-x86_64",
-          hash: "sha256-q1AmLIGQzXqpBW0knSVcCMMow+hxbenPop208TG44sE=",
+          hash: "sha256-0MkgsqEmp0gJ+hSRQRyaCXpEeGysnCylG4GKmVWBzxY=",
           format: "raw",
         },
         "aarch64-darwin": {
           file: "herdr-macos-aarch64",
-          hash: "sha256-pdT01QTYswnJH4EQUFWTAPq6MSWEJfU8UIUvyW9q5XQ=",
+          hash: "sha256-MrU98JhyYoBZx4mmnwKmuOKeFN3yZxFCHzRj9wwa7xc=",
           format: "raw",
         },
       },
