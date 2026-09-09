@@ -40,11 +40,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788987788,
-        "narHash": "sha256-16H4fKeDkAd+AYadCcd+ot9FQcCqZk7iflFNPLteTfg=",
+        "lastModified": 1788988965,
+        "narHash": "sha256-7xl3XjXv2uVxe/18efxaKYsMD7skQqCx/YSWw/lI3w8=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "fa238984b66f9c46a612d7aadae67fac9fdfe498",
+        "rev": "448c15a7fe6aa7693f63b9e8d1803bdc3dd6368d",
         "type": "github"
       },
       "original": {
@@ -183,9 +183,9 @@
         ]
       },
       "locked": {
-        "narHash": "sha256-qjLjT9oY2YHzPQXlvjk38n+xhPtlrv8qT0rqjFpBf2E=",
+        "narHash": "sha256-sy0mCDWH7vrv0Ie8mdnNSASDorr2rWZ7hoSK/8fq6jA=",
         "type": "tarball",
-        "url": "https://ai.adrifer.com/install/releases/6ca8f8cfee55e38ced9dd4956a465bac6e203eb6dc8ce7a85ca72d5d383c8227/trackagents.tar.gz"
+        "url": "https://ai.adrifer.com/install/releases/4dfb936480426821b9ac7620d1a9cd6fb9937fbbb8bab7d225a742ade6656455/trackagents.tar.gz"
       },
       "original": {
         "type": "tarball",

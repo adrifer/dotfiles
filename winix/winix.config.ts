@@ -16,7 +16,6 @@ import { rust } from "./features/rust.ts";
 import { sonarctl } from "./features/sonarctl.ts";
 import { docker } from "./features/docker.ts";
 import { adrifer } from "./features/user-adrifer.ts";
-import { trackagents } from "./features/trackagents.ts";
 
 export default workspace({
   inputs: defineInputs({
@@ -55,24 +54,29 @@ export default workspace({
       dotnet(),
       rust(),
       sonarctl(),
-      trackagents(),
       docker(adrifer),
     ]),
-    host("wsl-work", platforms.nixos({ stateVersion: "25.05" }), ({ home, nixos }) => {
-      nixos.sysctl({
-        "net.ipv4.ip_unprivileged_port_start": 443,
-        "fs.inotify.max_user_watches": 1048576,
-        "fs.inotify.max_user_instances": 1024,
-        "fs.inotify.max_queued_events": 65536,
-      });
-      home.packages("socat", "bubblewrap");
+    host(
+      "wsl-work",
+      platforms.nixos({ stateVersion: "25.05" }),
+      ({ home, nixos }) => {
+        nixos.sysctl({
+          "net.ipv4.ip_unprivileged_port_start": 443,
+          "fs.inotify.max_user_watches": 1048576,
+          "fs.inotify.max_user_instances": 1024,
+          "fs.inotify.max_queued_events": 65536,
+        });
+        home.packages("socat", "bubblewrap");
 
-      return [linuxProfile(), wsl(), azureDevCli()];
-    }),
+        return [linuxProfile(), wsl(), azureDevCli()];
+      },
+    ),
     host("macbook-pro", platforms.darwin({ stateVersion: 6, homebrew: true }), [
       macosProfile(),
     ]),
-    host("syncthing-lxc", platforms.nixos({ stateVersion: "25.05", homeManager: false }),
+    host(
+      "syncthing-lxc",
+      platforms.nixos({ stateVersion: "25.05", homeManager: false }),
       [lxc(), syncthingLxc()],
     ),
   ],
