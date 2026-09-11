@@ -183,9 +183,9 @@
         ]
       },
       "locked": {
-        "narHash": "sha256-P898xYcypse5p66fg+5BAKFZ5ZxMkDSnonycbWm9l+g=",
+        "narHash": "sha256-RFlnxJfhje6fck6RjtMWT334/gF4Ifdw06Tu1dwdaz4=",
         "type": "tarball",
-        "url": "https://ai.adrifer.com/install/releases/a03e38390bd185b7e3b828d020457a107a7b109c8fa2d9e59993d8f3f13a4698/trackagents.tar.gz"
+        "url": "https://ai.adrifer.com/install/releases/15b66fc103b080e71e8f3a99abeb344711a0d4ae4e7e0729d934daf0ae0e3331/trackagents.tar.gz"
       },
       "original": {
         "type": "tarball",
