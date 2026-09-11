@@ -40,11 +40,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789047607,
-        "narHash": "sha256-TvkqeCjWyQvQs7jZ/2WcOWF1GMSgKtAP3qrw7eKpp1k=",
+        "lastModified": 1789150619,
+        "narHash": "sha256-Vsgv5atXkGWOOdLOL8oQLnZSGt1h140synPfFdwbyjU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "f7f333f04ff6e2f94f955642a1b4956d4fcd3010",
+        "rev": "e4345d5ae8aa1def34378d2a60ac5e6e4c8fd7c1",
         "type": "github"
       },
       "original": {
@@ -130,11 +130,11 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1789009968,
-        "narHash": "sha256-GB16oaxpsrnGNnGIE+0uYBqMRzB9X6FYDUvjvnJAYew=",
+        "lastModified": 1789114715,
+        "narHash": "sha256-ugpsyk3NM2s87vXfUiIIiibbJ4Pp0JPS5p/3mfs+q+c=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "d58a46e3bc02d91ebe04667f8397752a749c0024",
+        "rev": "21a67dc470149f337cecafbe965d8d252a390518",
         "type": "github"
       },
       "original": {
@@ -183,9 +183,9 @@
         ]
       },
       "locked": {
-        "narHash": "sha256-RFlnxJfhje6fck6RjtMWT334/gF4Ifdw06Tu1dwdaz4=",
+        "narHash": "sha256-eJt9DrVHNikbOyPMEsaH6YrrSrwZl8caG0jkp25fzL0=",
         "type": "tarball",
-        "url": "https://ai.adrifer.com/install/releases/15b66fc103b080e71e8f3a99abeb344711a0d4ae4e7e0729d934daf0ae0e3331/trackagents.tar.gz"
+        "url": "https://ai.adrifer.com/install/releases/4d41a6aae655189cf760c57ff9cde8f95a2e28aba490f9c08c36538395a627a6/trackagents.tar.gz"
       },
       "original": {
         "type": "tarball",
