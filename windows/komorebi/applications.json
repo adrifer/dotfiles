@@ -3152,6 +3152,11 @@
         "kind": "Exe",
         "id": "Wow.exe",
         "matching_strategy": "Equals"
+      },
+      {
+        "kind": "Exe",
+        "id": "WowB.exe",
+        "matching_strategy": "Equals"
       }
     ]
   },
