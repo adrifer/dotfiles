@@ -61,6 +61,14 @@ width = "80%"
 height = "80%"
 
 [[keys.command]]
+key = "prefix+f"
+type = "popup"
+command = "superfile"
+description = "run superfile"
+width = "80%"
+height = "80%"
+
+[[keys.command]]
 key = "prefix+t"
 type = "popup"
 command = "tuicr -w"

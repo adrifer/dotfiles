@@ -11,6 +11,7 @@ export const packages = feature("packages", ({ home }) => {
     "btop",
     "unzip",
     "yazi",
+    "superfile",
     "powershell",
     "ripgrep",
     "fd",
