@@ -41,7 +41,7 @@ export const javascript = feature("javascript", ({ home }) => {
         license: "mit",
       },
     }),
-    "nodejs_22",
+    "nodejs_24",
     "pnpm",
   );
   home.env({
@@ -70,10 +70,10 @@ export const javascript = feature("javascript", ({ home }) => {
     after: ["writeBoundary", "ensureWritableNpmrc"],
     script: `
       export NPM_CONFIG_PREFIX="\${config.home.homeDirectory}/.npm-global"
-      export PATH="\${pkgs.nodejs_22}/bin:$PATH"
+      export PATH="\${pkgs.nodejs_24}/bin:$PATH"
 
       if [ ! -x "\${config.home.homeDirectory}/.npm-global/bin/copilot" ]; then
-        \${pkgs.nodejs_22}/bin/npm i -g @github/copilot
+        \${pkgs.nodejs_24}/bin/npm i -g @github/copilot
       fi
     `,
   });

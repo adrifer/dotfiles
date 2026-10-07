@@ -48,14 +48,18 @@ export default workspace({
       windows.package("Neovim.Neovim");
       windows.env.set("EDITOR", "nvim");
     }),
-    host("wsl", platforms.nixos({ stateVersion: "25.05" }), [
-      linuxProfile(),
-      wsl(),
-      dotnet(),
-      rust(),
-      sonarctl(),
-      docker(adrifer),
-    ]),
+    host("wsl", platforms.nixos({ stateVersion: "25.05" }), ({ home }) => {
+      home.packages("ffmpeg-full");
+
+      return [
+        linuxProfile(),
+        wsl(),
+        dotnet(),
+        rust(),
+        sonarctl(),
+        docker(adrifer),
+      ];
+    }),
     host(
       "wsl-work",
       platforms.nixos({ stateVersion: "25.05" }),

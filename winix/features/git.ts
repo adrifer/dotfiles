@@ -6,6 +6,9 @@ export const git = feature("git", ({ home }) => {
       alias: {
         review: "!tuicr",
       },
+      init: {
+        defaultBranch: "main",
+      },
       user: {
         name: "Adrian Fernandez",
         email: "tracker086@outlook.com",
