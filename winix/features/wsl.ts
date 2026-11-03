@@ -76,7 +76,15 @@ const wslBase = feature("wsl-base", ({ home, nixos }) => {
     settings: {
       credential: {
         helper: nix.str`${nix.expr(`pkgs.writeShellScriptBin "git-credential-manager-windows" ''
-          "/mnt/c/Program Files/Git/mingw64/bin/git-credential-manager.exe" "$@"
+          for runtime in ucrt64 mingw64; do
+            helper="/mnt/c/Program Files/Git/$runtime/bin/git-credential-manager.exe"
+            if [ -f "$helper" ]; then
+              exec "$helper" "$@"
+            fi
+          done
+
+          echo "Git Credential Manager not found in Git for Windows ucrt64/bin or mingw64/bin." >&2
+          exit 1
         ''`)}/bin/git-credential-manager-windows`,
       },
     },
