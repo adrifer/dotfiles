@@ -25,7 +25,7 @@ export const packages = feature("packages", ({ home }) => {
     "nixfmt",
     "nixd",
     nix.expr(
-      "(pkgs.azure-cli.withExtensions [ pkgs.azure-cli.extensions.azure-devops ])",
+      "(pkgs.stable.azure-cli.withExtensions [ pkgs.stable.azure-cli.extensions.azure-devops ])",
     ),
     "python3",
     "gnumake",

@@ -1,5 +1,10 @@
 import { feature, nix } from "@adrifer/winix";
 
+const npmGlobalPkgs = [
+  { pkg: "@github/copilot", bin: "copilot" },
+  { pkg: "@openai/codex", bin: "codex" },
+];
+
 export const javascript = feature("javascript", ({ home }) => {
   home.packages(
     // Temporary workaround until Bun 1.4 is available in nixpkgs.
@@ -72,9 +77,11 @@ export const javascript = feature("javascript", ({ home }) => {
       export NPM_CONFIG_PREFIX="\${config.home.homeDirectory}/.npm-global"
       export PATH="\${pkgs.nodejs_24}/bin:$PATH"
 
-      if [ ! -x "\${config.home.homeDirectory}/.npm-global/bin/copilot" ]; then
-        \${pkgs.nodejs_24}/bin/npm i -g @github/copilot
-      fi
+      ${npmGlobalPkgs.map(({ pkg, bin }) => `
+        if [ ! -x "\${config.home.homeDirectory}/.npm-global/bin/${bin}" ]; then
+          \${pkgs.nodejs_24}/bin/npm i -g ${pkg}
+        fi
+      `).join("\n")}
     `,
   });
 });
