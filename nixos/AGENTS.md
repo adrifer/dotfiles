@@ -1,4 +1,18 @@
-# AGENTS.md
+# Legacy NixOS configuration
+
+**Do not make active configuration changes here. Use [`../winix/`](../winix/).**
+
+The instructions in [`../AGENTS.md`](../AGENTS.md) govern current work.
+This directory is retained for reference only. Do not edit it, update its
+lockfile, or run the rebuild commands below unless the user explicitly requests
+work on the legacy configuration. Do not mirror Winix changes here.
+
+For active configuration, read `../winix/winix.config.ts` and follow its imports.
+Run validation and activation through Winix, as described in the root README.
+
+## Historical instructions
+
+Everything below documents the old flake, not the current configuration workflow.
 
 This document gives AI agents the conventions for working with Adri's NixOS flake.
 

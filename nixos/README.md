@@ -1,4 +1,12 @@
-# NixOS Dotfiles
+# Legacy NixOS dotfiles
+
+> **Archived workflow.** Active configuration lives in [`../winix/`](../winix/).
+> Make changes there and use `winix switch`, as described in the
+> [repository README](../README.md). Do not use the setup or rebuild commands
+> below for the current configuration. This legacy flake has its own lockfile
+> and can apply different package versions.
+
+The rest of this document describes the former NixOS setup for reference only.
 
 Adri's NixOS configuration uses a dendritic flake layout: every `.nix` file outside entry points such as `flake.nix` and `import-tree.nix` is a top-level flake-parts module.
 
