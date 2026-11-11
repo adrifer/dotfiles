@@ -3,9 +3,6 @@ import { feature } from "@adrifer/winix";
 export const git = feature("git", ({ home }) => {
   home.program("git", {
     settings: {
-      alias: {
-        review: "!tuicr",
-      },
       init: {
         defaultBranch: "main",
       },

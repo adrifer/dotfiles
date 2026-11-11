@@ -97,7 +97,6 @@ export const zsh = feature("zsh", ({ home, nixos, platforms }) => {
       grep: "grep --color=auto",
       g: "lazygit",
       h: "herdr",
-      t: "tuicr -w",
       lg: "lazygit",
       cd: "zd",
       ci: "code-insiders",
