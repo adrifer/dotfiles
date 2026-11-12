@@ -75,6 +75,21 @@ export default workspace({
         return [linuxProfile(), wsl(), azureDevCli()];
       },
     ),
+    host(
+      "wsl-work-2",
+      platforms.nixos({ stateVersion: "25.05" }),
+      ({ home, nixos }) => {
+        nixos.sysctl({
+          "net.ipv4.ip_unprivileged_port_start": 443,
+          "fs.inotify.max_user_watches": 1048576,
+          "fs.inotify.max_user_instances": 1024,
+          "fs.inotify.max_queued_events": 65536,
+        });
+        home.packages("socat", "bubblewrap");
+
+        return [linuxProfile(), wsl(), azureDevCli()];
+      },
+    ),
     host("macbook-pro", platforms.darwin({ stateVersion: 6, homebrew: true }), [
       macosProfile(),
     ]),

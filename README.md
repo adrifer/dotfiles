@@ -174,7 +174,8 @@ Removing the declaration never unregisters the distro or deletes its data.
 The distro's opt-in `setup` clones this repository's
 `feat/windows-devbox-preview` branch into `/home/adrifer/dotfiles`, installs the
 locked npm dependencies from `winix`, creates the already-declared `adrifer`
-account, and activates the existing `wsl-work` Linux host. No separate Linux
+account, and activates `wsl-work-2`, an independent copy of the `wsl-work`
+Linux host for this devbox. The original `wsl-work` host is unchanged. No separate Linux
 clone, manual user creation, or initial Linux switch is needed. This trusts the
 repository and its npm/config code. The Windows devbox is minimal; the Linux
 side deliberately uses the full existing work profile.

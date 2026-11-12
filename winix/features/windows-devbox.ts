@@ -16,7 +16,7 @@ export const windowsDevbox = feature("windows-devbox", ({ windows }) => {
       repository: "https://github.com/adrifer/dotfiles.git",
       ref: "feat/windows-devbox-preview",
       configDirectory: "winix",
-      host: "wsl-work",
+      host: "wsl-work-2",
       user: "adrifer",
       checkout: "/home/adrifer/dotfiles",
     },
