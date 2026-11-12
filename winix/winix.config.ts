@@ -16,6 +16,8 @@ import { rust } from "./features/rust.ts";
 import { sonarctl } from "./features/sonarctl.ts";
 import { docker } from "./features/docker.ts";
 import { adrifer } from "./features/user-adrifer.ts";
+import { windowsDesktop } from "./features/windows-desktop.ts";
+import { windowsDevbox } from "./features/windows-devbox.ts";
 
 export default workspace({
   inputs: defineInputs({
@@ -44,10 +46,8 @@ export default workspace({
     }),
   }),
   hosts: [
-    host("ADRIFER-VISION", platforms.windows(), ({ windows }) => {
-      windows.package("Neovim.Neovim");
-      windows.env.set("EDITOR", "nvim");
-    }),
+    host("ADRIFER-VISION", platforms.windows(), [windowsDesktop()]),
+    host("windows-devbox", platforms.windows(), [windowsDevbox()]),
     host("wsl", platforms.nixos({ stateVersion: "25.05" }), ({ home }) => {
       home.packages("ffmpeg-full");
 
