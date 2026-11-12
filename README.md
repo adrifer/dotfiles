@@ -61,7 +61,10 @@ unattended machine restore.
   after Developer Mode. Keep the checkout in a stable location. Source edits
   are picked up when the shell/app reloads; they do not require reapplying Winix.
 - The PowerShell 7 profile imports Terminal-Icons and initializes Starship and
-  zoxide. `windows.powershell.module("Terminal-Icons")` installs the version
+  zoxide, replacing the old machine-specific oh-my-posh profile. The shared
+  `windowsShell` feature installs Starship, zoxide, lazygit, Terminal Preview and
+  JetBrains Mono Nerd Font itself; profile/config links depend on their required
+  packages. `windows.powershell.module("Terminal-Icons")` installs the version
   pinned in `winix/winix-windows.lock` from PSGallery. Versions live in the
   lockfile, not the TypeScript or profile; an unversioned import can select a
   newer version if one is separately installed.
@@ -121,12 +124,14 @@ Sunshine is intentionally deferred.
 
 The separate `windows-devbox` host is a small restore/provisioning target for a
 fresh work devbox. Its declarations live in
-`winix/features/windows-devbox.ts`; it does not inherit the personal desktop,
-gaming apps, window manager, sign-in shortcuts, or shell configuration.
+`winix/features/windows-devbox.ts`; it shares the PowerShell/Starship/zoxide and
+Terminal Preview configuration described above, without inheriting the personal
+desktop, gaming apps, window manager, or sign-in shortcuts.
 `ADRIFER-VISION` and the existing Linux hosts are unchanged.
 
-It installs Git, GitHub CLI, VS Code Insiders, Windows Terminal Preview, and
-the WSL runtime, using their existing Windows package pins. `windows.wsl()`
+It installs Git, GitHub CLI, VS Code Insiders, the shared shell/Terminal packages,
+and the WSL runtime, using their existing Windows package pins. Developer Mode
+enables the managed configuration symlinks. `windows.wsl()`
 enables the WSL/Virtual Machine Platform features without managing `.wslconfig`
 or imposing machine-specific memory/CPU limits. NixOS-WSL is registered as
 `NixOS` under `%LOCALAPPDATA%\Winix\WSL\NixOS` and selected as the default distro.
@@ -137,29 +142,30 @@ Image updates only affect future registrations, never an existing Linux system.
 Use the prerequisite bootstrap described below before activating this host.
 If the devbox is a VM, its platform must expose nested virtualization for WSL 2;
 workplace policy must also permit the optional features and package installation.
-Unlike the desktop, the devbox does not declare NVM; the bootstrap's default
-Node setup is sufficient on a fresh machine. This test branch pins the published
-`@adrifer/winix@0.2.4-preview.0` SDK. Clone the same branch on Windows:
+Unlike the desktop, the devbox does not declare NVM. The standalone
+`v0.2.4-preview.2` executable needs no Node/npm for Windows or automatic WSL setup;
+use `bootstrap-windows.ps1 -Standalone` for its native prerequisites. Download
+the executable and SHA256SUMS from the matching GitHub release, verify the hash,
+and keep `winix.exe` in `$HOME\winix-bootstrap`. The npm SDK remains pinned
+separately for optional editor/development tooling. Clone the same branch on Windows:
 
 ```powershell
 git clone --branch feat/windows-devbox-preview --single-branch https://github.com/adrifer/dotfiles.git "$HOME\dotfiles"
 Set-Location "$HOME\dotfiles\winix"
-npm ci
 ```
 
 From `winix`, preview with:
 
 ```powershell
-npm exec -- winix check
-npm exec -- tsc --noEmit
-npm exec -- winix switch --dry --host windows-devbox
+& "$HOME\winix-bootstrap\winix.exe" check
+& "$HOME\winix-bootstrap\winix.exe" switch --dry --host windows-devbox
 ```
 
 Only on the intended devbox, after reviewing the plan, run from PowerShell 7
 under the intended Windows account, with elevation if required:
 
 ```powershell
-npm exec -- winix switch --host windows-devbox
+& "$HOME\winix-bootstrap\winix.exe" switch --host windows-devbox
 ```
 
 The configuration name is not a Windows rename operation; use `--host
@@ -172,12 +178,14 @@ not adopted or replaced; do not use this host to take over the current PC's WSL.
 Removing the declaration never unregisters the distro or deletes its data.
 
 The distro's opt-in `setup` clones this repository's
-`feat/windows-devbox-preview` branch into `/home/adrifer/dotfiles`, installs the
-locked npm dependencies from `winix`, creates the already-declared `adrifer`
+`feat/windows-devbox-preview` branch at its locked commit into
+`/home/adrifer/dotfiles`, creates the already-declared `adrifer`
 account, and activates `wsl-work-2`, an independent copy of the `wsl-work`
 Linux host for this devbox. The original `wsl-work` host is unchanged. No separate Linux
 clone, manual user creation, or initial Linux switch is needed. This trusts the
-repository and its npm/config code. The Windows devbox is minimal; the Linux
+repository and its config code (also npm lifecycle scripts when using the npm SDK).
+Standalone setup uses a verified Linux executable instead of installing npm dependencies.
+The Windows devbox is minimal; the Linux
 side deliberately uses the full existing work profile.
 
 The first apply pins the setup branch to a commit in `winix-windows.lock`.
@@ -187,7 +195,24 @@ the commit for a new setup; an interrupted setup retains its original commit.
 Changing the configured branch later requires explicit recovery/new distro,
 not automatic replacement. Dirty or occupied Linux checkouts are refused.
 If setup fails, retain the error and rerun after resolving it; do not unregister
-the distro or delete its state. Fresh-machine activation remains unverified.
+the distro or delete its state. Initial Windows/WSL activation was confirmed on
+the work devbox with standalone preview.2; the added Windows shell/Terminal
+configuration still needs its first activation there.
+
+The initial Linux checkout is intentionally detached at the immutable setup
+commit. This is not a broken repository. After setup completes, ordinary
+development can explicitly follow the branch without resetting local work:
+
+```bash
+cd ~/dotfiles
+git status --short
+git fetch origin feat/windows-devbox-preview:refs/remotes/origin/feat/windows-devbox-preview
+git switch --track origin/feat/windows-devbox-preview
+```
+
+Inspect or save any local changes before switching; do not use `reset --hard`
+or a forced checkout. Completed setup remains first-run-only; Windows reapply
+does not switch or update the Linux checkout.
 
 Verify after activation:
 
@@ -254,8 +279,9 @@ cleanup are not tracked yet.
 ### Winix preview dependency
 
 The manifest and npm lockfile pin published `@adrifer/winix@0.2.4-preview.0`.
-Use `npm ci` on a fresh checkout; no sibling SDK checkout or local junction is
-required. Both Windows and Linux first-run setup use that same locked package.
+Use `npm ci` only for optional npm-based development; no sibling SDK checkout or
+local junction is required. Standalone Windows/Linux setup uses the executable's
+embedded SDK instead of this npm pin.
 The preview release also provides `bootstrap-windows.ps1`,
 `bootstrap-nixos.sh`, and their SHA256 checksum files at
 https://github.com/adrifer/winix/releases/tag/v0.2.4-preview.0.

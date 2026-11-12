@@ -48,7 +48,6 @@ export const packagesWindows = feature("packages-windows", ({ windows }) => {
   windows.package("Hanselman.WingetTUI");
   windows.package("Microsoft.PowerToys");
   windows.package("Microsoft.WindowsApp");
-  windows.package("Microsoft.WindowsTerminal.Preview");
   windows.package("Obsidian.Obsidian");
   windows.package("Proton.ProtonPass");
   windows.package("Proton.ProtonVPN");
@@ -56,16 +55,12 @@ export const packagesWindows = feature("packages-windows", ({ windows }) => {
   windows.package("xAI.GrokBot");
 
   windows.package("Adrifer.Sonarctl");
-  windows.package("ajeetdsouza.zoxide");
   windows.package("CoreyButler.NVMforWindows");
   windows.package("eza-community.eza");
   windows.package("Git.Git");
   windows.package("GitHub.cli");
-  windows.package("JesseDuffield.lazygit");
   windows.package("Microsoft.VisualStudioCode.Insiders");
   windows.package("Neovim.Neovim");
-  windows.package("Starship.Starship");
-  windows.package("DEVCOM.JetBrainsMonoNerdFont");
   windows.package("T3Tools.T3Code");
 
   windows.package("Blizzard.BattleNet");

@@ -1,10 +1,12 @@
 import { feature } from "@adrifer/winix";
+import { windowsShell } from "./windows-shell.ts";
 
 export const windowsDevbox = feature("windows-devbox", ({ windows }) => {
+  const developerMode = windows.setting({ DeveloperMode: true });
+
   windows.package("Git.Git");
   windows.package("GitHub.cli");
   windows.package("Microsoft.VisualStudioCode.Insiders");
-  windows.package("Microsoft.WindowsTerminal.Preview");
   windows.package("Microsoft.WSL");
 
   windows.wsl();
@@ -21,4 +23,6 @@ export const windowsDevbox = feature("windows-devbox", ({ windows }) => {
       checkout: "/home/adrifer/dotfiles",
     },
   });
+
+  return windowsShell(developerMode);
 });
