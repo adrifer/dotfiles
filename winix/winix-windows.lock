@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-12T17:52:31.183Z",
+  "generatedAt": "2026-11-12T17:55:00.163Z",
   "packages": {
     "7zip.7zip": {
       "source": "winget",
@@ -192,8 +192,8 @@
     "0eea67f5e4ace24dd2e92cd17334c32523cdfe6b0f8ca32063c24f727290c90c": {
       "repository": "https://github.com/adrifer/dotfiles.git",
       "ref": "feat/windows-devbox-preview",
-      "revision": "e35df5c6a8bedbf8a1502cc99bd87e7504faaaa3",
-      "resolvedAt": "2026-11-12T17:52:31.183Z"
+      "revision": "32b87a3ac33126cf7f9e906e5939bb42d277a02a",
+      "resolvedAt": "2026-11-12T17:55:00.163Z"
     }
   }
 }
