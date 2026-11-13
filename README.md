@@ -168,7 +168,10 @@ same-name registration pointing elsewhere fails rather than being overwritten.
 There is no public Gallery fallback. Personal Windows hosts retain PSGallery,
 with independent source pins for Terminal-Icons in `winix-windows.lock`.
 This policy does not reconfigure npm, NuGet, WSL, or global repository priorities.
-The existing WSL image and setup repository pins are unchanged.
+The existing WSL image, package and module pins are retained. The first-run
+setup repository pin is refreshed separately to the committed preview.1 config
+so new Linux checkouts carry the same SDK pin. Completed setups stay untouched;
+interrupted setups retain the commit already recorded in their setup state.
 
 From `winix`, preview with:
 
