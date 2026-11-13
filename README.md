@@ -215,13 +215,21 @@ the distro or delete its state. Initial Windows/WSL activation was confirmed on
 the work devbox with standalone preview.2; the added Windows shell/Terminal
 configuration still needs its first activation there.
 
-The initial Linux checkout is intentionally detached at the immutable setup
-commit. This is not a broken repository. After setup completes, ordinary
-development can explicitly follow the branch without resetting local work:
+Starting with Winix `0.3.0-preview.1`, fresh branch-based setups retain full Git
+history and a local tracking branch at the immutable setup commit. It may be
+behind origin intentionally: first activation still uses the lock, not newer
+branch contents. Subsequent updates are ordinary, explicit Git operations.
+Windows reapply never pulls or switches a completed Linux checkout.
+
+Existing setups made with earlier previews remain detached and are not broken
+or automatically migrated. After setup completes, follow the branch explicitly:
 
 ```bash
 cd ~/dotfiles
 git status --short
+if [ "$(git rev-parse --is-shallow-repository)" = true ]; then
+  git fetch --unshallow origin
+fi
 git fetch origin feat/windows-devbox-preview:refs/remotes/origin/feat/windows-devbox-preview
 git switch --track origin/feat/windows-devbox-preview
 ```
@@ -294,17 +302,17 @@ cleanup are not tracked yet.
 
 ### Winix preview dependency
 
-The manifest and npm lockfile pin the `0.3.0-preview.0` SDK tarball from the
-matching GitHub release, including its SHA512 integrity. This SDK asset is built
-from the tagged source; it is a separate artifact from the npm registry tarball.
+The manifest and npm lockfile pin the `0.3.0-preview.1` SDK tarball from the
+matching GitHub release, including its SHA512 integrity. Starting with this
+preview, CI publishes the same packed SDK artifact to npm and the GitHub release.
 Using the GitHub URL avoids requiring public npm access for Winix itself.
 Use `npm ci` only for optional npm-based development; no sibling SDK checkout or
 local junction is required. Standalone Windows/Linux setup uses the executable's
 embedded SDK instead of this npm pin. Editor/dev-tool dependencies still require
 an available, organization-approved npm source; the standalone path needs none.
 The preview release also provides `bootstrap-windows.ps1`,
-`bootstrap-nixos.sh`, and their SHA256 checksum files at
-https://github.com/adrifer/winix/releases/tag/v0.3.0-preview.0.
+`bootstrap-linux.sh`, `bootstrap-nixos.sh`, and their SHA256 checksum files at
+https://github.com/adrifer/winix/releases/tag/v0.3.0-preview.1.
 Review downloaded scripts and verify their checksums before execution.
 
 ### Before formatting
@@ -317,7 +325,114 @@ Review downloaded scripts and verify their checksums before execution.
 - Keep this repository and its npm, Windows package, and Nix lockfiles on that
   storage too. The `D:` drive is not a backup if it will also be formatted.
 
-### Bootstrap Windows
+### Repository bootstrap (Windows and standalone Linux)
+
+Use the Winix-owned installer; this repository only supplies the URL, branch,
+config directory and host. No separate executable-version pin is maintained:
+the installer reads the exact SDK dependency from `winix/package.json` after
+cloning. The installer release below is the first supporting this flow, not
+an override for the checkout's SDK version.
+
+On a new Windows machine, install/update App Installer so `winget` works.
+In built-in Windows PowerShell, download and verify the installer:
+
+```powershell
+$release = 'v0.3.0-preview.1'
+$base = "https://github.com/adrifer/winix/releases/download/$release"
+$installer = Join-Path $PWD 'bootstrap-windows.ps1'
+Invoke-WebRequest -UseBasicParsing "$base/bootstrap-windows.ps1" -OutFile $installer
+$sums = (Invoke-WebRequest -UseBasicParsing "$base/bootstrap-windows.ps1.sha256").Content
+if ($sums -is [byte[]]) { $sums = [Text.Encoding]::UTF8.GetString($sums) }
+if ($sums -notmatch '^([a-fA-F0-9]{64})\s+\*?bootstrap-windows\.ps1\s*$') { throw 'Invalid checksum file' }
+$expected = $Matches[1]
+$stream = [IO.File]::OpenRead($installer)
+$algorithm = [Security.Cryptography.SHA256]::Create()
+try { $actual = [BitConverter]::ToString($algorithm.ComputeHash($stream)).Replace('-', '') }
+finally { $algorithm.Dispose(); $stream.Dispose() }
+if ($actual -ne $expected) { throw 'Installer checksum mismatch; do not execute it' }
+Get-Content -LiteralPath $installer
+```
+
+Review the script, then choose the declared host (this does not rename Windows).
+Run from the download directory, **not inside the destination checkout**:
+
+```powershell
+$hostName = 'windows-devbox' # ADRIFER-VISION is the personal desktop, not the work baseline
+powershell.exe -NoProfile -File .\bootstrap-windows.ps1 `
+  -Repository https://github.com/adrifer/dotfiles.git `
+  -Ref feat/windows-devbox-preview -Destination "$HOME\dotfiles" `
+  -ConfigDirectory winix -HostName $hostName -PrepareOnly
+```
+
+This installs missing Git, clones normally, reads the SDK pin, verifies matching
+release downloads, prepares native prerequisites without Node/npm, then checks
+and previews the chosen host. Trust consent precedes config evaluation.
+`-PrepareOnly` stops before activation; omit it on the next run to review the
+preview and confirm activation. `-Yes` explicitly accepts trust, prerequisite
+changes, activation unless prepare-only, and managed removals. `-DryRun` makes
+no changes at all, including no downloads, clone or evaluation.
+Respect machine execution policies; do not disable organizational controls.
+Installer UAC/elevation may still be required. Reboot manually if requested and
+rerun; neither script reboots Windows nor shuts down WSL.
+
+For an existing Linux installation, download/review the Linux installer from
+the same release, using HTTPS with certificate checks enabled:
+
+```bash
+base=https://github.com/adrifer/winix/releases/download/v0.3.0-preview.1
+curl --fail --location --proto '=https' --proto-redir '=https' "$base/bootstrap-linux.sh" -o bootstrap-linux.sh
+curl --fail --location --proto '=https' --proto-redir '=https' "$base/bootstrap-linux.sh.sha256" -o bootstrap-linux.sh.sha256
+sha256sum --check bootstrap-linux.sh.sha256
+less bootstrap-linux.sh
+# Run only after successful verification and review:
+bash bootstrap-linux.sh --repository https://github.com/adrifer/dotfiles.git \
+  --ref feat/windows-devbox-preview --destination "$HOME/dotfiles" \
+  --config-directory winix --host wsl-work-2 --prepare-only
+```
+
+Choose the Linux host appropriate to that machine; `wsl-work-2` requires an
+existing NixOS-WSL system and is not a bare-metal preset. This repo has no general
+bare-metal desktop host yet: declare one (including its hardware configuration)
+before using this flow on standalone NixOS. This does not install Nix, NixOS or a
+distro. Existing Nix supplies temporary Git/Python tools and private NixOS
+runtime libraries; otherwise install Git/Python 3/libstdc++ with your approved
+package manager first. Nix/activation tools are still needed for a real switch.
+`--prepare-only`, `--dry-run`, and `--yes` mirror Windows.
+Hashes protect against corrupt downloads, not a compromised release publisher.
+
+Existing destinations must be clean regular checkouts of this exact origin and
+already match the requested local ref. The installer never automatically
+pulls, resets, stashes, changes branches in existing checkouts, or overwrites
+unrelated directories. Resolve any reported conflict explicitly before rerunning.
+Keep `winix/.winix/` ignored. Old `0.3.0-preview.0` binaries do not support the
+new repository-bootstrap/local-launcher commands.
+
+#### After the first run: optional npm handoff
+
+From `~/dotfiles/winix`, use the generated checkout launcher:
+
+```powershell
+.\.winix\bin\winix.ps1 check
+.\.winix\bin\winix.ps1 switch --dry --host windows-devbox
+```
+
+```bash
+./.winix/bin/winix check
+./.winix/bin/winix switch --dry --host wsl-work-2
+```
+
+It reads the committed pin every time. With no local SDK it uses the matching
+verified executable; after a pin update, rerun bootstrap to refresh it.
+If you want Node-based development, install supported Node and explicitly run
+`npm ci` using an organization-approved npm source. The same launcher then uses
+the matching `node_modules/@adrifer/winix` CLI/SDK; a stale local SDK is an error,
+not a silent fallback. Normal `npm run check` / `npm run switch -- --host ...`
+also use that local SDK after `npm ci`; never use a global or auto-installing
+`npx` as a synchronization mechanism. Bootstrap does not install Node/npm or
+edit npm sources. Existing Windows-created WSL setups can use `npm ci` and
+these npm scripts directly without repeating account/distro bootstrap.
+
+### Manual Windows bootstrap (alternative)
 
 Run these desktop restore steps manually. Nothing in this repository formats,
 unregisters, or replaces a WSL distro. The separate `windows-devbox` host
