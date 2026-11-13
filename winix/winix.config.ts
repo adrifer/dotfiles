@@ -18,6 +18,7 @@ import { docker } from "./features/docker.ts";
 import { adrifer } from "./features/user-adrifer.ts";
 import { windowsDesktop } from "./features/windows-desktop.ts";
 import { windowsDevbox } from "./features/windows-devbox.ts";
+import { windowsWorkRepositories } from "./features/windows-work-repositories.ts";
 
 export default workspace({
   inputs: defineInputs({
@@ -47,7 +48,10 @@ export default workspace({
   }),
   hosts: [
     host("ADRIFER-VISION", platforms.windows(), [windowsDesktop()]),
-    host("windows-devbox", platforms.windows(), [windowsDevbox()]),
+    host("windows-devbox", platforms.windows(), [
+      windowsWorkRepositories(),
+      windowsDevbox(),
+    ]),
     host("wsl", platforms.nixos({ stateVersion: "25.05" }), ({ home }) => {
       home.packages("ffmpeg-full");
 

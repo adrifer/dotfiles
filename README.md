@@ -143,7 +143,7 @@ Use the prerequisite bootstrap described below before activating this host.
 If the devbox is a VM, its platform must expose nested virtualization for WSL 2;
 workplace policy must also permit the optional features and package installation.
 Unlike the desktop, the devbox does not declare NVM. The standalone
-`v0.2.4-preview.2` executable needs no Node/npm for Windows or automatic WSL setup;
+`v0.3.0-preview.0` executable needs no Node/npm for Windows or automatic WSL setup;
 use `bootstrap-windows.ps1 -Standalone` for its native prerequisites. Download
 the executable and SHA256SUMS from the matching GitHub release, verify the hash,
 and keep `winix.exe` in `$HOME\winix-bootstrap`. The npm SDK remains pinned
@@ -153,6 +153,16 @@ separately for optional editor/development tooling. Clone the same branch on Win
 git clone --branch feat/windows-devbox-preview --single-branch https://github.com/adrifer/dotfiles.git "$HOME\dotfiles"
 Set-Location "$HOME\dotfiles\winix"
 ```
+
+Only `windows-devbox` composes `windowsWorkRepositories()`, which selects
+`https://packagefeedproxy.microsoft.io/powershell/v3/index.json` for Winix-managed
+PowerShell modules, including the automatic Windows Settings module. The
+`microsoftApproved` registration is ensured for the current Windows user; a
+same-name registration pointing elsewhere fails rather than being overwritten.
+There is no public Gallery fallback. Personal Windows hosts retain PSGallery,
+with independent source pins for Terminal-Icons in `winix-windows.lock`.
+This policy does not reconfigure npm, NuGet, WSL, or global repository priorities.
+The existing WSL image and setup repository pins are unchanged.
 
 From `winix`, preview with:
 
@@ -278,13 +288,17 @@ cleanup are not tracked yet.
 
 ### Winix preview dependency
 
-The manifest and npm lockfile pin published `@adrifer/winix@0.2.4-preview.0`.
+The manifest and npm lockfile pin the `0.3.0-preview.0` SDK tarball from the
+matching GitHub release, including its SHA512 integrity. This SDK asset is built
+from the tagged source; it is a separate artifact from the npm registry tarball.
+Using the GitHub URL avoids requiring public npm access for Winix itself.
 Use `npm ci` only for optional npm-based development; no sibling SDK checkout or
 local junction is required. Standalone Windows/Linux setup uses the executable's
-embedded SDK instead of this npm pin.
+embedded SDK instead of this npm pin. Editor/dev-tool dependencies still require
+an available, organization-approved npm source; the standalone path needs none.
 The preview release also provides `bootstrap-windows.ps1`,
 `bootstrap-nixos.sh`, and their SHA256 checksum files at
-https://github.com/adrifer/winix/releases/tag/v0.2.4-preview.0.
+https://github.com/adrifer/winix/releases/tag/v0.3.0-preview.0.
 Review downloaded scripts and verify their checksums before execution.
 
 ### Before formatting
