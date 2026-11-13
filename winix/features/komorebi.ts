@@ -1,32 +1,35 @@
-import { feature, type WindowsHelper } from "@adrifer/winix";
-import { windowsKomorebiPackage, windowsWhkdPackage } from "./packages.ts";
+import { feature } from "@adrifer/winix";
 
-export const windowsWindowManager = feature("windows-window-manager", ({ windows }, developerMode: ReturnType<WindowsHelper["setting"]>) => {
-  const configLinks = [
+export const komorebi = feature("komorebi", ({ windows }) => {
+  const komorebiPackage = windows.package("LGUG2Z.komorebi");
+  const whkdPackage = windows.package("LGUG2Z.whkd");
+  const komorebiConfigLinks = [
     windows.file.symlink(
       windows.knownFolder.userProfile("komorebi.json"),
       "../windows/komorebi/komorebi.json",
-      { backup: true, dependsOn: developerMode },
+      { backup: true },
     ),
     windows.file.symlink(
       windows.knownFolder.userProfile("komorebi.bar.json"),
       "../windows/komorebi/komorebi.bar.json",
-      { backup: true, dependsOn: developerMode },
+      { backup: true },
     ),
     windows.file.symlink(
       windows.knownFolder.userProfile("applications.json"),
       "../windows/komorebi/applications.json",
-      { backup: true, dependsOn: developerMode },
+      { backup: true },
     ),
+  ];
+  const whkdConfigLinks = [
     windows.file.symlink(
       windows.knownFolder.userProfile(".config/whkdrc"),
       "../windows/komorebi/.config/whkdrc",
-      { backup: true, dependsOn: developerMode },
+      { backup: true },
     ),
     windows.file.symlink(
       windows.knownFolder.userProfile(".config/komorebi/start-whkd.ps1"),
       "../windows/komorebi/start-whkd.ps1",
-      { backup: true, dependsOn: developerMode },
+      { backup: true },
     ),
   ];
 
@@ -35,7 +38,7 @@ export const windowsWindowManager = feature("windows-window-manager", ({ windows
     arguments: ["start", "--bar", "--config", windows.knownFolder.userProfile("komorebi.json")],
     windowStyle: "minimized",
     backup: true,
-    dependsOn: [windowsKomorebiPackage, ...configLinks],
+    dependsOn: [komorebiPackage, ...komorebiConfigLinks],
   });
   windows.startup.command("whkd", {
     executable: "pwsh.exe",
@@ -45,6 +48,6 @@ export const windowsWindowManager = feature("windows-window-manager", ({ windows
     ],
     windowStyle: "minimized",
     backup: true,
-    dependsOn: [windowsWhkdPackage, ...configLinks],
+    dependsOn: [whkdPackage, ...whkdConfigLinks],
   });
 });

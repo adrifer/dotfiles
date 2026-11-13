@@ -65,7 +65,7 @@
       {
         "guid": "{d221a93c-6cb7-569e-b213-ab233094e77b}",
         "name": "NixOS",
-        "icon": "%LOCALAPPDATA%\\Winix\\Terminal\\nixos.png",
+        "icon": "%LOCALAPPDATA%\\Winix\\Terminal\\nixos.ico",
         "commandline": "wsl.exe --distribution NixOS --cd ~",
         "hidden": false
       },
@@ -80,7 +80,7 @@
       {
         "guid": "{ca33b5bd-8d49-4537-9b61-82db45cfcfd6}",
         "name": "NixOS Herdr",
-        "icon": "%LOCALAPPDATA%\\Winix\\Terminal\\nixos.png",
+        "icon": "%LOCALAPPDATA%\\Winix\\Terminal\\nixos.ico",
         "commandline": "wsl.exe --distribution NixOS --cd ~ herdr",
         "hidden": false
       },
