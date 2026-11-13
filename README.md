@@ -82,6 +82,12 @@ unattended machine restore.
   explicit NixOS, PowerShell, and NixOS Herdr profiles. It uses
   `JetBrainsMono NF` throughout, installed via `DEVCOM.JetBrainsMonoNerdFont`,
   instead of relying on the old manually installed Delugia font.
+  Both NixOS profiles use the bundled `windows/terminal-preview/nixos.png` icon,
+  copied by Winix to `%LOCALAPPDATA%\Winix\Terminal\nixos.png` before Terminal
+  settings are linked. The unmodified NixOS logo by Simon Frankau and
+  Tim Cuthbertson, maintained by the NixOS Project, comes from
+  [nixos-artwork](https://github.com/NixOS/nixos-artwork/blob/9d2cdedd73d64a068214482902adea3d02783ba8/bootloader/refind/icons/os_nixos.png)
+  under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 - `repos` uses `WINIX_REPOS`, generated from this checkout's parent directory;
   `dl` uses the home Downloads directory and `desk` resolves the Desktop known
   folder. `lg`, `code` (Insiders), `kstart`, and `kstop` are retained.

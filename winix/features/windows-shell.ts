@@ -22,9 +22,14 @@ export const windowsShell = feature("windows-shell", ({ windows }, developerMode
   );
 
   windows.env.set("WINIX_REPOS", dirname(resolve(fileURLToPath(new URL("../..", import.meta.url)))));
+  const nixosIcon = windows.file.copy(
+    windows.knownFolder.localAppData("Winix\\Terminal\\nixos.png"),
+    "../windows/terminal-preview/nixos.png",
+    { backup: true },
+  );
   windows.file.symlink(
     windows.knownFolder.localAppData("Packages/Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe/LocalState/settings.json"),
     "../windows/terminal-preview/settings.json",
-    { backup: true, dependsOn: [developerMode, terminal, font] },
+    { backup: true, dependsOn: [developerMode, terminal, font, nixosIcon] },
   );
 });
