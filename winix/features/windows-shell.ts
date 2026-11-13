@@ -4,7 +4,6 @@ import { feature } from "@adrifer/winix";
 
 export const windowsShell = feature("windows-shell", ({ windows }) => {
   windows.package("Microsoft.PowerShell");
-  windows.package("Microsoft.DSC");
   windows.package("Git.Git");
   windows.package("GitHub.cli");
   windows.package("Microsoft.VisualStudioCode.Insiders");
