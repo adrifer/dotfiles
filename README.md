@@ -375,6 +375,8 @@ preview and confirm activation. `-Yes` explicitly accepts trust, prerequisite
 changes, activation unless prepare-only, and managed removals. `-DryRun` makes
 no changes at all, including no downloads, clone or evaluation.
 Respect machine execution policies; do not disable organizational controls.
+If unsigned scripts are blocked, use your organization's approval/signing process
+rather than bypassing its signature requirements.
 Installer UAC/elevation may still be required. Reboot manually if requested and
 rerun; neither script reboots Windows nor shuts down WSL.
 
