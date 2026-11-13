@@ -169,7 +169,7 @@ There is no public Gallery fallback. Personal Windows hosts retain PSGallery,
 with independent source pins for Terminal-Icons in `winix-windows.lock`.
 This policy does not reconfigure npm, NuGet, WSL, or global repository priorities.
 The existing WSL image, package and module pins are retained. The first-run
-setup repository pin is refreshed separately to the committed preview.1 config
+setup repository pin is refreshed separately to the committed preview.2 config
 so new Linux checkouts carry the same SDK pin. Completed setups stay untouched;
 interrupted setups retain the commit already recorded in their setup state.
 
@@ -305,9 +305,9 @@ cleanup are not tracked yet.
 
 ### Winix preview dependency
 
-The manifest and npm lockfile pin the `0.3.0-preview.1` SDK tarball from the
-matching GitHub release, including its SHA512 integrity. Starting with this
-preview, CI publishes the same packed SDK artifact to npm and the GitHub release.
+The manifest and npm lockfile pin the `0.3.0-preview.2` SDK tarball from the
+matching GitHub release, including its SHA512 integrity. Since preview.1,
+CI publishes the same packed SDK artifact to npm and the GitHub release.
 Using the GitHub URL avoids requiring public npm access for Winix itself.
 Use `npm ci` only for optional npm-based development; no sibling SDK checkout or
 local junction is required. Standalone Windows/Linux setup uses the executable's
@@ -315,7 +315,7 @@ embedded SDK instead of this npm pin. Editor/dev-tool dependencies still require
 an available, organization-approved npm source; the standalone path needs none.
 The preview release also provides `bootstrap-windows.ps1`,
 `bootstrap-linux.sh`, `bootstrap-nixos.sh`, and their SHA256 checksum files at
-https://github.com/adrifer/winix/releases/tag/v0.3.0-preview.1.
+https://github.com/adrifer/winix/releases/tag/v0.3.0-preview.2.
 Review downloaded scripts and verify their checksums before execution.
 
 ### Before formatting
@@ -333,14 +333,14 @@ Review downloaded scripts and verify their checksums before execution.
 Use the Winix-owned installer; this repository only supplies the URL, branch,
 config directory and host. No separate executable-version pin is maintained:
 the installer reads the exact SDK dependency from `winix/package.json` after
-cloning. The installer release below is the first supporting this flow, not
-an override for the checkout's SDK version.
+cloning. The installer release below includes the interactive Linux confirmation
+fix; its version is not an override for the checkout's SDK version.
 
 On a new Windows machine, install/update App Installer so `winget` works.
 In built-in Windows PowerShell, download and verify the installer:
 
 ```powershell
-$release = 'v0.3.0-preview.1'
+$release = 'v0.3.0-preview.2'
 $base = "https://github.com/adrifer/winix/releases/download/$release"
 $installer = Join-Path $PWD 'bootstrap-windows.ps1'
 Invoke-WebRequest -UseBasicParsing "$base/bootstrap-windows.ps1" -OutFile $installer
@@ -382,7 +382,7 @@ For an existing Linux installation, download/review the Linux installer from
 the same release, using HTTPS with certificate checks enabled:
 
 ```bash
-base=https://github.com/adrifer/winix/releases/download/v0.3.0-preview.1
+base=https://github.com/adrifer/winix/releases/download/v0.3.0-preview.2
 curl --fail --location --proto '=https' --proto-redir '=https' "$base/bootstrap-linux.sh" -o bootstrap-linux.sh
 curl --fail --location --proto '=https' --proto-redir '=https' "$base/bootstrap-linux.sh.sha256" -o bootstrap-linux.sh.sha256
 sha256sum --check bootstrap-linux.sh.sha256
