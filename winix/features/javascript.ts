@@ -3,6 +3,7 @@ import { feature, nix } from "@adrifer/winix";
 const npmGlobalPkgs = [
   { pkg: "@github/copilot", bin: "copilot" },
   { pkg: "@openai/codex", bin: "codex" },
+  { pkg: "t3", bin: "t3" },
 ];
 
 export const javascript = feature("javascript", ({ home }) => {

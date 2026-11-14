@@ -18,7 +18,6 @@ export const packages = feature("packages", ({ home }) => {
     "jq",
     "openssl",
     "lazygit",
-    "tuicr",
     "gh",
     "icu",
     "mkcert",

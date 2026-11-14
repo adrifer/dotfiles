@@ -13,7 +13,6 @@ export const dotfiles = feature("dotfiles", ({ home, platforms }) => {
       { force: true },
     ),
     lazygit: dotfile(home, "lazygit"),
-    tuicr: dotfile(home, "tuicr"),
     yazi: dotfile(home, "yazi"),
     ...(platforms.darwin.isActive && { ghostty: dotfile(home, "ghostty") }),
   });
