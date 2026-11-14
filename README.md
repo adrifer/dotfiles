@@ -37,7 +37,7 @@ host selects its paired Linux target; the WSL distribution is named `NixOS`.
 | [linux-profile](winix/profiles/linux.ts) | Home base plus Linux packages, user account, and Nix cleanup |
 | [macos-profile](winix/profiles/macos.ts) | Home base plus macOS settings, Homebrew, user account, and packages |
 | [wsl-work](winix/profiles/wsl-work.ts) | Linux profile plus WSL integration, work settings, and Azure Developer CLI |
-| [windows-base](winix/profiles/windows-base.ts) | Common development shell, Terminal, and WSL support |
+| [windows-base](winix/profiles/windows-base.ts) | Common development shell, Terminal, WSL support, and app/system dark mode |
 | [windows-work](winix/profiles/windows-work.ts) | Base plus work PowerShell repository policy |
 | [windows-personal](winix/profiles/windows-personal.ts) | Base plus personal applications, editor configs, and Komorebi/whkd |
 
