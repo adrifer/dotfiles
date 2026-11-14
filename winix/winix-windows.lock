@@ -1,11 +1,205 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-26T22:21:00.565Z",
+  "generatedAt": "2026-11-13T19:09:24.484Z",
   "packages": {
+    "7zip.7zip": {
+      "source": "winget",
+      "version": "26.06",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "Adrifer.Sonarctl": {
+      "source": "winget",
+      "version": "0.1.1",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "Blizzard.BattleNet": {
+      "source": "winget",
+      "version": "2.0.0.4232",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "CoreyButler.NVMforWindows": {
+      "source": "winget",
+      "version": "1.2.2",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "Corsair.iCUE.5": {
+      "source": "winget",
+      "version": "5.52.93",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "DEVCOM.JetBrainsMonoNerdFont": {
+      "source": "winget",
+      "version": "3.3.0",
+      "resolvedAt": "2026-11-11T23:14:37.138Z"
+    },
+    "Elgato.StreamDeck": {
+      "source": "winget",
+      "version": "7.6.1.23033",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "Git.Git": {
+      "source": "winget",
+      "version": "2.56.0.4",
+      "resolvedAt": "2026-11-11T04:24:16.062Z"
+    },
+    "GitHub.cli": {
+      "source": "winget",
+      "version": "2.103.3",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "Hanselman.WingetTUI": {
+      "source": "winget",
+      "version": "0.15.0",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "JesseDuffield.lazygit": {
+      "source": "winget",
+      "version": "0.66.1",
+      "resolvedAt": "2026-11-11T04:24:16.062Z"
+    },
+    "LGUG2Z.komorebi": {
+      "source": "winget",
+      "version": "0.1.41",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "LGUG2Z.whkd": {
+      "source": "winget",
+      "version": "0.2.10",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "Microsoft.DSC": {
+      "source": "winget",
+      "version": "3.2.2",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "Microsoft.PowerShell": {
+      "source": "winget",
+      "version": "7.6.9.0",
+      "resolvedAt": "2026-11-11T04:24:16.062Z"
+    },
+    "Microsoft.PowerToys": {
+      "source": "winget",
+      "version": "0.102.3101",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "Microsoft.VisualStudioCode.Insiders": {
+      "source": "winget",
+      "version": "1.146.0",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "Microsoft.WSL": {
+      "source": "winget",
+      "version": "3.0.5",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "Microsoft.WindowsApp": {
+      "source": "winget",
+      "version": "2.0.1484.0",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "Microsoft.WindowsTerminal.Preview": {
+      "source": "winget",
+      "version": "1.26.2734.0",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
     "Neovim.Neovim": {
       "source": "winget",
       "version": "0.12.3",
       "resolvedAt": "2026-06-26T22:21:00.565Z"
+    },
+    "Obsidian.Obsidian": {
+      "source": "winget",
+      "version": "1.15.0",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "Proton.ProtonPass": {
+      "source": "winget",
+      "version": "1.43.0",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "Proton.ProtonVPN": {
+      "source": "winget",
+      "version": "5.1.9",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "SimplyCA.Typeless": {
+      "source": "winget",
+      "version": "2.11.0",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "Starship.Starship": {
+      "source": "winget",
+      "version": "1.27.0",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "SteelSeries.GG": {
+      "source": "winget",
+      "version": "123.0.0",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "T3Tools.T3Code": {
+      "source": "winget",
+      "version": "0.1.9",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "Valve.Steam": {
+      "source": "winget",
+      "version": "2.10.91.91",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "ajeetdsouza.zoxide": {
+      "source": "winget",
+      "version": "0.10.0",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "eza-community.eza": {
+      "source": "winget",
+      "version": "0.23.5",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    },
+    "xAI.GrokBot": {
+      "source": "winget",
+      "version": "0.79.4",
+      "resolvedAt": "2026-11-11T19:58:03.717Z"
+    }
+  },
+  "modules": {
+    "terminal-icons": {
+      "repository": "PSGallery",
+      "version": "0.11.0",
+      "resolvedAt": "2026-11-12T00:17:12.630Z"
+    },
+    "terminal-icons@microsoftapproved/edc87a4b7c0b173dc4cc89d9426d9678435d93ade08b43c022dc7f49d6db56c6": {
+      "repository": "microsoftApproved",
+      "repositoryUri": "https://packagefeedproxy.microsoft.io/powershell/v3/index.json",
+      "version": "0.11.0",
+      "resolvedAt": "2026-11-13T16:50:04.288Z"
+    }
+  },
+  "wslImages": {
+    "nixos-wsl/arm64": {
+      "source": "nixos-wsl",
+      "architecture": "arm64",
+      "version": "2605.7.2",
+      "url": "https://github.com/nix-community/NixOS-WSL/releases/download/2605.7.2/nixos.aarch64.wsl",
+      "sha256": "5453e74110f8b0ae4ee4fd2b2bb7a1a0e01f0682cca655715081438bdf8d91e7",
+      "resolvedAt": "2026-11-12T05:51:21.478Z"
+    },
+    "nixos-wsl/x64": {
+      "source": "nixos-wsl",
+      "architecture": "x64",
+      "version": "2605.7.2",
+      "url": "https://github.com/nix-community/NixOS-WSL/releases/download/2605.7.2/nixos.wsl",
+      "sha256": "e7180ad555fdcb8e1e057e2ef056de467603a5e502ff8531053738371be3f6b9",
+      "resolvedAt": "2026-11-12T05:51:21.478Z"
+    }
+  },
+  "wslRepositories": {
+    "0eea67f5e4ace24dd2e92cd17334c32523cdfe6b0f8ca32063c24f727290c90c": {
+      "repository": "https://github.com/adrifer/dotfiles.git",
+      "ref": "feat/windows-devbox-preview",
+      "revision": "7d1aa11c46a52e1897ca6ec91576d10fa0c30af3",
+      "resolvedAt": "2026-11-13T19:09:24.484Z"
     }
   }
 }

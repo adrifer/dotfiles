@@ -11,11 +11,14 @@ import { lxc } from "./features/lxc.ts";
 import { macosProfile } from "./profiles/macos.ts";
 import { wsl } from "./features/wsl.ts";
 import { dotnet } from "./features/dotnet.ts";
-import { azureDevCli } from "./features/azure-dev-cli.ts";
 import { rust } from "./features/rust.ts";
 import { sonarctl } from "./features/sonarctl.ts";
 import { docker } from "./features/docker.ts";
 import { adrifer } from "./features/user-adrifer.ts";
+import { windowsNixosWsl } from "./features/windows-nixos-wsl.ts";
+import { windowsPersonal } from "./profiles/windows-personal.ts";
+import { windowsWork } from "./profiles/windows-work.ts";
+import { wslWork } from "./profiles/wsl-work.ts";
 
 export default workspace({
   inputs: defineInputs({
@@ -44,10 +47,18 @@ export default workspace({
     }),
   }),
   hosts: [
-    host("ADRIFER-VISION", platforms.windows(), ({ windows }) => {
-      windows.package("Neovim.Neovim");
-      windows.env.set("EDITOR", "nvim");
-    }),
+    host("ADRIFER-VISION", platforms.windows(), [
+      windowsPersonal(),
+      windowsNixosWsl("wsl"),
+    ]),
+    host("work-devbox", platforms.windows(), [
+      windowsWork(),
+      windowsNixosWsl("wsl-work"),
+    ]),
+    host("work-devbox-2", platforms.windows(), [
+      windowsWork(),
+      windowsNixosWsl("wsl-work-2"),
+    ]),
     host("wsl", platforms.nixos({ stateVersion: "25.05" }), ({ home }) => {
       home.packages("ffmpeg-full");
 
@@ -63,17 +74,12 @@ export default workspace({
     host(
       "wsl-work",
       platforms.nixos({ stateVersion: "25.05" }),
-      ({ home, nixos }) => {
-        nixos.sysctl({
-          "net.ipv4.ip_unprivileged_port_start": 443,
-          "fs.inotify.max_user_watches": 1048576,
-          "fs.inotify.max_user_instances": 1024,
-          "fs.inotify.max_queued_events": 65536,
-        });
-        home.packages("socat", "bubblewrap");
-
-        return [linuxProfile(), wsl(), azureDevCli()];
-      },
+      [wslWork()],
+    ),
+    host(
+      "wsl-work-2",
+      platforms.nixos({ stateVersion: "25.05" }),
+      [wslWork()],
     ),
     host("macbook-pro", platforms.darwin({ stateVersion: 6, homebrew: true }), [
       macosProfile(),

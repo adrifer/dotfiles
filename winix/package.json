@@ -5,10 +5,11 @@
   "scripts": {
     "check": "winix check",
     "apply": "winix apply",
+    "switch": "winix switch",
     "dry": "winix apply --dry"
   },
   "dependencies": {
-    "@adrifer/winix": "^0.2.3"
+    "@adrifer/winix": "https://github.com/adrifer/winix/releases/download/v0.3.0-preview.3/adrifer-winix-0.3.0-preview.3.tgz"
   },
   "devDependencies": {
     "@types/node": "^26.4.0",

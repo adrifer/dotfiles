@@ -1,0 +1,144 @@
+{
+  "$schema": "https://aka.ms/terminal-profiles-schema-preview",
+  "copyFormatting": "none",
+  "copyOnSelect": false,
+  "defaultProfile": "{d221a93c-6cb7-569e-b213-ab233094e77b}",
+  "actions": [
+    { "command": "toggleFocusMode", "id": "User.toggleFocusMode" },
+    {
+      "command": { "action": "splitPane", "split": "auto", "splitMode": "duplicate" },
+      "id": "User.splitPane"
+    },
+    { "command": "find", "id": "User.find" },
+    { "command": { "action": "copy", "singleLine": false }, "id": "User.copy" },
+    { "command": "paste", "id": "User.paste" }
+  ],
+  "keybindings": [
+    { "id": "User.paste", "keys": "ctrl+v" },
+    { "id": "User.find", "keys": "ctrl+shift+f" },
+    { "id": "User.splitPane", "keys": "alt+shift+d" },
+    { "id": "User.copy", "keys": "ctrl+c" },
+    { "id": "User.toggleFocusMode", "keys": "ctrl+shift+enter" },
+    { "id": "Terminal.SwitchToTab0", "keys": "ctrl+1" },
+    { "id": "Terminal.SwitchToTab1", "keys": "ctrl+2" },
+    { "id": "Terminal.SwitchToTab2", "keys": "ctrl+3" },
+    { "id": "Terminal.SwitchToTab3", "keys": "ctrl+4" },
+    { "id": "Terminal.SwitchToTab4", "keys": "ctrl+5" },
+    { "id": "Terminal.SwitchToTab5", "keys": "ctrl+6" },
+    { "id": "Terminal.DuplicatePaneRight", "keys": "ctrl+alt+d" },
+    { "id": "Terminal.DuplicatePaneDown", "keys": "ctrl+alt+s" },
+    { "id": "Terminal.ClosePane", "keys": "ctrl+w" },
+    { "id": "Terminal.MoveFocusLeft", "keys": "ctrl+h" },
+    { "id": "Terminal.MoveFocusDown", "keys": "ctrl+j" },
+    { "id": "Terminal.MoveFocusUp", "keys": "ctrl+k" },
+    { "id": "Terminal.MoveFocusRight", "keys": "ctrl+l" },
+    { "id": null, "keys": "ctrl+alt+1" },
+    { "id": null, "keys": "ctrl+alt+2" },
+    { "id": null, "keys": "ctrl+alt+3" },
+    { "id": null, "keys": "ctrl+alt+4" },
+    { "id": null, "keys": "ctrl+alt+5" },
+    { "id": null, "keys": "ctrl+alt+6" },
+    { "id": null, "keys": "ctrl+shift+w" },
+    { "id": null, "keys": "alt+shift+minus" },
+    { "id": null, "keys": "alt+shift+plus" },
+    { "id": null, "keys": "alt+left" },
+    { "id": null, "keys": "alt+down" },
+    { "id": null, "keys": "alt+up" },
+    { "id": null, "keys": "alt+right" }
+  ],
+  "newTabMenu": [
+    { "type": "remainingProfiles" },
+    {
+      "type": "folder",
+      "name": "SSH",
+      "inline": "auto",
+      "allowEmpty": false,
+      "entries": [{ "type": "matchProfiles", "source": "Windows.Terminal.SSH" }]
+    }
+  ],
+  "profiles": {
+    "defaults": {
+      "font": { "face": "JetBrainsMono NF" },
+      "colorScheme": "Catppuccin Macchiato"
+    },
+    "list": [
+      {
+        "guid": "{d221a93c-6cb7-569e-b213-ab233094e77b}",
+        "name": "NixOS",
+        "icon": "%LOCALAPPDATA%\\Winix\\Terminal\\nixos.ico",
+        "commandline": "wsl.exe --distribution NixOS --cd ~",
+        "hidden": false
+      },
+      {
+        "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+        "name": "PowerShell",
+        "commandline": "pwsh.exe -NoLogo",
+        "opacity": 100,
+        "useAcrylic": false,
+        "hidden": false
+      },
+      {
+        "guid": "{ca33b5bd-8d49-4537-9b61-82db45cfcfd6}",
+        "name": "NixOS Herdr",
+        "icon": "%LOCALAPPDATA%\\Winix\\Terminal\\nixos.ico",
+        "commandline": "wsl.exe --distribution NixOS --cd ~ herdr",
+        "hidden": false
+      },
+      {
+        "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+        "name": "Windows PowerShell",
+        "hidden": true
+      },
+      {
+        "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+        "name": "Command Prompt",
+        "hidden": true
+      },
+      {
+        "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+        "name": "Azure Cloud Shell",
+        "source": "Windows.Terminal.Azure",
+        "hidden": true
+      }
+    ]
+  },
+  "schemes": [
+    {
+      "name": "Catppuccin Macchiato",
+      "background": "#24273A",
+      "foreground": "#CAD3F5",
+      "cursorColor": "#F4DBD6",
+      "selectionBackground": "#5B6078",
+      "black": "#494D64",
+      "red": "#ED8796",
+      "green": "#A6DA95",
+      "yellow": "#EED49F",
+      "blue": "#8AADF4",
+      "purple": "#F5BDE6",
+      "cyan": "#8BD5CA",
+      "white": "#B8C0E0",
+      "brightBlack": "#5B6078",
+      "brightRed": "#ED8796",
+      "brightGreen": "#A6DA95",
+      "brightYellow": "#EED49F",
+      "brightBlue": "#8AADF4",
+      "brightPurple": "#F5BDE6",
+      "brightCyan": "#8BD5CA",
+      "brightWhite": "#A5ADCB"
+    }
+  ],
+  "theme": "Catppuccin Macchiato",
+  "themes": [
+    {
+      "name": "Catppuccin Macchiato",
+      "tab": {
+        "background": "#24273AFF",
+        "iconStyle": "default",
+        "showCloseButton": "always"
+      },
+      "tabRow": { "background": "#1E2030FF", "unfocusedBackground": "#181926FF" },
+      "window": { "applicationTheme": "dark", "useMica": false }
+    }
+  ],
+  "useAcrylicInTabRow": false
+}
