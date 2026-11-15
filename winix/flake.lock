@@ -152,8 +152,7 @@
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",
-        "sonarctl": "sonarctl",
-        "trackagents": "trackagents"
+        "sonarctl": "sonarctl"
       }
     },
     "sonarctl": {
@@ -174,22 +173,6 @@
         "owner": "adrifer",
         "repo": "sonarctl",
         "type": "github"
-      }
-    },
-    "trackagents": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "narHash": "sha256-AzVsiD9Ltagiq7szSQSiyK98dptAZb3nLuWpO5/X7RU=",
-        "type": "tarball",
-        "url": "https://ai.adrifer.com/install/releases/d2a70d5f0677a32d2930908b4dc47efea0d43763accd9fce8a405229c1c873af/trackagents.tar.gz"
-      },
-      "original": {
-        "type": "tarball",
-        "url": "https://ai.adrifer.com/install/latest.tar.gz"
       }
     }
   },
