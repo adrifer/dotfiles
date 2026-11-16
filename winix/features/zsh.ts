@@ -49,7 +49,7 @@ export const zsh = feature("zsh", ({ home, nixos, platforms }) => {
            export BROWSER=wsl-open
 
            keep_current_path() {
-            printf "\\e]9;9;%s\\e\\\\" "$(wslpath -w "$PWD")"
+            printf "\\e]9;9;%s\\e\\\\" "$(/bin/wslpath -w "$PWD")"
            }
            precmd_functions+=(keep_current_path)
         `),

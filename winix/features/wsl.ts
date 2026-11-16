@@ -40,7 +40,7 @@ const wslBase = feature("wsl-base", ({ home, nixos }) => {
   nixos.environment({
     interactiveShellInit: nix.script(`
         # Derive Windows username from WSL home (no cmd.exe needed)
-        win_home="$(wslpath -w "$HOME")"
+        win_home="$(/bin/wslpath -w "$HOME")"
         win_home_slash="''\${win_home//\\\\//}"
         win_user="''\${win_home_slash##*/}"
 
