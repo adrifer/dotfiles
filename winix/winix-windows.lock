@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-13T19:09:24.484Z",
+  "generatedAt": "2026-11-17T20:02:59.312Z",
   "packages": {
     "7zip.7zip": {
       "source": "winget",
@@ -164,6 +164,17 @@
     }
   },
   "modules": {
+    "microsoft.windows.settings": {
+      "repository": "PSGallery",
+      "version": "0.1.1-alpha",
+      "resolvedAt": "2026-11-17T20:02:59.312Z"
+    },
+    "microsoft.windows.settings@microsoftapproved/edc87a4b7c0b173dc4cc89d9426d9678435d93ade08b43c022dc7f49d6db56c6": {
+      "repository": "microsoftApproved",
+      "repositoryUri": "https://packagefeedproxy.microsoft.io/powershell/v3/index.json",
+      "version": "0.1.1-alpha",
+      "resolvedAt": "2026-11-17T20:02:59.312Z"
+    },
     "terminal-icons": {
       "repository": "PSGallery",
       "version": "0.11.0",
