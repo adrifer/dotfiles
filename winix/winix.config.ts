@@ -42,9 +42,6 @@ export default workspace({
     sonarctl: input("github:adrifer/sonarctl", {
       follows: { nixpkgs: "nixpkgs" },
     }),
-    trackagents: input("https://ai.adrifer.com/install/latest.tar.gz", {
-      follows: { nixpkgs: "nixpkgs" },
-    }),
   }),
   hosts: [
     host("ADRIFER-VISION", platforms.windows(), [
