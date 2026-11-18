@@ -1,7 +1,7 @@
 import { feature, type HomeHelper } from "@adrifer/winix";
 
 const dotfile = (home: HomeHelper, name: string) =>
-  home.symlink(`~/dotfiles/${name}/.config/${name}`, { recursive: true });
+  home.symlink(`../${name}/.config/${name}`, { recursive: true });
 
 export const dotfiles = feature("dotfiles", ({ home, platforms }) => {
   home.configFiles({
@@ -9,7 +9,7 @@ export const dotfiles = feature("dotfiles", ({ home, platforms }) => {
     btop: dotfile(home, "btop"),
     eza: dotfile(home, "eza"),
     "herdr/config.toml": home.symlink(
-      "~/dotfiles/herdr/.config/herdr/config.toml",
+      "../herdr/.config/herdr/config.toml",
       { force: true },
     ),
     lazygit: dotfile(home, "lazygit"),

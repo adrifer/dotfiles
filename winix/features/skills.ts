@@ -13,7 +13,7 @@ const skillFiles = (home: HomeHelper, ...names: string[]) =>
   Object.fromEntries(
     names.map((name) => [
       `.agents/skills/${name}`,
-      home.symlink(`~/dotfiles/skills/${name}`, { recursive: true }),
+      home.symlink(`../skills/${name}`, { recursive: true }),
     ]),
   );
 

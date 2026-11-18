@@ -5,11 +5,13 @@ const bin = (packageName: string, executable: string) => ({
   src: nix.bin(packageName, executable),
 });
 
+// Resolved through interop on each run, so the Windows user is never hard-coded.
+const CODE_INSIDERS =
+  "%LOCALAPPDATA%\\Programs\\Microsoft VS Code Insiders\\bin\\code-insiders";
+
 const wslBase = feature("wsl-base", ({ home, nixos }) => {
-  nixos.imports("inputs.nixos-wsl.nixosModules.wsl");
   nixos({
     wsl: {
-      enable: true,
       wslConf: {
         interop: {
           enabled: true,
@@ -37,34 +39,16 @@ const wslBase = feature("wsl-base", ({ home, nixos }) => {
       ],
     },
   });
-  nixos.environment({
-    interactiveShellInit: nix.script(`
-        # Derive Windows username from WSL home (no cmd.exe needed)
-        win_home="$(/bin/wslpath -w "$HOME")"
-        win_home_slash="''\${win_home//\\\\//}"
-        win_user="''\${win_home_slash##*/}"
-
-        hardcoded_bin="/mnt/c/Users/track/AppData/Local/Programs/Microsoft VS Code Insiders/bin"
-        user_bin="/mnt/c/Users/$win_user/AppData/Local/Programs/Microsoft VS Code Insiders/bin"
-
-        for d in "$hardcoded_bin" "$user_bin"; do
-          if [ -d "$d" ]; then
-            case ":$PATH:" in
-              *":$d:"*) ;;
-              *) PATH="$PATH:$d" ;;
-            esac
-          fi
-        done
-
-        export PATH
-      `),
-  });
   nixos.packages("wl-clipboard");
   nixos.program("nix-ld", {
     libraries: nix.withPkgs(["icu", "zlib", "openssl"]),
   });
   home.path(nix.homePath(".local/bin"));
-  home.packages("wsl-open", "pulseaudio");
+  home.packages(
+    "wsl-open",
+    "pulseaudio",
+    nix.wsl.windowsBin("code-insiders", CODE_INSIDERS),
+  );
   home.program("bash", {
     profileExtra: nix.script(`
       copilotd() {
@@ -72,23 +56,7 @@ const wslBase = feature("wsl-base", ({ home, nixos }) => {
       }
     `),
   });
-  home.program("git", {
-    settings: {
-      credential: {
-        helper: nix.str`${nix.expr(`pkgs.writeShellScriptBin "git-credential-manager-windows" ''
-          for runtime in ucrt64 mingw64; do
-            helper="/mnt/c/Program Files/Git/$runtime/bin/git-credential-manager.exe"
-            if [ -f "$helper" ]; then
-              exec "$helper" "$@"
-            fi
-          done
-
-          echo "Git Credential Manager not found in Git for Windows ucrt64/bin or mingw64/bin." >&2
-          exit 1
-        ''`)}/bin/git-credential-manager-windows`,
-      },
-    },
-  });
+  home.wsl.gitCredentialManager();
 });
 
 export const wsl = profile("wsl", [wslBase(), playwright()]);
