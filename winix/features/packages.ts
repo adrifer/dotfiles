@@ -48,7 +48,6 @@ export const packagesWindowsPersonal = feature("packages-windows-personal", ({ w
 
   windows.package("Adrifer.Sonarctl");
   windows.package("eza-community.eza");
-  windows.package("Neovim.Neovim");
 
   // These update themselves (or report no comparable version): ensure they
   // are installed, but never pin, compare or downgrade them.
