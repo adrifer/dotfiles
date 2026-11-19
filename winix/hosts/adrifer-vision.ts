@@ -3,6 +3,8 @@ import { docker } from "../features/docker.ts";
 import { dotnet } from "../features/dotnet.ts";
 import { komorebi } from "../features/komorebi.ts";
 import { lazygit } from "../features/lazygit.ts";
+import { packagesWindowsPersonal } from "../features/packages.ts";
+import { windowsShell } from "../features/windows-shell.ts";
 import { neovim } from "../features/neovim.ts";
 import { powershell } from "../features/powershell.ts";
 import { windowsTerminal } from "../features/windows-terminal.ts";
@@ -45,6 +47,8 @@ const windows = host("ADRIFER-VISION", platforms.windows(), [
   windowsTerminal(),
   neovim(),
   komorebi(),
+  windowsShell(),
+  packagesWindowsPersonal(),
 ]);
 
 export const adriferVision = [windows, linux];
