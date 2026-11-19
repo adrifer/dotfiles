@@ -1,6 +1,7 @@
 import { host, platforms } from "@adrifer/winix";
 import { docker } from "../features/docker.ts";
 import { dotnet } from "../features/dotnet.ts";
+import { komorebi } from "../features/komorebi.ts";
 import { lazygit } from "../features/lazygit.ts";
 import { neovim } from "../features/neovim.ts";
 import { powershell } from "../features/powershell.ts";
@@ -43,6 +44,7 @@ const windows = host("ADRIFER-VISION", platforms.windows(), [
   powershell(),
   windowsTerminal(),
   neovim(),
+  komorebi(),
 ]);
 
 export const adriferVision = [windows, linux];
