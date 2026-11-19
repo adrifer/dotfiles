@@ -4,7 +4,7 @@ export const dotnet = feature("dotnet", ({ home, nixos }) => {
   const dotnetSdk = nix.pkg("dotnet-sdk_10");
 
   nixos.program("nix-ld", {
-    libraries: nix.withPkgs(["stdenv.cc.cc.lib", "icu"]),
+    libraries: [nix.pkg("stdenv.cc.cc.lib"), nix.pkg("icu")],
   });
   home.packages(dotnetSdk);
   home.env({

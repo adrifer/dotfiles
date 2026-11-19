@@ -40,8 +40,10 @@ const wslBase = feature("wsl-base", ({ home, nixos }) => {
     },
   });
   nixos.packages("wl-clipboard");
+  // For scripts with a #!/usr/bin/bash shebang.
+  nixos.systemd.tmpfiles.link("/usr/bin/bash", "/run/current-system/sw/bin/bash");
   nixos.program("nix-ld", {
-    libraries: nix.withPkgs(["icu", "zlib", "openssl"]),
+    libraries: [nix.pkg("icu"), nix.pkg("zlib"), nix.pkg("openssl")],
   });
   home.path(nix.homePath(".local/bin"));
   home.packages(
