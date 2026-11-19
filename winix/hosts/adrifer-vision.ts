@@ -2,6 +2,9 @@ import { host, platforms } from "@adrifer/winix";
 import { docker } from "../features/docker.ts";
 import { dotnet } from "../features/dotnet.ts";
 import { lazygit } from "../features/lazygit.ts";
+import { powershell } from "../features/powershell.ts";
+import { windowsTerminal } from "../features/windows-terminal.ts";
+import { zoxide } from "../features/zoxide.ts";
 import { starship } from "../features/starship.ts";
 import { windowsPreferences } from "../features/windows-preferences.ts";
 import { winget } from "../features/winget.ts";
@@ -35,6 +38,9 @@ const windows = host("ADRIFER-VISION", platforms.windows(), [
   winget(),
   lazygit(),
   starship(),
+  zoxide(),
+  powershell(),
+  windowsTerminal(),
 ]);
 
 export const adriferVision = [windows, linux];
