@@ -44,21 +44,24 @@ export const packagesWindowsPersonal = feature("packages-windows-personal", ({ w
   windows.package("Hanselman.WingetTUI");
   windows.package("Microsoft.PowerToys");
   windows.package("Microsoft.WindowsApp");
-  windows.package("Obsidian.Obsidian");
   windows.package("Proton.ProtonPass");
   windows.package("Proton.ProtonVPN");
-  windows.package("SimplyCA.Typeless");
-  windows.package("xAI.GrokBot");
 
   windows.package("Adrifer.Sonarctl");
-  windows.package("CoreyButler.NVMforWindows");
   windows.package("eza-community.eza");
   windows.package("Neovim.Neovim");
-  windows.package("T3Tools.T3Code");
 
-  windows.package("Blizzard.BattleNet");
-  windows.package("Valve.Steam");
-  windows.package("Corsair.iCUE.5");
-  windows.package("Elgato.StreamDeck");
-  windows.package("SteelSeries.GG");
+  // These update themselves (or report no comparable version): ensure they
+  // are installed, but never pin, compare or downgrade them.
+  const anyVersion = { version: "any" };
+  windows.package("Obsidian.Obsidian", anyVersion);
+  windows.package("SimplyCA.Typeless", anyVersion);
+  windows.package("xAI.GrokBot", anyVersion);
+  windows.package("CoreyButler.NVMforWindows", anyVersion);
+  windows.package("T3Tools.T3Code", anyVersion);
+  windows.package("Blizzard.BattleNet", anyVersion);
+  windows.package("Valve.Steam", anyVersion);
+  windows.package("Corsair.iCUE.5", anyVersion);
+  windows.package("Elgato.StreamDeck", anyVersion);
+  windows.package("SteelSeries.GG", anyVersion);
 });

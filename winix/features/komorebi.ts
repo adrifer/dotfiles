@@ -3,51 +3,32 @@ import { feature } from "@adrifer/winix";
 export const komorebi = feature("komorebi", ({ windows }) => {
   const komorebiPackage = windows.package("LGUG2Z.komorebi");
   const whkdPackage = windows.package("LGUG2Z.whkd");
+  const link = (target: string, source: string) =>
+    windows.file.symlink(windows.knownFolder.userProfile(target), `../windows/komorebi/${source}`);
+
+  // Config handles used as startup arguments also order the shortcuts after them.
+  const komorebiConfig = link("komorebi.json", "komorebi.json");
   const komorebiConfigLinks = [
-    windows.file.symlink(
-      windows.knownFolder.userProfile("komorebi.json"),
-      "../windows/komorebi/komorebi.json",
-      { backup: true },
-    ),
-    windows.file.symlink(
-      windows.knownFolder.userProfile("komorebi.bar.json"),
-      "../windows/komorebi/komorebi.bar.json",
-      { backup: true },
-    ),
-    windows.file.symlink(
-      windows.knownFolder.userProfile("applications.json"),
-      "../windows/komorebi/applications.json",
-      { backup: true },
-    ),
+    link("komorebi.bar.json", "komorebi.bar.json"),
+    link("applications.json", "applications.json"),
   ];
-  const whkdConfigLinks = [
-    windows.file.symlink(
-      windows.knownFolder.userProfile(".config/whkdrc"),
-      "../windows/komorebi/.config/whkdrc",
-      { backup: true },
-    ),
-    windows.file.symlink(
-      windows.knownFolder.userProfile(".config/komorebi/start-whkd.ps1"),
-      "../windows/komorebi/start-whkd.ps1",
-      { backup: true },
-    ),
-  ];
+  const whkdConfig = link(".config/whkdrc", ".config/whkdrc");
+  const startWhkd = link(".config/komorebi/start-whkd.ps1", "start-whkd.ps1");
 
   windows.startup.command("komorebi", {
-    executable: "%ProgramFiles%/komorebi/bin/komorebic-no-console.exe",
-    arguments: ["start", "--bar", "--config", windows.knownFolder.userProfile("komorebi.json")],
+    executable: windows.knownFolder.programFiles("komorebi/bin/komorebic-no-console.exe"),
+    arguments: ["start", "--bar", "--config", komorebiConfig],
     windowStyle: "minimized",
-    backup: true,
     dependsOn: [komorebiPackage, ...komorebiConfigLinks],
   });
   windows.startup.command("whkd", {
-    executable: "pwsh.exe",
+    // "pwsh.exe" is ambiguous (Program Files and the WindowsApps alias); use the real path.
+    executable: windows.knownFolder.programFiles("PowerShell/7/pwsh.exe"),
     arguments: [
       "-NoLogo", "-NoProfile", "-NonInteractive", "-WindowStyle", "Hidden",
-      "-File", windows.knownFolder.userProfile(".config/komorebi/start-whkd.ps1"),
+      "-File", startWhkd,
     ],
     windowStyle: "minimized",
-    backup: true,
-    dependsOn: [whkdPackage, ...whkdConfigLinks],
+    dependsOn: [whkdPackage, whkdConfig],
   });
 });
