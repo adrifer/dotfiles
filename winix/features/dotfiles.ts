@@ -12,7 +12,6 @@ export const dotfiles = feature("dotfiles", ({ home, platforms }) => {
       "../herdr/.config/herdr/config.toml",
       { force: true },
     ),
-    lazygit: dotfile(home, "lazygit"),
     yazi: dotfile(home, "yazi"),
     ...(platforms.darwin.isActive && { ghostty: dotfile(home, "ghostty") }),
   });

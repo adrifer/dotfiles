@@ -4,6 +4,7 @@ import { fzf } from "../features/fzf.ts";
 import { git } from "../features/git.ts";
 import { herdr } from "../features/herdr.ts";
 import { javascript } from "../features/javascript.ts";
+import { lazygit } from "../features/lazygit.ts";
 import { neovim } from "../features/neovim.ts";
 import { packages } from "../features/packages.ts";
 import { skills } from "../features/skills.ts";
@@ -22,5 +23,6 @@ export const homeBase = profile("home-base", [
   fzf(),
   zoxide(),
   git(),
+  lazygit(),
   herdr(),
 ]);

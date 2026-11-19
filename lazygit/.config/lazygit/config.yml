@@ -1,2 +1,6 @@
 # Return directly to lazygit after external tools exit.
 promptToReturnFromSubprocess: false
+
+os:
+  # Edit files (and jump to a line) in Neovim on every platform.
+  editPreset: nvim

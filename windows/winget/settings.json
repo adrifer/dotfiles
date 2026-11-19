@@ -1,0 +1,15 @@
+{
+    "$schema": "https://aka.ms/winget-settings.schema.json",
+
+    // For documentation on these settings, see: https://aka.ms/winget-settings
+    "installBehavior": {
+        "preferences": {
+            // Prefer per-user installs (no UAC prompt). Many manifests do not
+            // declare a scope, so also prefer portable/zip installers, which
+            // are always per-user. Packages without them still use their
+            // regular installer, and installed packages keep their type.
+            "scope": "user",
+            "installerTypes": ["portable", "zip"]
+        }
+    }
+}

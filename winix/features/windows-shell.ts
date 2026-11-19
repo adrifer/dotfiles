@@ -6,19 +6,15 @@ export const windowsShell = feature("windows-shell", ({ windows }) => {
   windows.package("GitHub.cli");
   windows.package("Microsoft.VisualStudioCode.Insiders");
 
-  const starship = windows.package("Starship.Starship");
   const zoxide = windows.package("ajeetdsouza.zoxide");
-  windows.package("JesseDuffield.lazygit");
   const font = windows.package("DEVCOM.JetBrainsMonoNerdFont");
   const terminal = windows.package("Microsoft.WindowsTerminal.Preview");
   const module = windows.powershell.module("Terminal-Icons");
 
-  const starshipConfig = windows.file.symlink(
-    windows.knownFolder.userProfile(".config/starship.toml"),
-    "../windows/starship/starship.toml",
-  );
+  // The profile runs starship at shell start (see the starship feature); linking
+  // it does not need starship installed first.
   windows.powershell.profile("../windows/powershell/Microsoft.PowerShell_profile.ps1", {
-    dependsOn: [module, starship, zoxide, starshipConfig],
+    dependsOn: [module, zoxide],
   });
 
   // The directory that holds this dotfiles checkout.

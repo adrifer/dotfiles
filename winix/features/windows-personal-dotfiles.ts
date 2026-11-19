@@ -6,8 +6,4 @@ export const windowsPersonalDotfiles = feature("windows-personal-dotfiles", ({ w
     windows.knownFolder.localAppData("nvim"),
     "../nvim/.config/nvim",
   );
-  windows.file.symlink(
-    windows.knownFolder.localAppData("lazygit/config.yml"),
-    "../lazygit/.config/lazygit/config.yml",
-  );
 });

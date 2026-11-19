@@ -1,6 +1,10 @@
 import { host, platforms } from "@adrifer/winix";
 import { docker } from "../features/docker.ts";
 import { dotnet } from "../features/dotnet.ts";
+import { lazygit } from "../features/lazygit.ts";
+import { starship } from "../features/starship.ts";
+import { windowsPreferences } from "../features/windows-preferences.ts";
+import { winget } from "../features/winget.ts";
 import { rust } from "../features/rust.ts";
 import { sonarctl } from "../features/sonarctl.ts";
 import { adrifer } from "../features/user-adrifer.ts";
@@ -23,9 +27,14 @@ const linux = host("wsl", platforms.wsl({ stateVersion: "25.05" }), ({ home }) =
   ];
 });
 
+// Rolling the Windows config out on this machine one tool at a time; each step
+// adds entries here until it matches the full set:
+//   windowsPersonal(), windowsNixosWsl(linux)
 const windows = host("ADRIFER-VISION", platforms.windows(), [
-  windowsPersonal(),
-  windowsNixosWsl(linux),
+  windowsPreferences(),
+  winget(),
+  lazygit(),
+  starship(),
 ]);
 
 export const adriferVision = [windows, linux];

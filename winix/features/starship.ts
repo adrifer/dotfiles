@@ -1,6 +1,15 @@
 import { feature } from "@adrifer/winix";
 
-export const starship = feature("starship", ({ home }) => {
+export const starship = feature("starship", ({ home, windows }) => {
+  // Windows keeps its own powerline theme; the PowerShell profile points
+  // STARSHIP_CONFIG at this link.
+  windows.package("Starship.Starship");
+  windows.file.symlink(
+    windows.knownFolder.userProfile(".config/starship.toml"),
+    "../windows/starship/starship.toml",
+  );
+
+  // Linux and macOS: Home Manager installs starship and writes starship.toml.
   home.program("starship", {
     enableZshIntegration: true,
     settings: {
