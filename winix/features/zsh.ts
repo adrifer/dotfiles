@@ -109,16 +109,20 @@ export const zsh = feature("zsh", ({ home, nixos, platforms }) => {
       "..": "cd ..",
       "...": "cd ../..",
       n: "nvim",
-      u: "cd ~/dotfiles/winix && npm install && npx @adrifer/winix update",
-      winix: "npx @adrifer/winix",
       ...(platforms.darwin.isActive && {
+        // No standalone Winix for macOS yet: the npm route.
+        winix: "npx @adrifer/winix",
+        u: "cd ~/dotfiles/winix && npm install && npx @adrifer/winix update",
         i: "cd ~/dotfiles/winix && npm install && npx @adrifer/winix switch --host macbook-pro",
         gc: "nix-collect-garbage -d",
         "foundry-dev":
           "sudo CHOKIDAR_USEPOLLING=true CHOKIDAR_INTERVAL=1000 pnpm dev",
       }),
       ...(platforms.nixos.isActive && {
-        i: "cd ~/dotfiles/winix && npm install && npx @adrifer/winix switch",
+        // ~/.local/bin/winix (setup/linux.sh): the pinned Winix from any folder, with the
+        // remembered host. No `winix` alias here: it would hide that command.
+        i: "winix switch",
+        u: "winix update",
         gc: "sudo nix-collect-garbage -d",
       }),
     },

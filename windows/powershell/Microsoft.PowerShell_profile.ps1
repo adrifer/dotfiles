@@ -29,7 +29,49 @@ if (Test-Path -LiteralPath $global:MultiMonitorTool) {
 }
 
 Set-Alias -Name lg -Value lazygit
+Set-Alias -Name g -Value lazygit
 Set-Alias -Name code -Value code-insiders
+Set-Alias -Name ci -Value code-insiders
+Set-Alias -Name n -Value nvim
+
+# Same shortcuts as zsh (features/zsh.ts).
+# eza is only on some hosts: keep PowerShell's own ls where it is missing.
+if (Get-Command eza -CommandType Application -ErrorAction SilentlyContinue) {
+    Remove-Item alias:ls -Force -ErrorAction SilentlyContinue
+    function ls {
+        # Without a path, eza reads paths from stdin when that is not a terminal (scripts, pipes).
+        $paths = @($args | Where-Object { -not "$_".StartsWith('-') })
+        & eza -lh --group-directories-first --icons=auto @args @(if (-not $paths.Count) { '.' })
+    }
+    function lsa { ls -a @args }
+}
+function .. { Set-Location .. }
+function ... { Set-Location ../.. }
+
+function co { & copilot --add-dir $PWD.ProviderPath --yolo @args }
+function coc { co --continue @args }
+function cor { co --resume @args }
+function cou { & copilot update @args }
+
+# The pinned Winix for this PC's dotfiles, with the remembered host (setup/windows.ps1).
+function i { & winix switch @args }
+function u { & winix update --windows @args }
+
+# cd like zsh's zd: no argument goes home, an existing path is a normal cd
+# (including cd -, drives and ~), anything else is a zoxide jump.
+Remove-Item alias:cd -Force -ErrorAction SilentlyContinue
+function cd {
+    if ($args.Count -eq 0) { Set-Location -LiteralPath $HOME; return }
+    try {
+        Set-Location @args -ErrorAction Stop
+        return
+    } catch [System.Management.Automation.ItemNotFoundException], [System.Management.Automation.ParameterBindingException] {
+        # Not a path (or several keywords): ask zoxide.
+    }
+    $before = $PWD.ProviderPath
+    z @args
+    if ($PWD.ProviderPath -ne $before) { Write-Host "$([char]::ConvertFromUtf32(0xF17A9)) $($PWD.ProviderPath)" }
+}
 
 Remove-Item alias:kstop -Force -ErrorAction SilentlyContinue
 Remove-Item alias:kstart -Force -ErrorAction SilentlyContinue
