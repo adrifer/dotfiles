@@ -33,6 +33,9 @@ param(
     [switch]$DryRun
 )
 $ErrorActionPreference = 'Stop'
+# No Windows PowerShell progress block over the console (it also slows downloads);
+# the Winix bootstrap run below inherits this.
+$ProgressPreference = 'SilentlyContinue'
 function Get-Text([string]$Uri) {
     $content = (Invoke-WebRequest -UseBasicParsing -Uri $Uri -TimeoutSec 90).Content
     if ($content -is [byte[]]) { $content = [Text.Encoding]::UTF8.GetString($content) }
