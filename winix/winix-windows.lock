@@ -214,8 +214,8 @@
     "4e85ed3b0d037a5ad7037ba1416bc760311923803957f22211ebf2ebd93e4055": {
       "repository": "https://github.com/adrifer/dotfiles.git",
       "ref": "main",
-      "revision": "60a1fdd7252caf764e17e5ff00125493d44e9c39",
-      "resolvedAt": "2026-11-20T19:21:21.551Z"
+      "revision": "c97e46ca256fd184ca5188032dfa43adc246baf8",
+      "resolvedAt": "2026-11-20T19:21:54.610Z"
     }
   }
 }
