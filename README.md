@@ -53,80 +53,82 @@ machine.
 
 ### Windows: from a fresh installation
 
-Run in built-in **Windows PowerShell** as the user to configure. The
-[setup helper](setup/windows.ps1) handles prerequisites, cloning, and Windows
-plus paired NixOS-WSL setup; no existing checkout or development tools needed.
-Review the helper, then paste this block in a writable folder, replacing
-`work-devbox-2` with your host:
+In **Windows PowerShell**, as the user to configure (review
+[setup/windows.ps1](setup/windows.ps1) first if you like):
 
 ```powershell
-& {
-    $ErrorActionPreference = 'Stop'
-    Invoke-WebRequest -UseBasicParsing -OutFile .\windows.ps1 `
-        -Uri 'https://raw.githubusercontent.com/adrifer/dotfiles/feat/windows-devbox-preview/setup/windows.ps1'
-    powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\windows.ps1 -HostName work-devbox-2
-}
+irm https://raw.githubusercontent.com/adrifer/dotfiles/feat/windows-devbox-preview/setup/windows.ps1 -OutFile $env:TEMP\setup.ps1
+powershell -ExecutionPolicy Bypass -File $env:TEMP\setup.ps1
 ```
 
-Follow the prompts, including App Installer if WinGet is missing. If WSL needs
-a reboot, restart and rerun the block with the same host.
+It lists the hosts above, asks which one this PC is, and asks **once** to
+continue. It then installs Git, PowerShell 7 and DSC (approve the UAC prompts),
+clones this repository to `$HOME\dotfiles`, downloads the Winix version pinned in
+`winix/package.json` (checksum-verified), and applies the host, including the
+NixOS-WSL distro. If WinGet is missing, it opens App Installer in the Store first.
 
-| Argument | Purpose / default |
+If Windows needs a restart (enabling WSL), restart and run the same two lines
+again: it reuses the checkout and the chosen host.
+
+| Option | Purpose |
 | --- | --- |
-| `-HostName <host>` | Required Windows target from the host table above |
-| `-Destination <path>` | Permanent checkout location; defaults to `$HOME\dotfiles` |
-| `-Channel <channel>` | Installer channel: `stable` (default) or `preview` |
-| `-Version <version>` | Exact installer release; cannot be combined with `-Channel` |
-| `-Ref <ref>` | Checkout branch, tag, or commit; defaults to `feat/windows-devbox-preview` |
-| `-PrepareOnly` | Prepare and preview without activation |
-
-The download uses published GitHub files, not local changes. `-Channel` and
-`-Version` select the installer; the checkout's manifest pins the Winix runtime.
+| `-HostName <host>` | Skip the question |
+| `-PrepareOnly` | Prepare and preview without applying anything |
+| `-DryRun` | Only show what would happen |
+| `-Ref <ref>` | Branch, tag or commit (default `feat/windows-devbox-preview`) |
+| `-Destination <path>` | Checkout location (default `$HOME\dotfiles`) |
 
 ### Linux/macOS
 
 For bootstrap instructions, advanced options, and troubleshooting, use the
 [Winix documentation](https://github.com/adrifer/winix#readme). Existing
 Linux/macOS checkouts should live at `~/dotfiles`, as expected by the linked
-application configs. Install Node.js/npm before using the daily workflow below
-on any platform; the initial Windows bootstrap does not require them.
+application configs.
 
 ## Daily usage
 
-Use the checkout's pinned Winix through npm on every platform, not a global
-installation or standalone launcher. With Node.js and npm installed, run this
-once from the repository root, and repeat `npm ci` after manifest or lockfile
-changes:
+On Windows, setup installs a `winix` command (open a new terminal once). It runs
+the pinned Winix for this checkout from any folder and remembers the host:
 
 ```powershell
-Set-Location .\winix
-npm ci
+winix plan            # what would change (nothing is applied)
+winix switch          # apply it
 ```
 
-Then run commands from `winix/`, selecting the intended host:
+### Updating Winix
 
-```powershell
-npm exec -- winix check
-npm exec -- winix switch --dry --host work-devbox-2
-# Only after reviewing the plan:
-npm exec -- winix switch --host work-devbox-2
-```
+1. Where you edit the config, bump the pin and push:
 
-Use the same npm commands on Linux/macOS with the corresponding host.
-`apply` only generates output; `switch` activates it. `switch --dry` previews
-without activation.
+   ```powershell
+   cd ~\dotfiles\winix
+   npm install --save https://github.com/adrifer/winix/releases/download/vX/adrifer-winix-X.tgz
+   git commit -am "chore: bump winix to X"; git push
+   ```
 
-Authoring checks are listed in [AGENTS.md](AGENTS.md).
+2. On other Windows PCs: `git pull`, then `winix switch`. It downloads that
+   release itself (checksum-verified) and removes older downloaded versions.
+3. Inside NixOS-WSL, from `~/dotfiles/winix`:
+   `git pull && npm ci && npm exec -- winix switch --host <wsl-host>`
+   (the Linux side does not download releases by itself yet).
+
+`winix` uses `winix/node_modules` whenever it exists (`npm ci` was run), so keep
+that to the PC where you edit the config (editor types, testing Winix sources).
+There, run `npm ci` after pulling a bump; elsewhere, deleting `node_modules`
+goes back to the downloaded release.
+
+For development (or on Linux/macOS), the npm route also works from `winix/`
+after `npm ci`: `npm exec -- winix switch --host <host>`.
+`apply` only generates output; `switch` activates it. Authoring checks are
+listed in [AGENTS.md](AGENTS.md).
 
 ## Important caveats
 
 - Back up personal files, credentials, repositories, and WSL exports before
   reinstalling. The personal Windows profile is still a work in progress;
   rehearse on a disposable machine before formatting the main PC.
-- Windows-side NixOS provisioning refuses existing unrecorded distros rather
-  than adopting or replacing them. Manage an existing Linux installation
-  directly until its Windows-side setup is resolved; do not unregister it to
-  clear an error.
+- An existing `NixOS` distro is adopted (recorded, not changed) when it runs
+  WSL 2 and NixOS with the host's Linux hostname; anything else is refused
+  rather than replaced. Never unregister a distro to clear an error.
 - `work-devbox-2` was previously named `windows-devbox`. Applied-state ownership
   was not migrated by that source rename; review it before activating the
   renamed target on the already-managed Dev Box.
