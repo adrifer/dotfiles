@@ -6,7 +6,7 @@ export const komorebi = feature("komorebi", ({ windows }) => {
   const link = (target: string, source: string) =>
     windows.file.symlink(windows.knownFolder.userProfile(target), `../windows/komorebi/${source}`);
 
-  // Config handles used as startup arguments also order the shortcuts after them.
+  // Config handles used as startup arguments also order the startup apps after them.
   const komorebiConfig = link("komorebi.json", "komorebi.json");
   const komorebiConfigLinks = [
     link("komorebi.bar.json", "komorebi.bar.json"),
@@ -15,20 +15,22 @@ export const komorebi = feature("komorebi", ({ windows }) => {
   const whkdConfig = link(".config/whkdrc", ".config/whkdrc");
   const startWhkd = link(".config/komorebi/start-whkd.ps1", "start-whkd.ps1");
 
-  windows.startup.command("komorebi", {
+  // Logon tasks: they start right after sign-in instead of after every other
+  // startup entry, like the Startup folder.
+  windows.startup.app("komorebi", {
+    // A GUI-subsystem launcher: no window to style.
     executable: windows.knownFolder.programFiles("komorebi/bin/komorebic-no-console.exe"),
     arguments: ["start", "--bar", "--config", komorebiConfig],
-    windowStyle: "minimized",
     dependsOn: [komorebiPackage, ...komorebiConfigLinks],
   });
-  windows.startup.command("whkd", {
+  windows.startup.app("whkd", {
     // "pwsh.exe" is ambiguous (Program Files and the WindowsApps alias); use the real path.
     executable: windows.knownFolder.programFiles("PowerShell/7/pwsh.exe"),
     arguments: [
-      "-NoLogo", "-NoProfile", "-NonInteractive", "-WindowStyle", "Hidden",
-      "-File", startWhkd,
+      "-NoLogo", "-NoProfile", "-NonInteractive", "-File", startWhkd,
     ],
-    windowStyle: "minimized",
+    // No console window at all (pwsh -WindowStyle Hidden still flashes one).
+    windowStyle: "hidden",
     dependsOn: [whkdPackage, whkdConfig],
   });
 });
