@@ -4,20 +4,20 @@
     "actions":
     [
         {
-            "command": "toggleFocusMode",
-            "id": "User.toggleFocusMode"
-        },
-        {
-            "command": "find",
-            "id": "User.find"
-        },
-        {
             "command":
             {
                 "action": "copy",
                 "singleLine": false
             },
             "id": "User.copy"
+        },
+        {
+            "command": "find",
+            "id": "User.find"
+        },
+        {
+            "command": "toggleFocusMode",
+            "id": "User.toggleFocusMode"
         },
         {
             "command":
@@ -47,16 +47,16 @@
             "keys": "ctrl+v"
         },
         {
+            "id": "User.splitPane",
+            "keys": "alt+shift+d"
+        },
+        {
             "id": "Terminal.SwitchToTab1",
             "keys": "ctrl+2"
         },
         {
             "id": null,
             "keys": "ctrl+alt+6"
-        },
-        {
-            "id": "User.splitPane",
-            "keys": "alt+shift+d"
         },
         {
             "id": "User.copy",
@@ -75,12 +75,12 @@
             "keys": "ctrl+1"
         },
         {
-            "id": "Terminal.SwitchToTab2",
-            "keys": "ctrl+3"
-        },
-        {
             "id": "Terminal.DuplicatePaneRight",
             "keys": "ctrl+alt+d"
+        },
+        {
+            "id": "Terminal.SwitchToTab2",
+            "keys": "ctrl+3"
         },
         {
             "id": "Terminal.SwitchToTab3",
@@ -91,12 +91,12 @@
             "keys": "ctrl+5"
         },
         {
-            "id": "Terminal.SwitchToTab5",
-            "keys": "ctrl+6"
-        },
-        {
             "id": null,
             "keys": "ctrl+alt+1"
+        },
+        {
+            "id": "Terminal.SwitchToTab5",
+            "keys": "ctrl+6"
         },
         {
             "id": "Terminal.DuplicatePaneDown",
@@ -271,6 +271,36 @@
                 "hidden": true,
                 "name": "Developer PowerShell for VS 18",
                 "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{f887c07a-fce4-5c26-90ef-bd76f8a5102e}",
+                "hidden": false,
+                "name": "Developer Command Prompt for VS 2022",
+                "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{5edfb5a6-6f49-5d80-bf44-3412046fc71f}",
+                "hidden": false,
+                "name": "Developer PowerShell for VS 2022",
+                "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{09e5c564-d014-5a45-ae00-9bd0558426bd}",
+                "hidden": false,
+                "name": "NixOS",
+                "source": "Microsoft.WSL"
+            },
+            {
+                "guid": "{8282ad73-36f2-5177-a52d-88ab4ab82aef}",
+                "hidden": false,
+                "name": "archlinux",
+                "source": "Microsoft.WSL"
+            },
+            {
+                "guid": "{16208362-94fc-5b1f-a491-5b2624d5ab56}",
+                "hidden": true,
+                "name": "Visual Studio Debug Console",
+                "source": "VSDebugConsole"
             }
         ]
     },

@@ -38,13 +38,13 @@
     },
     "Git.Git": {
       "source": "winget",
-      "version": "2.56.0.4",
-      "resolvedAt": "2026-11-11T04:24:16.062Z"
+      "version": "2.56.1",
+      "resolvedAt": "2026-11-20T22:57:40.155Z"
     },
     "GitHub.cli": {
       "source": "winget",
-      "version": "2.103.3",
-      "resolvedAt": "2026-11-11T19:58:03.717Z"
+      "version": "2.105.0",
+      "resolvedAt": "2026-11-20T22:57:42.227Z"
     },
     "Hanselman.WingetTUI": {
       "source": "winget",
