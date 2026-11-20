@@ -1,15 +1,8 @@
-import {
-  defineInputs,
-  host,
-  input,
-  platforms,
-  workspace,
-} from "@adrifer/winix";
-import { lxc } from "./features/lxc.ts";
-import { syncthingLxc } from "./features/syncthing-lxc.ts";
-import { adriferVision } from "./hosts/adrifer-vision.ts";
-import { workDevbox } from "./hosts/work-devbox.ts";
-import { macosProfile } from "./profiles/macos.ts";
+import { defineInputs, input, workspace } from "@adrifer/winix";
+import { adriferVision } from "./machines/adrifer-vision.ts";
+import { macbookPro } from "./machines/macbook-pro.ts";
+import { syncthing } from "./machines/syncthing-lxc.ts";
+import { workDevbox } from "./machines/work-devbox.ts";
 
 export default workspace({
   inputs: defineInputs({
@@ -34,17 +27,13 @@ export default workspace({
       follows: { nixpkgs: "nixpkgs" },
     }),
   }),
+  // One file per machine in machines/; each lists its roles (roles/) and extras.
   hosts: [
     ...adriferVision,
     ...workDevbox("work-devbox", "wsl-work"),
     ...workDevbox("work-devbox-2", "wsl-work-2"),
-    host("macbook-pro", platforms.darwin({ stateVersion: 6, homebrew: true }), [
-      macosProfile(),
-    ]),
-    host(
-      "syncthing-lxc",
-      platforms.nixos({ stateVersion: "25.05", homeManager: false }),
-      [lxc(), syncthingLxc()],
-    ),
+    macbookPro,
+    syncthing,
+
   ],
 });

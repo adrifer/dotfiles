@@ -5,7 +5,6 @@ export const homebrew = feature("homebrew", ({ darwin }) => {
     enable: true,
     casks: [
       "scroll-reverser",
-      "visual-studio-code@insiders",
     ],
   });
 });

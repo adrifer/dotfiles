@@ -1,6 +1,7 @@
 import { feature } from "@adrifer/winix";
 
-export const windowsWorkRepositories = feature("windows-work-repositories", ({ windows }) => {
+/** Work Windows: npm and PowerShell packages only from the approved Microsoft feeds. */
+export const workRepositories = feature("work-repositories", ({ windows }) => {
   windows.npm.registries({
     registries: {
       microsoftApproved: {

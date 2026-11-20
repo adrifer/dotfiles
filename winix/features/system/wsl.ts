@@ -1,5 +1,4 @@
-import { feature, nix, profile } from "@adrifer/winix";
-import { playwright } from "./playwright.ts";
+import { feature, nix } from "@adrifer/winix";
 
 const bin = (packageName: string, executable: string) => ({
   src: nix.bin(packageName, executable),
@@ -9,7 +8,8 @@ const bin = (packageName: string, executable: string) => ({
 const CODE_INSIDERS =
   "%LOCALAPPDATA%\\Programs\\Microsoft VS Code Insiders\\bin\\code-insiders";
 
-const wslBase = feature("wsl-base", ({ home, nixos }) => {
+/** NixOS-WSL integration: Windows interop, nix-ld, code-insiders and Git Credential Manager from Windows. */
+export const wsl = feature("wsl", ({ home, nixos }) => {
   nixos({
     wsl: {
       wslConf: {
@@ -61,4 +61,3 @@ const wslBase = feature("wsl-base", ({ home, nixos }) => {
   home.wsl.gitCredentialManager();
 });
 
-export const wsl = profile("wsl", [wslBase(), playwright()]);

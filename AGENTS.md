@@ -7,8 +7,10 @@ and Windows configuration changes in `winix/`, not `nixos/`.
 This includes fixes whose errors mention NixOS, `/nix/store`, or
 `git-credential-manager-windows`.
 
-- Start with `winix/winix.config.ts`, then follow its imports into
-  `winix/features/` and `winix/profiles/`.
+- Start with `winix/winix.config.ts`, then follow its imports: `winix/machines/`
+  (one file per machine) lists `winix/roles/`, which list `winix/features/`
+  (one file per tool, every OS inside). Put a new tool in its own feature with
+  all its platforms, then add it to a role (or to one machine for extras).
 - `nixos/` is the legacy configuration, retained for reference. Do not edit,
   rebuild, update its lockfile, or mirror Winix changes there unless the user
   explicitly requests legacy work.

@@ -10,9 +10,10 @@ See [AGENTS.md](AGENTS.md) for editing rules and authoring checks.
 
 | Path | Purpose |
 | --- | --- |
-| [winix/winix.config.ts](winix/winix.config.ts) | Host definitions and Nix inputs |
-| [winix/features/](winix/features/) | Packages, settings, and application integrations |
-| [winix/profiles/](winix/profiles/) | Shared compositions of features |
+| [winix/machines/](winix/machines/) | One file per machine: its roles and machine-only extras |
+| [winix/roles/](winix/roles/) | What a kind of machine gets (everywhere, dev, personal, work, OS basics) |
+| [winix/features/](winix/features/) | One file per tool or topic, covering every OS it supports |
+| [winix/winix.config.ts](winix/winix.config.ts) | Nix inputs and the list of machines |
 | `winix/.winix/out/` | Generated output; never edit manually |
 | `windows/`, `nvim/`, and other application directories | Config files linked or copied by features |
 | `nixos/` | Legacy configuration, retained for reference |
@@ -20,31 +21,39 @@ See [AGENTS.md](AGENTS.md) for editing rules and authoring checks.
 Tooling and dependency versions are pinned by the manifest and lockfiles in
 `winix/`.
 
-## Hosts and profiles
+## Machines and roles
 
-| Windows target | Windows profile | NixOS-WSL target / hostname |
-| --- | --- | --- |
-| `ADRIFER-VISION` | `windows-personal` | `wsl` |
-| `work-devbox` | `windows-work` | `wsl-work` |
-| `work-devbox-2` | `windows-work` | `wsl-work-2` |
+Each machine lists the roles it has; each role lists features; each feature
+declares its tool for every OS it supports (Home Manager for Linux/WSL/macOS,
+`windows.*` for Windows), and a machine gets the parts for its own platform.
+For the whole picture run `winix inspect --matrix` (every feature against every
+host, grouped by role); for one machine in full, `winix inspect --host <name>`.
 
-These are configuration targets, not Windows rename operations. Each Windows
-host selects its paired Linux target; the WSL distribution is named `NixOS`.
+| Machine | Hosts (platform) | Roles | Extras |
+| --- | --- | --- | --- |
+| [Personal PC](winix/machines/adrifer-vision.ts) | `ADRIFER-VISION` (Windows) | everywhere, dev, personal, windows-desktop | NixOS-WSL distro, T3 proxy |
+| | `wsl` (NixOS-WSL) | everywhere, dev, personal, linux-system | .NET, Rust, Docker, ffmpeg |
+| [Work Dev Boxes](winix/machines/work-devbox.ts) | `work-devbox`, `work-devbox-2` (Windows) | everywhere, work, windows-desktop | NixOS-WSL distro |
+| | `wsl-work`, `wsl-work-2` (NixOS-WSL) | everywhere, dev, work, linux-system | |
+| [MacBook Pro](winix/machines/macbook-pro.ts) | `macbook-pro` (nix-darwin) | everywhere, dev, macos-system | |
+| [Syncthing](winix/machines/syncthing-lxc.ts) | `syncthing-lxc` (NixOS LXC) | (system only) | Syncthing |
 
-| Profile | Role |
+| Role | What it adds |
 | --- | --- |
-| [home-base](winix/profiles/home-base.ts) | Shared Home Manager shell, editor, Git, dotfiles, and development tools |
-| [linux-profile](winix/profiles/linux.ts) | Home base plus Linux packages, user account, and Nix cleanup |
-| [macos-profile](winix/profiles/macos.ts) | Home base plus macOS settings, Homebrew, user account, and packages |
-| [wsl-work](winix/profiles/wsl-work.ts) | Linux profile plus WSL integration, work settings, and Azure Developer CLI |
-| [windows-base](winix/profiles/windows-base.ts) | Common development shell, Terminal, WSL support, and app/system dark mode |
-| [windows-work](winix/profiles/windows-work.ts) | Base plus work PowerShell repository policy |
-| [windows-personal](winix/profiles/windows-personal.ts) | Base plus personal applications, editor configs, and Komorebi/whkd |
+| [everywhere](winix/roles/everywhere.ts) | Shell (zsh or PowerShell, [same aliases](winix/features/cli/shell.ts)), starship, zoxide, fzf, eza, lazygit, Neovim, Git/gh, VS Code Insiders, herdr, CLI tools, agent skills |
+| [dev](winix/roles/dev.ts) | JavaScript (Node, Bun, pnpm; NVM on Windows), Copilot/Codex/Claude CLIs, Playwright (Linux) |
+| [personal](winix/roles/personal.ts) | Personal apps and games, komorebi/whkd, per-user WinGet installs, sonarctl |
+| [work](winix/roles/work.ts) | Approved package feeds (Windows), work Linux settings, Azure Developer CLI, Tailscale |
+| [windows-desktop](winix/roles/windows-desktop.ts) | Windows preferences, Windows Terminal, WSL |
+| [linux-system](winix/roles/linux-system.ts) / [macos-system](winix/roles/macos-system.ts) | Account, stable packages, Nix GC / Homebrew, macOS settings, Ghostty, Git Credential Manager |
 
-The personal `wsl` host extends `linux-profile`; `wsl-work` and `wsl-work-2`
-share the `wsl-work` profile. `macbook-pro` uses `macos-profile`, while
-`syncthing-lxc` composes its features directly. Keep machine-specific extras in
-the host definitions in [winix.config.ts](winix/winix.config.ts).
+Host names are configuration targets, not Windows rename operations; each
+Windows host provisions its paired Linux host in a WSL distro named `NixOS`.
+Features live in `features/cli` (terminal tools), `features/dev`,
+`features/desktop` (Windows/macOS desktop and apps), `features/system`
+(OS integration) and `features/apps`. To add a tool, give it one feature file
+with every OS it needs and put it in a role; something only one machine needs
+goes in that machine's file.
 
 ## Initial setup
 

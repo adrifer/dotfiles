@@ -1,6 +1,9 @@
 import { feature, nix } from "@adrifer/winix";
 
 export const herdr = feature("herdr", ({ home }) => {
+  home.configFiles({
+    "herdr/config.toml": home.symlink("../herdr/.config/herdr/config.toml", { force: true }),
+  });
   home.packages(
     nix.binaryRelease({
       name: "herdr",

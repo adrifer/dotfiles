@@ -38,4 +38,10 @@ export const macos = feature("macos", ({ darwin, home }) => {
     },
   });
   home({ manual: { manpages: { enable: false } } });
+
+  // Terminal: Ghostty with the Nerd Font the prompt and eza icons use.
+  home.packages("nerd-fonts.jetbrains-mono");
+  home.configFiles({
+    ghostty: home.symlink("../ghostty/.config/ghostty", { recursive: true }),
+  });
 });

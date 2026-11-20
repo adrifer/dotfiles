@@ -1,6 +1,7 @@
 import { feature } from "@adrifer/winix";
 
-export const wslWorkSettings = feature("wsl-work-settings", ({ home, nixos }) => {
+/** Work Linux (WSL) settings: low ports for local HTTPS, large inotify limits, sandboxing tools. */
+export const workLinux = feature("work-linux", ({ home, nixos }) => {
   nixos.sysctl({
     "net.ipv4.ip_unprivileged_port_start": 443,
     "fs.inotify.max_user_watches": 1048576,

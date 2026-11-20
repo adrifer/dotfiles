@@ -5,7 +5,7 @@ export interface SkillsOptions {
   exclude?: string[];
 }
 
-const skillsDirectory = new URL("../../skills/", import.meta.url);
+const skillsDirectory = new URL("../../../skills/", import.meta.url);
 // Add directory names here to exclude skills from every host.
 const excludedSkills: string[] = [];
 

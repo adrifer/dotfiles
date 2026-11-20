@@ -2,7 +2,14 @@ import { feature, nix } from "@adrifer/winix";
 
 const windowsInstallDir = "/mnt/c/Tools/sonarctl";
 
-export const sonarctl = feature("sonarctl", ({ home }) => {
+/**
+ * sonarctl: the Windows app, plus `sonar` in WSL, which runs the Windows build
+ * this flake input produces (installed to C:\Tools\sonarctl).
+ */
+export const sonarctl = feature("sonarctl", ({ home, windows, platforms }) => {
+  windows.package("Adrifer.Sonarctl");
+
+  if (!platforms.wsl.isActive) return;
   home.files({
     ".local/bin/sonar": {
       executable: true,

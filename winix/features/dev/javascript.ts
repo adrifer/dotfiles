@@ -7,7 +7,12 @@ const npmGlobalPkgs = [
   { pkg: "t3", bin: "t3" },
 ];
 
-export const javascript = feature("javascript", ({ home }) => {
+export const javascript = feature("javascript", ({ home, windows }) => {
+  // Windows: Node through NVM for Windows, and GitHub Copilot CLI (npm globals
+  // below are Linux/macOS only). Both update themselves.
+  windows.package("CoreyButler.NVMforWindows", { version: "any" });
+  windows.package("GitHub.Copilot", { version: "any" });
+
   home.packages(
     // Temporary workaround until Bun 1.4 is available in nixpkgs.
     nix.binaryRelease({

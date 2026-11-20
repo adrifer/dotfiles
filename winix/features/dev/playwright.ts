@@ -1,6 +1,8 @@
 import { feature, nix } from "@adrifer/winix";
 
-export const playwright = feature("playwright", ({ home }) => {
+/** Playwright with Nix's Chromium (Linux/WSL only; Chromium is not packaged for macOS). */
+export const playwright = feature("playwright", ({ home, platforms }) => {
+  if (!platforms.nixos.isActive) return;
   const chromium = nix.pkg("chromium");
 
   home.packages(chromium);
