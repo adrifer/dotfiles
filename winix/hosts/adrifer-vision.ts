@@ -1,17 +1,7 @@
 import { host, platforms } from "@adrifer/winix";
 import { docker } from "../features/docker.ts";
 import { dotnet } from "../features/dotnet.ts";
-import { komorebi } from "../features/komorebi.ts";
-import { lazygit } from "../features/lazygit.ts";
-import { packagesWindowsPersonal } from "../features/packages.ts";
-import { windowsShell } from "../features/windows-shell.ts";
-import { neovim } from "../features/neovim.ts";
-import { powershell } from "../features/powershell.ts";
-import { windowsTerminal } from "../features/windows-terminal.ts";
-import { zoxide } from "../features/zoxide.ts";
-import { starship } from "../features/starship.ts";
-import { windowsPreferences } from "../features/windows-preferences.ts";
-import { winget } from "../features/winget.ts";
+import { t3WslProxy } from "../features/t3-wsl-proxy.ts";
 import { rust } from "../features/rust.ts";
 import { sonarctl } from "../features/sonarctl.ts";
 import { adrifer } from "../features/user-adrifer.ts";
@@ -34,21 +24,10 @@ const linux = host("wsl", platforms.wsl({ stateVersion: "25.05" }), ({ home }) =
   ];
 });
 
-// Rolling the Windows config out on this machine one tool at a time; each step
-// adds entries here until it matches the full set:
-//   windowsPersonal(), windowsNixosWsl(linux)
 const windows = host("ADRIFER-VISION", platforms.windows(), [
-  windowsPreferences(),
-  winget(),
-  lazygit(),
-  starship(),
-  zoxide(),
-  powershell(),
-  windowsTerminal(),
-  neovim(),
-  komorebi(),
-  windowsShell(),
-  packagesWindowsPersonal(),
+  windowsPersonal(),
+  windowsNixosWsl(linux),
+  t3WslProxy(),
 ]);
 
 export const adriferVision = [windows, linux];
