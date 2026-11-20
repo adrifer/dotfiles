@@ -78,19 +78,37 @@ again: it reuses the checkout and the chosen host.
 | `-Ref <ref>` | Branch, tag or commit (default `feat/windows-devbox-preview`) |
 | `-Destination <path>` | Checkout location (default `$HOME\dotfiles`) |
 
-### Linux/macOS
+### NixOS-WSL and Linux
 
-For bootstrap instructions, advanced options, and troubleshooting, use the
-[Winix documentation](https://github.com/adrifer/winix#readme). Existing
-Linux/macOS checkouts should live at `~/dotfiles`, as expected by the linked
-application configs.
+A NixOS distro created by the Windows setup is already set up: it has its own
+checkout at `~/dotfiles` and the `winix` command. From then on it is managed from
+inside WSL; Windows switches never change it again.
+
+For an existing distro, or a Linux machine, run inside it (it reuses an existing
+`~/dotfiles`, even an SSH clone, and never pulls or resets it):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/adrifer/dotfiles/feat/windows-devbox-preview/setup/linux.sh -o /tmp/setup.sh
+bash /tmp/setup.sh
+```
+
+It asks which host this is and asks **once** to continue, then downloads the
+pinned Winix (checksum-verified), installs `~/.local/bin/winix` and applies the
+host (`sudo` asks for your password). It takes the same `--host`,
+`--prepare-only`, `--dry-run`, `--ref` and `--destination` options.
+
+### macOS
+
+There is no standalone Winix for macOS yet: clone to `~/dotfiles` and use the
+npm route below. See the [Winix documentation](https://github.com/adrifer/winix#readme).
 
 ## Daily usage
 
-On Windows, setup installs a `winix` command (open a new terminal once). It runs
-the pinned Winix for this checkout from any folder and remembers the host:
+Setup installs a `winix` command on Windows (open a new terminal once) and in
+WSL/Linux. It runs the pinned Winix for that checkout from any folder and
+remembers the host. Each side is switched on its own:
 
-```powershell
+```bash
 winix plan            # what would change (nothing is applied)
 winix switch          # apply it
 ```
@@ -105,18 +123,16 @@ winix switch          # apply it
    git commit -am "chore: bump winix to X"; git push
    ```
 
-2. On other Windows PCs: `git pull`, then `winix switch`. It downloads that
-   release itself (checksum-verified) and removes older downloaded versions.
-3. Inside NixOS-WSL, from `~/dotfiles/winix`:
-   `git pull && npm ci && npm exec -- winix switch --host <wsl-host>`
-   (the Linux side does not download releases by itself yet).
+2. Everywhere else (Windows PCs, WSL distros, Linux): `git pull` in that
+   checkout, then `winix switch`. It downloads that release itself
+   (checksum-verified) and removes older downloaded versions.
 
 `winix` uses `winix/node_modules` whenever it exists (`npm ci` was run), so keep
 that to the PC where you edit the config (editor types, testing Winix sources).
 There, run `npm ci` after pulling a bump; elsewhere, deleting `node_modules`
 goes back to the downloaded release.
 
-For development (or on Linux/macOS), the npm route also works from `winix/`
+For development (or on macOS), the npm route also works from `winix/`
 after `npm ci`: `npm exec -- winix switch --host <host>`.
 `apply` only generates output; `switch` activates it. Authoring checks are
 listed in [AGENTS.md](AGENTS.md).
