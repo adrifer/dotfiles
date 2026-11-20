@@ -3,7 +3,7 @@
 # clones them (or reuses ~/dotfiles), downloads the pinned Winix, installs the
 # `winix` command and applies the host you choose. Safe to rerun.
 #
-#   curl -fsSL https://raw.githubusercontent.com/adrifer/dotfiles/feat/windows-devbox-preview/setup/linux.sh -o /tmp/setup.sh
+#   curl -fsSL https://raw.githubusercontent.com/adrifer/dotfiles/main/setup/linux.sh -o /tmp/setup.sh
 #   bash /tmp/setup.sh [--host HOST] [--prepare-only] [--dry-run]
 #
 # The Winix version comes from winix/package.json at --ref: its release's
@@ -11,7 +11,7 @@
 # Winix does the rest (temporary Git/Python via Nix, clone, one confirmation).
 set -euo pipefail
 
-ref='feat/windows-devbox-preview'
+ref='main'
 destination="$HOME/dotfiles"
 options=()
 while (($#)); do

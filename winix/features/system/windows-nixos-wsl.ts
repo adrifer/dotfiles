@@ -7,13 +7,10 @@ export const windowsNixosWsl = feature("windows-nixos-wsl", ({ windows }, linuxH
     installLocation: windows.knownFolder.localAppData("Winix\\WSL\\NixOS"),
     default: true,
     setup: {
-      // Clone this checkout's remote; configDirectory ("winix") is inferred.
+      // Clone this checkout's remote and branch into ~/dotfiles; configDirectory
+      // ("winix") is inferred. Setup runs once per distro; afterwards it is
+      // managed from inside WSL (`winix switch` there).
       repository: "self",
-      // Kept explicit (with checkout) so distros already provisioned from this
-      // branch keep their completion fingerprint. Drop both for new machines to
-      // follow the current branch and the default <home>/dotfiles checkout.
-      ref: "feat/windows-devbox-preview",
-      checkout: "/home/adrifer/dotfiles",
       host: linuxHost,
       user: adrifer,
     },

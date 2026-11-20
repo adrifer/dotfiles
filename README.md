@@ -66,7 +66,7 @@ In **Windows PowerShell**, as the user to configure (review
 [setup/windows.ps1](setup/windows.ps1) first if you like):
 
 ```powershell
-irm https://raw.githubusercontent.com/adrifer/dotfiles/feat/windows-devbox-preview/setup/windows.ps1 -OutFile $env:TEMP\setup.ps1
+irm https://raw.githubusercontent.com/adrifer/dotfiles/main/setup/windows.ps1 -OutFile $env:TEMP\setup.ps1
 powershell -ExecutionPolicy Bypass -File $env:TEMP\setup.ps1
 ```
 
@@ -84,7 +84,7 @@ again: it reuses the checkout and the chosen host.
 | `-HostName <host>` | Skip the question |
 | `-PrepareOnly` | Prepare and preview without applying anything |
 | `-DryRun` | Only show what would happen |
-| `-Ref <ref>` | Branch, tag or commit (default `feat/windows-devbox-preview`) |
+| `-Ref <ref>` | Branch, tag or commit (default `main`) |
 | `-Destination <path>` | Checkout location (default `$HOME\dotfiles`) |
 
 ### NixOS-WSL and Linux
@@ -97,7 +97,7 @@ For an existing distro, or a Linux machine, run inside it (it reuses an existing
 `~/dotfiles`, even an SSH clone, and never pulls or resets it):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/adrifer/dotfiles/feat/windows-devbox-preview/setup/linux.sh -o /tmp/setup.sh
+curl -fsSL https://raw.githubusercontent.com/adrifer/dotfiles/main/setup/linux.sh -o /tmp/setup.sh
 bash /tmp/setup.sh
 ```
 

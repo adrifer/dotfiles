@@ -27,7 +27,7 @@ Winix does the rest (WinGet check, Git, clone, prerequisites, one confirmation).
 param(
     [string]$HostName,
     [ValidatePattern('\A[A-Za-z0-9._/-]+\z')]
-    [string]$Ref = 'feat/windows-devbox-preview',
+    [string]$Ref = 'main',
     [string]$Destination = (Join-Path $HOME 'dotfiles'),
     [switch]$PrepareOnly,
     [switch]$DryRun
