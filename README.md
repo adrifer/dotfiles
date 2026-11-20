@@ -127,10 +127,15 @@ winix switch          # apply it
    checkout, then `winix switch`. It downloads that release itself
    (checksum-verified) and removes older downloaded versions.
 
-`winix` uses `winix/node_modules` whenever it exists (`npm ci` was run), so keep
-that to the PC where you edit the config (editor types, testing Winix sources).
-There, run `npm ci` after pulling a bump; elsewhere, deleting `node_modules`
-goes back to the downloaded release.
+### Editing the config
+
+No npm install is needed: every `winix` command writes the pinned Winix's types
+(SDK, NixOS/Home Manager option types, Node) to `winix/.winix/types`, and
+`tsconfig.json` points there, so VS Code autocompletes and type-checks right away
+(after one `winix check` on a fresh checkout). `node_modules` never changes what
+`winix` runs; `npm ci` is only needed for the npm route below and the
+command-line `tsc` check in [AGENTS.md](AGENTS.md). To try Winix from source:
+`$env:WINIX_SDK = 'D:\winix'; winix plan`.
 
 For development (or on macOS), the npm route also works from `winix/`
 after `npm ci`: `npm exec -- winix switch --host <host>`.
