@@ -33,8 +33,8 @@ host, grouped by role); for one machine in full, `winix inspect --host <name>`.
 | --- | --- | --- | --- |
 | [Personal PC](winix/machines/adrifer-vision.ts) | `ADRIFER-VISION` (Windows) | everywhere, dev, personal, windows-desktop | NixOS-WSL distro, T3 proxy |
 | | `wsl` (NixOS-WSL) | everywhere, dev, personal, linux-system | .NET, Rust, Docker, ffmpeg |
-| [Work Dev Boxes](winix/machines/work-devbox.ts) | `work-devbox`, `work-devbox-2` (Windows) | everywhere, work, windows-desktop | NixOS-WSL distro |
-| | `wsl-work`, `wsl-work-2` (NixOS-WSL) | everywhere, dev, work, linux-system | |
+| [Work Dev Boxes](winix/machines/work-devbox.ts) | `work-devbox`, `work-devbox-2`, `work-devbox-3` (Windows) | everywhere, work, windows-desktop | NixOS-WSL distro |
+| | `wsl-work`, `wsl-work-2`, `wsl-work-3` (NixOS-WSL) | everywhere, dev, work, linux-system | |
 | [MacBook Pro](winix/machines/macbook-pro.ts) | `macbook-pro` (nix-darwin) | everywhere, dev, macos-system | |
 | [Syncthing](winix/machines/syncthing-lxc.ts) | `syncthing-lxc` (NixOS LXC) | (system only) | Syncthing |
 

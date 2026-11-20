@@ -32,8 +32,8 @@ export default workspace({
     ...adriferVision,
     ...workDevbox("work-devbox", "wsl-work"),
     ...workDevbox("work-devbox-2", "wsl-work-2"),
+    ...workDevbox("work-devbox-3", "wsl-work-3"),
     macbookPro,
     syncthing,
-
   ],
 });
