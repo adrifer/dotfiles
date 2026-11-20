@@ -73,8 +73,8 @@
     },
     "Microsoft.PowerShell": {
       "source": "winget",
-      "version": "7.6.9.0",
-      "resolvedAt": "2026-11-11T04:24:16.062Z"
+      "version": "7.7.0.0",
+      "resolvedAt": "2026-11-20T04:22:06.808Z"
     },
     "Microsoft.PowerToys": {
       "source": "winget",
@@ -93,13 +93,13 @@
     },
     "Microsoft.WindowsApp": {
       "source": "winget",
-      "version": "2.0.1484.0",
-      "resolvedAt": "2026-11-11T19:58:03.717Z"
+      "version": "2.0.1489.0",
+      "resolvedAt": "2026-11-20T04:22:38.678Z"
     },
     "Microsoft.WindowsTerminal.Preview": {
       "source": "winget",
-      "version": "1.26.2734.0",
-      "resolvedAt": "2026-11-11T19:58:03.717Z"
+      "version": "1.26.3133.0",
+      "resolvedAt": "2026-11-20T04:22:25.330Z"
     },
     "Neovim.Neovim": {
       "source": "winget",
