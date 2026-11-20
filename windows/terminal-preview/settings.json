@@ -202,8 +202,7 @@
                 "guid": "{d221a93c-6cb7-569e-b213-ab233094e77b}",
                 "hidden": false,
                 "icon": "%LOCALAPPDATA%\\Winix\\Terminal\\nixos.ico",
-                "name": "NixOS",
-                "source": "Microsoft.WSL"
+                "name": "NixOS"
             },
             {
                 "commandline": "pwsh.exe -NoLogo",
@@ -286,7 +285,7 @@
             },
             {
                 "guid": "{09e5c564-d014-5a45-ae00-9bd0558426bd}",
-                "hidden": false,
+                "hidden": true,
                 "name": "NixOS",
                 "source": "Microsoft.WSL"
             },

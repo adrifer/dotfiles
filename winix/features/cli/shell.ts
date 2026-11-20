@@ -111,7 +111,11 @@ export const shell = feature("shell", ({ home, nixos, windows, platforms }) => {
     windows.knownFolder.userProfile(".config/powershell/aliases.ps1"),
     powershellAliases(aliases),
   );
+  // force: replace whatever is there without a .bak. Documents is OneDrive-synced
+  // on work PCs, so a .bak from one PC shows up on the others and would block
+  // the link there.
   windows.powershell.profile("../windows/powershell/Microsoft.PowerShell_profile.ps1", {
+    force: true,
     dependsOn: [icons, aliasesFile],
   });
   // The directory that holds this dotfiles checkout; the profile's `repos` goes there.
