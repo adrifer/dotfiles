@@ -93,8 +93,8 @@
     },
     "Microsoft.WindowsApp": {
       "source": "winget",
-      "version": "2.0.1489.0",
-      "resolvedAt": "2026-11-20T04:22:38.678Z"
+      "version": "2.0.1601.0",
+      "resolvedAt": "2026-11-21T01:53:34.560Z"
     },
     "Microsoft.WindowsTerminal.Preview": {
       "source": "winget",

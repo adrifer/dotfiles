@@ -29,14 +29,20 @@ const linux = host("wsl", platforms.wsl({ stateVersion: "25.05" }), ({ home }) =
   ];
 });
 
-const windows = host("ADRIFER-VISION", platforms.windows(), [
-  everywhere(),
-  dev(),
-  personal(),
-  windowsDesktop(),
-  windowsNixosWsl(linux),
-  // LAN reverse proxy to T3 in WSL (this network only).
-  t3WslProxy(),
-]);
+const windows = host("ADRIFER-VISION", platforms.windows(), ({ windows }) => {
+  // Windows HDR Calibration (Store) for this PC's HDR display. The Store keeps
+  // it updated and winget reports no version, so it is never pinned.
+  windows.package({ source: "msstore", id: "9N7F2SM5D1LR", version: "any" });
+
+  return [
+    everywhere(),
+    dev(),
+    personal(),
+    windowsDesktop(),
+    windowsNixosWsl(linux),
+    // LAN reverse proxy to T3 in WSL (this network only).
+    t3WslProxy(),
+  ];
+});
 
 export const adriferVision = [windows, linux];
