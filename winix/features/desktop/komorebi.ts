@@ -24,8 +24,9 @@ export const komorebi = feature("komorebi", ({ windows }) => {
     dependsOn: [komorebiPackage, ...komorebiConfigLinks],
   });
   windows.startup.app("whkd", {
-    // "pwsh.exe" is ambiguous (Program Files and the WindowsApps alias); use the real path.
-    executable: windows.knownFolder.programFiles("PowerShell/7/pwsh.exe"),
+    // winget's PowerShell is an MSIX package: start it through its app execution
+    // alias (a bare "pwsh.exe" can be ambiguous while a classic copy is installed).
+    executable: windows.knownFolder.localAppData("Microsoft/WindowsApps/pwsh.exe"),
     arguments: [
       "-NoLogo", "-NoProfile", "-NonInteractive", "-File", startWhkd,
     ],
