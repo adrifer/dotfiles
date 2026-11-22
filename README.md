@@ -62,8 +62,9 @@ machine.
 
 ### Windows: from a fresh installation
 
-In **Windows PowerShell**, as the user to configure (review
-[setup/windows.ps1](setup/windows.ps1) first if you like):
+In **Windows PowerShell** (not PowerShell 7), as the user to configure, with no
+PowerShell 7 windows open (review [setup/windows.ps1](setup/windows.ps1) first
+if you like):
 
 ```powershell
 irm https://raw.githubusercontent.com/adrifer/dotfiles/main/setup/windows.ps1 -OutFile $env:TEMP\setup.ps1
