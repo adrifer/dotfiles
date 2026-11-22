@@ -59,10 +59,11 @@ const aliasTable = (darwin: boolean): Record<string, Alias> => ({
   // Winix: i applies this machine's config, u updates its locks. Linux/WSL and
   // Windows use the `winix` command (pinned Winix, remembered host); macOS has
   // no standalone Winix yet, so it uses npm. Windows has no Nix: u refreshes
-  // the Windows lock.
+  // the Windows lock. On Windows, i also raises the lock to newer installed
+  // versions without asking (--update-versions).
   i: {
     zsh: darwin ? "cd ~/dotfiles/winix && npm install && npx @adrifer/winix switch --host macbook-pro" : "winix switch",
-    pwsh: "& winix switch @args",
+    pwsh: "& winix switch --update-versions @args",
   },
   u: {
     zsh: darwin ? "cd ~/dotfiles/winix && npm install && npx @adrifer/winix update" : "winix update",
