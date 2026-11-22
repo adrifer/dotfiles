@@ -79,19 +79,19 @@ NixOS-WSL distro. If WinGet is missing, it opens App Installer in the Store firs
 If Windows needs a restart (enabling WSL), restart and run the same two lines
 again: it reuses the checkout and the chosen host.
 
-If PowerShell 7 is already installed but older than the locked version (Dev Box
-images ship their own), the script upgrades it with winget first. If winget
-can't upgrade that copy because another installer put it there, the script
-offers to replace it with winget's. That way Winix can upgrade it from then on.
-Run the script from Windows PowerShell with no PowerShell 7 windows open, so
-PowerShell 7 can be replaced. Rerunning it later fixes an existing machine too.
+If PowerShell 7 is already installed but older than the locked version, the
+script fixes that first. winget's PowerShell is an MSIX package, so it can't
+upgrade a copy from the classic installer (which Dev Box images ship). For that
+copy, the script offers to install winget's MSIX and then remove the old one, so
+Winix can upgrade it from then on. Run the script from Windows PowerShell with
+no PowerShell 7 windows open. Rerunning it later fixes an existing machine too.
 
 | Option | Purpose |
 | --- | --- |
 | `-HostName <host>` | Skip the question |
 | `-PrepareOnly` | Prepare and preview without applying anything |
 | `-DryRun` | Only show what would happen |
-| `-ReplacePowerShell` | Replace a PowerShell 7 that winget can't upgrade without asking |
+| `-ReplacePowerShell` | Replace an outdated classic PowerShell 7 without asking |
 | `-Ref <ref>` | Branch, tag or commit (default `main`) |
 | `-Destination <path>` | Checkout location (default `$HOME\dotfiles`) |
 
