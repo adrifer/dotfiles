@@ -53,8 +53,8 @@
     },
     "JesseDuffield.lazygit": {
       "source": "winget",
-      "version": "0.66.1",
-      "resolvedAt": "2026-11-11T04:24:16.062Z"
+      "version": "0.66.2",
+      "resolvedAt": "2026-11-21T04:31:32.894Z"
     },
     "LGUG2Z.komorebi": {
       "source": "winget",
@@ -113,13 +113,13 @@
     },
     "Proton.ProtonPass": {
       "source": "winget",
-      "version": "1.43.0",
-      "resolvedAt": "2026-11-11T19:58:03.717Z"
+      "version": "1.44.0",
+      "resolvedAt": "2026-11-21T04:31:32.894Z"
     },
     "Proton.ProtonVPN": {
       "source": "winget",
-      "version": "5.1.9",
-      "resolvedAt": "2026-11-11T19:58:03.717Z"
+      "version": "5.1.10",
+      "resolvedAt": "2026-11-21T04:31:32.894Z"
     },
     "SimplyCA.Typeless": {
       "source": "winget",
@@ -208,8 +208,8 @@
     "4e85ed3b0d037a5ad7037ba1416bc760311923803957f22211ebf2ebd93e4055": {
       "repository": "https://github.com/adrifer/dotfiles.git",
       "ref": "main",
-      "revision": "50fa0163a89a251322a24e161fb41bc428be2b44",
-      "resolvedAt": "2026-11-20T22:18:07.414Z"
+      "revision": "d53245096d6bb6eaec061a726581a500b8ffb5b1",
+      "resolvedAt": "2026-11-21T04:31:32.894Z"
     }
   }
 }
