@@ -125,6 +125,17 @@ function Install-PowerShell7Msix([string]$Version) {
     return $true
 }
 
+function Initialize-WinGet {
+    if (Get-Command winget -ErrorAction SilentlyContinue) { return $true }
+    # A new account often has winget installed but not yet registered for it.
+    try { Add-AppxPackage -RegisterByFamilyName -MainPackage 'Microsoft.DesktopAppInstaller_8wekyb3d8bbwe' -ErrorAction Stop } catch { }
+    $windowsApps = Join-Path $env:LOCALAPPDATA 'Microsoft\WindowsApps'
+    if (($env:Path -split ';') -notcontains $windowsApps) { $env:Path = "$env:Path;$windowsApps" }
+    return [bool](Get-Command winget -ErrorAction SilentlyContinue)
+}
+
+# Returns 'changed' when PowerShell 7 was upgraded or replaced, 'later' when
+# WinGet is not available yet (the Winix bootstrap installs it).
 function Sync-PowerShell7 {
     $lock = Get-Text "https://raw.githubusercontent.com/adrifer/dotfiles/$Ref/winix/winix-windows.lock" | ConvertFrom-Json
     $lockedText = $lock.packages.'Microsoft.PowerShell'.version
@@ -147,19 +158,20 @@ function Sync-PowerShell7 {
         Write-Warning 'This script is running in PowerShell 7, so it cannot update or replace it. Rerun it from Windows PowerShell to do that; continuing with the installed copy.'
         return
     }
+    if (-not (Initialize-WinGet)) { Write-Host '  WinGet is not available yet; this is checked again after Winix sets it up.'; return 'later' }
     if (-not (Wait-PowerShell7Closed)) { Write-Host 'Skipped; continuing with the installed copy.'; return }
 
     if (-not $classic) {
         & winget upgrade --id Microsoft.PowerShell --exact --version $lockedText --silent --accept-package-agreements @WingetArguments | Out-Host
-        if ($LASTEXITCODE -eq 0) { Write-Host "PowerShell 7 upgraded to $lockedText." }
-        else { Write-Warning "winget could not upgrade PowerShell 7 ($LASTEXITCODE); continuing with $msix." }
+        if ($LASTEXITCODE -eq 0) { Write-Host "PowerShell 7 upgraded to $lockedText."; return 'changed' }
+        Write-Warning "winget could not upgrade PowerShell 7 ($LASTEXITCODE); continuing with $msix."
         return
     }
     if (-not $classic.Uninstall) { Write-Warning "Could not tell how PowerShell 7 $($classic.Version) was installed; leaving it."; return }
     if (-not $ReplacePowerShell) {
         Write-Host "It can be replaced: install winget's PowerShell $lockedText (MSIX) first, then uninstall $($classic.Version)."
         Write-Host 'If your company manages this copy, its policy may block the uninstall or put it back later.'
-        if ((Read-Host "Replace PowerShell 7 $($classic.Version) with $lockedText? [y/N]") -notmatch '^(y|yes)$') { Write-Host 'Keeping it.'; return }
+        if ((Read-Host "Replace PowerShell 7 $($classic.Version) with ${lockedText}? [y/N]") -notmatch '^(y|yes)$') { Write-Host 'Keeping it.'; return }
     }
     if (-not $msix -or $msix -lt $locked) {
         if (-not (Install-PowerShell7Msix $lockedText)) { return }
@@ -171,6 +183,7 @@ function Sync-PowerShell7 {
     if ($code -in 0, 1605, 3010) {
         Write-Host "PowerShell 7 is now winget's $lockedText; Winix can upgrade it from here."
         if ($code -eq 3010) { Write-Host 'Windows wants a restart to finish removing the old copy.' }
+        return 'changed'
     } else {
         Write-Warning "Could not uninstall PowerShell 7 $($classic.Version) ($code; refused, or company policy?). Both copies are installed and pwsh still starts $($classic.Version); remove it from Settings > Apps."
     }
@@ -193,7 +206,7 @@ try {
         throw "Checksum mismatch for the Winix $version bootstrap; nothing was run."
     }
     Write-Host "Winix $version bootstrap verified."
-    try { Sync-PowerShell7 } catch { Write-Warning "PowerShell 7 check skipped: $($_.Exception.Message)" }
+    $powerShell7 = try { Sync-PowerShell7 } catch { Write-Warning "PowerShell 7 check skipped: $($_.Exception.Message)" }
     $options = @{
         Repository = 'https://github.com/adrifer/dotfiles.git'; Ref = $Ref; Destination = $Destination; ConfigDirectory = 'winix'
     }
@@ -202,7 +215,14 @@ try {
     if ($DryRun) { $options.DryRun = $true }
     $global:LASTEXITCODE = 0
     & $script @options
-    if ($LASTEXITCODE -ne 0) { throw 'Winix bootstrap failed; fix the error above and rerun this script.' }
+    $failed = $LASTEXITCODE -ne 0
+    if ($powerShell7 -eq 'later') {
+        # WinGet was missing before the bootstrap; it is there now (or the bootstrap failed).
+        Write-Host ''
+        $powerShell7 = try { Sync-PowerShell7 } catch { Write-Warning "PowerShell 7 check skipped: $($_.Exception.Message)" }
+        if ($powerShell7 -eq 'changed') { Write-Host 'Rerun this script (or winix switch) so Winix applies the host with the new PowerShell 7.' }
+    }
+    if ($failed) { throw 'Winix bootstrap failed; fix the error above and rerun this script.' }
 } catch {
     Write-Error $_ -ErrorAction Continue
     exit 1
