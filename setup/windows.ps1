@@ -28,8 +28,8 @@ replaced: winget's MSIX is installed first, then the classic copy is removed,
 after asking. This only happens from Windows PowerShell, with no PowerShell 7
 windows open.
 
-The Winix version comes from winix/package.json at -Ref: its release's bootstrap
-script is downloaded and checked against the release checksum before it runs.
+The Winix version comes from winix/package.json at -Ref: its release's install.ps1
+is downloaded and checked against the release checksum before it runs.
 Winix does the rest (WinGet check, Git, clone, prerequisites, one confirmation).
 #>
 [CmdletBinding()]
@@ -44,7 +44,7 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 # No Windows PowerShell progress block over the console (it also slows downloads);
-# the Winix bootstrap run below inherits this.
+# the Winix install script run below inherits this.
 $ProgressPreference = 'SilentlyContinue'
 function Get-Text([string]$Uri) {
     $content = (Invoke-WebRequest -UseBasicParsing -Uri $Uri -TimeoutSec 90).Content
@@ -135,7 +135,7 @@ function Initialize-WinGet {
 }
 
 # Returns 'changed' when PowerShell 7 was upgraded or replaced, 'later' when
-# WinGet is not available yet (the Winix bootstrap installs it).
+# WinGet is not available yet (the Winix install script installs it).
 function Sync-PowerShell7 {
     $lock = Get-Text "https://raw.githubusercontent.com/adrifer/dotfiles/$Ref/winix/winix-windows.lock" | ConvertFrom-Json
     $lockedText = $lock.packages.'Microsoft.PowerShell'.version
@@ -198,14 +198,14 @@ try {
         throw "winix/package.json at $Ref does not pin an exact Winix release: $spec"
     }
     $release = "https://github.com/adrifer/winix/releases/download/v$version"
-    $script = Join-Path ([IO.Path]::GetTempPath()) "winix-bootstrap-$version.ps1"
-    Invoke-WebRequest -UseBasicParsing -Uri "$release/bootstrap-windows.ps1" -OutFile $script -TimeoutSec 90
-    $expected = ((Get-Text "$release/bootstrap-windows.ps1.sha256").Trim() -split '\s+')[0]
+    $script = Join-Path ([IO.Path]::GetTempPath()) "winix-install-$version.ps1"
+    Invoke-WebRequest -UseBasicParsing -Uri "$release/install.ps1" -OutFile $script -TimeoutSec 90
+    $expected = ((Get-Text "$release/install.ps1.sha256").Trim() -split '\s+')[0]
     if ((Get-FileHash -LiteralPath $script -Algorithm SHA256).Hash -ne $expected) {
         Remove-Item -LiteralPath $script -Force
-        throw "Checksum mismatch for the Winix $version bootstrap; nothing was run."
+        throw "Checksum mismatch for the Winix $version install script; nothing was run."
     }
-    Write-Host "Winix $version bootstrap verified."
+    Write-Host "Winix $version install script verified."
     $powerShell7 = try { Sync-PowerShell7 } catch { Write-Warning "PowerShell 7 check skipped: $($_.Exception.Message)" }
     $options = @{
         Repository = 'https://github.com/adrifer/dotfiles.git'; Ref = $Ref; Destination = $Destination; ConfigDirectory = 'winix'
@@ -217,12 +217,12 @@ try {
     & $script @options
     $failed = $LASTEXITCODE -ne 0
     if ($powerShell7 -eq 'later') {
-        # WinGet was missing before the bootstrap; it is there now (or the bootstrap failed).
+        # WinGet was missing before the install script; it is there now (or it failed).
         Write-Host ''
         $powerShell7 = try { Sync-PowerShell7 } catch { Write-Warning "PowerShell 7 check skipped: $($_.Exception.Message)" }
         if ($powerShell7 -eq 'changed') { Write-Host 'Rerun this script (or winix switch) so Winix applies the host with the new PowerShell 7.' }
     }
-    if ($failed) { throw 'Winix bootstrap failed; fix the error above and rerun this script.' }
+    if ($failed) { throw 'Winix setup failed; fix the error above and rerun this script.' }
 } catch {
     Write-Error $_ -ErrorAction Continue
     exit 1

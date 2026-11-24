@@ -123,8 +123,9 @@ npm route below. See the [Winix documentation](https://github.com/adrifer/winix#
 ## Daily usage
 
 Setup installs a `winix` command on Windows (open a new terminal once) and in
-WSL/Linux. It runs the pinned Winix for that checkout from any folder and
-remembers the host. Each side is switched on its own:
+WSL/Linux. Inside this checkout (or any other Winix project) it runs the Winix
+version the project pins; from any other folder, `winix plan` and `winix switch`
+use this checkout, with the host it remembered. Each side is switched on its own:
 
 ```bash
 winix plan            # what would change (nothing is applied)

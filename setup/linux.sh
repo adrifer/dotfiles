@@ -7,7 +7,7 @@
 #   bash /tmp/setup.sh [--host HOST] [--prepare-only] [--dry-run]
 #
 # The Winix version comes from winix/package.json at --ref: its release's
-# bootstrap-linux.sh is checked against the release checksum before it runs.
+# install.sh is checked against the release checksum before it runs.
 # Winix does the rest (temporary Git/Python via Nix, clone, one confirmation).
 set -euo pipefail
 
@@ -46,13 +46,13 @@ fi
 
 release="https://github.com/adrifer/winix/releases/download/v$version"
 work=$(mktemp -d); trap 'rm -rf -- "$work"' EXIT
-get "$release/bootstrap-linux.sh" -o "$work/bootstrap-linux.sh"
-expected=$(get "$release/bootstrap-linux.sh.sha256" | awk '{ print $1; exit }')
-[[ "$expected" =~ ^[A-Fa-f0-9]{64}$ ]] || { echo "Missing checksum for the Winix $version bootstrap; nothing was run." >&2; exit 1; }
-printf '%s  %s\n' "${expected,,}" "$work/bootstrap-linux.sh" | sha256sum --check --status ||
-  { echo "Checksum mismatch for the Winix $version bootstrap; nothing was run." >&2; exit 1; }
-echo "Winix $version bootstrap verified."
+get "$release/install.sh" -o "$work/install.sh"
+expected=$(get "$release/install.sh.sha256" | awk '{ print $1; exit }')
+[[ "$expected" =~ ^[A-Fa-f0-9]{64}$ ]] || { echo "Missing checksum for the Winix $version install script; nothing was run." >&2; exit 1; }
+printf '%s  %s\n' "${expected,,}" "$work/install.sh" | sha256sum --check --status ||
+  { echo "Checksum mismatch for the Winix $version install script; nothing was run." >&2; exit 1; }
+echo "Winix $version install script verified."
 
-bash "$work/bootstrap-linux.sh" --repository https://github.com/adrifer/dotfiles.git --ref "$ref" \
+bash "$work/install.sh" --repository https://github.com/adrifer/dotfiles.git --ref "$ref" \
   --destination "$destination" --config-directory winix "${options[@]}" ||
-  { echo 'Winix bootstrap failed; fix the error above and rerun this script.' >&2; exit 1; }
+  { echo 'Winix setup failed; fix the error above and rerun this script.' >&2; exit 1; }
