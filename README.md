@@ -134,17 +134,21 @@ winix switch          # apply it
 
 ### Updating Winix
 
-1. Where you edit the config, bump the pin and push:
+`winix update` says when a newer Winix exists; it never changes it itself.
+
+1. Where you edit the config, move the pin, check and push (read the linked
+   changelog first):
 
    ```powershell
-   cd ~\dotfiles\winix
-   npm install --save https://github.com/adrifer/winix/releases/download/vX/adrifer-winix-X.tgz
-   git commit -am "chore: bump winix to X"; git push
+   winix upgrade
+   winix plan
+   git -C ~\dotfiles commit -am "chore: upgrade winix"; git -C ~\dotfiles push
    ```
 
 2. Everywhere else (Windows PCs, WSL distros, Linux): `git pull` in that
    checkout, then `winix switch`. It downloads that release itself
-   (checksum-verified) and removes older downloaded versions.
+   (checksum-verified) and removes older downloaded versions. On the Mac (npm
+   route), run `npm install` in `winix/` after the pull.
 
 ### Editing the config
 
