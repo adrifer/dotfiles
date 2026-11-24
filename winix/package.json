@@ -9,7 +9,7 @@
     "dry": "winix apply --dry"
   },
   "dependencies": {
-    "@adrifer/winix": "https://github.com/adrifer/winix/releases/download/v0.3.6/adrifer-winix-0.3.6.tgz"
+    "@adrifer/winix": "https://github.com/adrifer/winix/releases/download/v0.3.7/adrifer-winix-0.3.7.tgz"
   },
   "devDependencies": {
     "@types/node": "^26.4.0",
