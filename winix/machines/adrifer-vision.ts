@@ -38,6 +38,10 @@ const windows = host("ADRIFER-VISION", platforms.windows(), ({ windows }) => {
     keyboard: { repeatDelay: 0, repeatSpeed: 31 },
     time: { zone: "Pacific Standard Time", automaticZone: false },
   });
+  windows.wallpaper({
+    source: "../windows/wallpapers/vision_wallpaper.jpeg",
+    style: "Fill",
+  });
 
   return [
     everywhere(),

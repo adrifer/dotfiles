@@ -2,7 +2,7 @@ import { feature } from "@adrifer/winix";
 
 export const windowsPreferences = feature("windows-preferences", ({ windows }) => {
   windows.settings({
-    developer: { mode: true, sudo: "inline" },
+    developer: { mode: true, sudo: "inline", longPaths: true },
     theme: { colorMode: "dark" },
     explorer: {
       // Start Run entries and Startup shortcuts without Explorer's initial delay

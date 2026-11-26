@@ -1,11 +1,62 @@
-import { feature, nix } from "@adrifer/winix";
+import { feature, nix, type HomeHelper } from "@adrifer/winix";
 
-const npmGlobalPkgs = [
+export type NpmGlobalPackage = string | { pkg: string; bin: string };
+
+const npmGlobalPkgs: NpmGlobalPackage[] = [
   { pkg: "@github/copilot", bin: "copilot" },
   { pkg: "@openai/codex", bin: "codex" },
   { pkg: "@anthropic-ai/claude-code", bin: "claude" },
-  { pkg: "t3", bin: "t3" },
 ];
+
+function normalizeNpmGlobalPackage(entry: NpmGlobalPackage): { pkg: string; bin: string } {
+  if (typeof entry !== "string") return entry;
+  const withoutScope = entry.startsWith("@") ? entry.slice(entry.indexOf("/") + 1) : entry;
+  const atIndex = withoutScope.indexOf("@");
+  const bin = atIndex > 0 ? withoutScope.slice(0, atIndex) : withoutScope;
+  return { pkg: entry, bin };
+}
+
+function defaultActivationName(entries: ReadonlyArray<{ bin: string }>): string {
+  const slug = entries.map((e) => e.bin.replace(/[^a-zA-Z0-9]+/g, "_")).join("_");
+  return `installNpmGlobal_${slug}`;
+}
+
+/**
+ * Installs one or more npm packages globally into ~/.npm-global during Home
+ * Manager activation when their binaries are not yet present. Missing packages
+ * are batched into a single `npm i -g` call and respect Home Manager dry runs.
+ * Requires the `javascript` feature on the host.
+ */
+export function npmGlobalPackages(
+  home: HomeHelper,
+  pkgs: NpmGlobalPackage | ReadonlyArray<NpmGlobalPackage>,
+  activationName?: string,
+): void {
+  if (!javascript.isActive) {
+    throw new Error("npmGlobalPackages() requires the `javascript` feature on this host");
+  }
+  const entries = (Array.isArray(pkgs) ? pkgs : [pkgs]).map(normalizeNpmGlobalPackage);
+  if (entries.length === 0) return;
+
+  const checks = entries
+    .map(({ pkg, bin }) =>
+      `if [ ! -x "\${config.home.homeDirectory}/.npm-global/bin/${bin}" ]; then\n  missing+=('${pkg}')\nfi`,
+    )
+    .join("\n");
+
+  home.activation(activationName ?? defaultActivationName(entries), {
+    after: ["writeBoundary", "ensureWritableNpmrc"],
+    script: [
+      `export NPM_CONFIG_PREFIX="\${config.home.homeDirectory}/.npm-global"`,
+      `export PATH="\${pkgs.nodejs_24}/bin:$PATH"`,
+      `missing=()`,
+      checks,
+      `if [ ''\${#missing[@]} -gt 0 ]; then`,
+      `  run \${pkgs.nodejs_24}/bin/npm i -g "''\${missing[@]}"`,
+      `fi`,
+    ].join("\n"),
+  });
+}
 
 export const javascript = feature("javascript", ({ home, windows }) => {
   // Windows: Node through NVM for Windows, and GitHub Copilot CLI (npm globals
@@ -78,17 +129,5 @@ export const javascript = feature("javascript", ({ home, windows }) => {
       fi
     `,
   });
-  home.activation("installNpmGlobalPkgs", {
-    after: ["writeBoundary", "ensureWritableNpmrc"],
-    script: `
-      export NPM_CONFIG_PREFIX="\${config.home.homeDirectory}/.npm-global"
-      export PATH="\${pkgs.nodejs_24}/bin:$PATH"
-
-      ${npmGlobalPkgs.map(({ pkg, bin }) => `
-        if [ ! -x "\${config.home.homeDirectory}/.npm-global/bin/${bin}" ]; then
-          \${pkgs.nodejs_24}/bin/npm i -g ${pkg}
-        fi
-      `).join("\n")}
-    `,
-  });
+  npmGlobalPackages(home, npmGlobalPkgs, "installNpmGlobalPkgs");
 });
