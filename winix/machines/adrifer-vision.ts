@@ -34,6 +34,11 @@ const windows = host("ADRIFER-VISION", platforms.windows(), ({ windows }) => {
   // it updated and winget reports no version, so it is never pinned.
   windows.package({ source: "msstore", id: "9N7F2SM5D1LR", version: "any" });
 
+  windows.settings({
+    keyboard: { repeatDelay: 0, repeatSpeed: 31 },
+    time: { zone: "Pacific Standard Time", automaticZone: false },
+  });
+
   return [
     everywhere(),
     dev(),
