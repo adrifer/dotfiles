@@ -53,8 +53,8 @@
     },
     "JesseDuffield.lazygit": {
       "source": "winget",
-      "version": "0.66.2",
-      "resolvedAt": "2026-11-21T04:31:32.894Z"
+      "version": "0.66.3",
+      "resolvedAt": "2026-11-23T19:06:19.750Z"
     },
     "LGUG2Z.komorebi": {
       "source": "winget",
@@ -208,8 +208,8 @@
     "4e85ed3b0d037a5ad7037ba1416bc760311923803957f22211ebf2ebd93e4055": {
       "repository": "https://github.com/adrifer/dotfiles.git",
       "ref": "main",
-      "revision": "d53245096d6bb6eaec061a726581a500b8ffb5b1",
-      "resolvedAt": "2026-11-21T04:31:32.894Z"
+      "revision": "4564ee0f544bd1b3aff84df256e7d6a55e83416e",
+      "resolvedAt": "2026-11-23T19:06:19.750Z"
     }
   }
 }
