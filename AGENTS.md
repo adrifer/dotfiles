@@ -24,28 +24,37 @@ This includes fixes whose errors mention NixOS, `/nix/store`, or
 
 ## Working with Winix
 
-Run commands from `winix/`. Before editing, read `package.json` and load
-the installed version's instructions:
+Run commands from `winix/`. On Windows and WSL/Linux, use the standalone
+`winix` command. Inside this checkout it downloads and runs the Winix version
+`package.json` pins, so it cannot go stale. Do not use `npm exec -- winix` or
+`npx winix` there: those run whatever is in `node_modules`, which can lag behind
+the pin after a `git pull`. On Windows the command is a `winix.cmd` launcher:
+run it from PowerShell, or call `winix.cmd` from Git Bash. macOS has no
+standalone Winix yet. There, run `npm ci` and use `npm exec -- winix` in place
+of `winix` below.
+
+Before editing, read `package.json` and load the pinned version's instructions:
 
 ```bash
 cd winix
-npm exec -- winix --skill
+winix --skill
 ```
 
 Validate changes without activating the host:
 
 ```bash
-npm exec -- winix check
-npm exec -- tsc --noEmit
-npm exec -- winix apply --dry --host wsl-work
+winix check
+winix apply --dry --host wsl-work        # Nix hosts
+winix plan --host ADRIFER-VISION         # Windows hosts
+npm exec -- tsc --noEmit                 # needs `npm ci` once per checkout
 ```
 
-Replace `wsl-work` with the intended host from `winix.config.ts`.
+Replace the host names with the intended hosts from `winix.config.ts`.
 `winix apply` generates output; it does not activate the system.
 When activation is requested, use:
 
 ```bash
-npm exec -- winix switch --host wsl-work
+winix switch --host wsl-work
 ```
 
 Do not use `nixos-rebuild --flake /etc/nixos` or `--flake ./nixos`.
