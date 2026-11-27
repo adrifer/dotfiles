@@ -1,4 +1,5 @@
 import { host, platforms } from "@adrifer/winix";
+import { antigravityCli } from "../features/dev/antigravity.ts";
 import { docker } from "../features/dev/docker.ts";
 import { dotnet } from "../features/dev/dotnet.ts";
 import { rust } from "../features/dev/rust.ts";
@@ -26,6 +27,8 @@ const linux = host("wsl", platforms.wsl({ stateVersion: "25.05" }), ({ home }) =
     dotnet(),
     rust(),
     docker(adrifer),
+    // Trying out Antigravity CLI on this PC only, for now.
+    antigravityCli(),
   ];
 });
 
@@ -51,6 +54,7 @@ const windows = host("ADRIFER-VISION", platforms.windows(), ({ windows }) => {
     windowsNixosWsl(linux),
     // LAN reverse proxy to T3 in WSL (this network only).
     t3WslProxy(),
+    antigravityCli(),
   ];
 });
 

@@ -46,6 +46,11 @@
       "version": "2.105.0",
       "resolvedAt": "2026-11-20T22:57:42.227Z"
     },
+    "Google.AntigravityCLI": {
+      "source": "winget",
+      "version": "1.5.18",
+      "resolvedAt": "2026-11-27T05:38:08.691Z"
+    },
     "Hanselman.WingetTUI": {
       "source": "winget",
       "version": "0.15.0",
