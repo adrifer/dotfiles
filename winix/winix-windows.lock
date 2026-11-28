@@ -43,8 +43,8 @@
     },
     "GitHub.cli": {
       "source": "winget",
-      "version": "2.105.0",
-      "resolvedAt": "2026-11-20T22:57:42.227Z"
+      "version": "2.106.0",
+      "resolvedAt": "2026-11-28T04:17:37.838Z"
     },
     "Google.AntigravityCLI": {
       "source": "winget",
@@ -118,8 +118,8 @@
     },
     "Proton.ProtonPass": {
       "source": "winget",
-      "version": "1.44.0",
-      "resolvedAt": "2026-11-21T04:31:32.894Z"
+      "version": "1.44.1",
+      "resolvedAt": "2026-11-28T04:17:37.838Z"
     },
     "Proton.ProtonVPN": {
       "source": "winget",
@@ -213,8 +213,8 @@
     "4e85ed3b0d037a5ad7037ba1416bc760311923803957f22211ebf2ebd93e4055": {
       "repository": "https://github.com/adrifer/dotfiles.git",
       "ref": "main",
-      "revision": "4564ee0f544bd1b3aff84df256e7d6a55e83416e",
-      "resolvedAt": "2026-11-23T19:06:19.750Z"
+      "revision": "acd04cdb9835462d2b50a30b931c24b2782d06e7",
+      "resolvedAt": "2026-11-28T04:17:37.838Z"
     }
   }
 }
