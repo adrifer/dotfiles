@@ -2,29 +2,27 @@
 
 ## Winix is the source of truth
 
-Make all system, package, shell integration, Git, WSL, Home Manager, macOS,
-and Windows configuration changes in `winix/`, not `nixos/`.
-This includes fixes whose errors mention NixOS, `/nix/store`, or
+The repository root is a Winix project. Make all system, package, shell
+integration, Git, WSL, Home Manager, macOS, and Windows configuration changes
+through it, including fixes whose errors mention NixOS, `/nix/store`, or
 `git-credential-manager-windows`.
 
-- Start with `winix/winix.config.ts`, then follow its imports: `winix/machines/`
-  (one file per machine) lists `winix/roles/`, which list `winix/features/`
-  (one file per tool, every OS inside). Put a new tool in its own feature with
-  all its platforms, then add it to a role (or to one machine for extras).
-- `nixos/` is the legacy configuration, retained for reference. Do not edit,
-  rebuild, update its lockfile, or mirror Winix changes there unless the user
-  explicitly requests legacy work.
-- `winix/.winix/out/` is generated. Change the TypeScript source, never the
-  generated Nix files.
-- Existing application config files outside `winix/`, such as
-  `nvim/.config/nvim/`, remain editable when the Winix feature links to them.
-  Follow the active feature to find the actual source.
+- Start with `winix.config.ts`, then follow its imports: `machines/` (one file
+  per machine) lists `roles/`, which list `features/` (one file per tool, every
+  OS inside). Put a new tool in its own feature with all its platforms, then add
+  it to a role (or to one machine for extras).
+- Application config files live in `config/<tool>/` and stay editable; features
+  link or copy them with paths relative to `winix.config.ts`
+  (`./config/nvim`). Follow the active feature to find the actual source.
+  Agent skills live in `skills/`, binary files in `assets/`.
+- `.winix/` is generated (output, runtime, editor types). Change the TypeScript
+  source, never the generated Nix files.
 - Do not work around managed configuration by editing files in the home
   directory or `/nix/store`.
 
 ## Working with Winix
 
-Run commands from `winix/`. On Windows and WSL/Linux, use the standalone
+Run commands from the repository root. On Windows and WSL/Linux, use the standalone
 `winix` command. Inside this checkout it downloads and runs the Winix version
 `package.json` pins, so it cannot go stale. Do not use `npm exec -- winix` or
 `npx winix` there: those run whatever is in `node_modules`, which can lag behind
@@ -36,7 +34,6 @@ of `winix` below.
 Before editing, read `package.json` and load the pinned version's instructions:
 
 ```bash
-cd winix
 winix --skill
 ```
 
@@ -57,6 +54,6 @@ When activation is requested, use:
 winix switch --host wsl-work
 ```
 
-Do not use `nixos-rebuild --flake /etc/nixos` or `--flake ./nixos`.
-Those paths can point to the legacy flake and apply different package versions.
+Do not use `nixos-rebuild` directly; `winix switch` builds the generated flake
+with the pinned inputs.
 Do not update inputs as part of an unrelated fix.

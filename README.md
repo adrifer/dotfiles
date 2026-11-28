@@ -5,21 +5,23 @@ Personal and work machine configuration, managed with
 
 ## Overview
 
-Make system configuration changes in **`winix/`**, not the legacy `nixos/`.
-See [AGENTS.md](AGENTS.md) for editing rules and authoring checks.
+The repository root is the Winix project. See [AGENTS.md](AGENTS.md) for
+editing rules and authoring checks.
 
 | Path | Purpose |
 | --- | --- |
-| [winix/machines/](winix/machines/) | One file per machine: its roles and machine-only extras |
-| [winix/roles/](winix/roles/) | What a kind of machine gets (everywhere, dev, personal, work, OS basics) |
-| [winix/features/](winix/features/) | One file per tool or topic, covering every OS it supports |
-| [winix/winix.config.ts](winix/winix.config.ts) | Nix inputs and the list of machines |
-| `winix/.winix/out/` | Generated output; never edit manually |
-| `windows/`, `nvim/`, and other application directories | Config files linked or copied by features |
-| `nixos/` | Legacy configuration, retained for reference |
+| [winix.config.ts](winix.config.ts) | Nix inputs and the list of machines |
+| [machines/](machines/) | One file per machine: its roles and machine-only extras |
+| [roles/](roles/) | What a kind of machine gets (everywhere, dev, personal, work, OS basics) |
+| [features/](features/) | One file per tool or topic, covering every OS it supports |
+| [config/](config/) | Application config files that features link or copy, one folder per tool |
+| [skills/](skills/) | Agent skills linked into `~/.agents/skills` |
+| [assets/](assets/) | Wallpapers and other binary files |
+| [setup/](setup/) | First-run setup scripts for Windows and Linux |
+| `.winix/` | Generated output, runtime and editor types (ignored); never edit it |
 
-Tooling and dependency versions are pinned by the manifest and lockfiles in
-`winix/`.
+Tooling and dependency versions are pinned by `package.json` and the lockfiles
+at the root.
 
 ## Machines and roles
 
@@ -31,21 +33,21 @@ host, grouped by role); for one machine in full, `winix inspect --host <name>`.
 
 | Machine | Hosts (platform) | Roles | Extras |
 | --- | --- | --- | --- |
-| [Personal PC](winix/machines/adrifer-vision.ts) | `ADRIFER-VISION` (Windows) | everywhere, dev, personal, windows-desktop | NixOS-WSL distro, T3 proxy |
+| [Personal PC](machines/adrifer-vision.ts) | `ADRIFER-VISION` (Windows) | everywhere, dev, personal, windows-desktop | NixOS-WSL distro, T3 proxy |
 | | `wsl` (NixOS-WSL) | everywhere, dev, personal, linux-system | .NET, Rust, Docker, ffmpeg |
-| [Work Dev Boxes](winix/machines/work-devbox.ts) | `work-devbox`, `work-devbox-2`, `work-devbox-3` (Windows) | everywhere, work, windows-desktop | NixOS-WSL distro |
+| [Work Dev Boxes](machines/work-devbox.ts) | `work-devbox`, `work-devbox-2`, `work-devbox-3` (Windows) | everywhere, work, windows-desktop | NixOS-WSL distro |
 | | `wsl-work`, `wsl-work-2`, `wsl-work-3` (NixOS-WSL) | everywhere, dev, work, linux-system | |
-| [MacBook Pro](winix/machines/macbook-pro.ts) | `macbook-pro` (nix-darwin) | everywhere, dev, macos-system | |
-| [Syncthing](winix/machines/syncthing-lxc.ts) | `syncthing-lxc` (NixOS LXC) | (system only) | Syncthing |
+| [MacBook Pro](machines/macbook-pro.ts) | `macbook-pro` (nix-darwin) | everywhere, dev, macos-system | |
+| [Syncthing](machines/syncthing-lxc.ts) | `syncthing-lxc` (NixOS LXC) | (system only) | Syncthing |
 
 | Role | What it adds |
 | --- | --- |
-| [everywhere](winix/roles/everywhere.ts) | Shell (zsh or PowerShell, [same aliases](winix/features/cli/shell.ts)), starship, zoxide, fzf, eza, lazygit, Neovim, Git/gh, VS Code Insiders, herdr, CLI tools, agent skills |
-| [dev](winix/roles/dev.ts) | JavaScript (Node, Bun, pnpm; NVM on Windows), Copilot/Codex/Claude CLIs, Playwright (Linux) |
-| [personal](winix/roles/personal.ts) | Personal apps and games, komorebi/whkd, per-user WinGet installs, sonarctl |
-| [work](winix/roles/work.ts) | Approved package feeds (Windows), work Linux settings, Azure Developer CLI, Tailscale |
-| [windows-desktop](winix/roles/windows-desktop.ts) | Windows preferences, Windows Terminal, WSL |
-| [linux-system](winix/roles/linux-system.ts) / [macos-system](winix/roles/macos-system.ts) | Account, stable packages, Nix GC / Homebrew, macOS settings, Ghostty, Git Credential Manager |
+| [everywhere](roles/everywhere.ts) | Shell (zsh or PowerShell, [same aliases](features/cli/shell.ts)), starship, zoxide, fzf, eza, lazygit, Neovim, Git/gh, VS Code Insiders, herdr, CLI tools, agent skills |
+| [dev](roles/dev.ts) | JavaScript (Node, Bun, pnpm; NVM on Windows), Copilot/Codex/Claude CLIs, Playwright (Linux) |
+| [personal](roles/personal.ts) | Personal apps and games, komorebi/whkd, per-user WinGet installs, sonarctl |
+| [work](roles/work.ts) | Approved package feeds (Windows), work Linux settings, Azure Developer CLI, Tailscale |
+| [windows-desktop](roles/windows-desktop.ts) | Windows preferences, Windows Terminal, WSL |
+| [linux-system](roles/linux-system.ts) / [macos-system](roles/macos-system.ts) | Account, stable packages, Nix GC / Homebrew, macOS settings, Ghostty, Git Credential Manager |
 
 Host names are configuration targets, not Windows rename operations; each
 Windows host provisions its paired Linux host in a WSL distro named `NixOS`.
@@ -74,7 +76,7 @@ powershell -ExecutionPolicy Bypass -File $env:TEMP\setup.ps1
 It lists the hosts above, asks which one this PC is, and asks **once** to
 continue. It then installs Git, PowerShell 7 and DSC (approve the UAC prompts),
 clones this repository to `$HOME\dotfiles`, downloads the Winix version pinned in
-`winix/package.json` (checksum-verified), and applies the host, including the
+`package.json` (checksum-verified), and applies the host, including the
 NixOS-WSL distro. If WinGet is missing, it opens App Installer in the Store first.
 
 If Windows needs a restart (enabling WSL), restart and run the same two lines
@@ -148,19 +150,19 @@ winix switch          # apply it
 2. Everywhere else (Windows PCs, WSL distros, Linux): `git pull` in that
    checkout, then `winix switch`. It downloads that release itself
    (checksum-verified) and removes older downloaded versions. On the Mac (npm
-   route), run `npm install` in `winix/` after the pull.
+   route), run `npm install` after the pull.
 
 ### Editing the config
 
 No npm install is needed: every `winix` command writes the pinned Winix's types
-(SDK, NixOS/Home Manager option types, Node) to `winix/.winix/types`, and
+(SDK, NixOS/Home Manager option types, Node) to `.winix/types`, and
 `tsconfig.json` points there, so VS Code autocompletes and type-checks right away
 (after one `winix check` on a fresh checkout). `node_modules` never changes what
 `winix` runs; `npm ci` is only needed for the npm route below and the
 command-line `tsc` check in [AGENTS.md](AGENTS.md). To try Winix from source:
 `$env:WINIX_SDK = 'D:\winix'; winix plan`.
 
-For development (or on macOS), the npm route also works from `winix/`
+For development (or on macOS), the npm route also works from the checkout
 after `npm ci`: `npm exec -- winix switch --host <host>`.
 `apply` only generates output; `switch` activates it. Authoring checks are
 listed in [AGENTS.md](AGENTS.md).
@@ -177,10 +179,12 @@ listed in [AGENTS.md](AGENTS.md).
   was not migrated by that source rename; review it before activating the
   renamed target on the already-managed Dev Box.
 - Config files are live links to this checkout. Keep its location stable;
-  application edits can modify repository files. Review conflicting files and
+  application edits can modify repository files. Windows applied state is
+  owned by the config folder's path: after moving it, run `winix state owners`
+  and `winix state migrate-owner <old-id> --host <host> --dry` (then `--yes`). Review conflicting files and
   existing backups rather than overwriting them blindly.
 - Work VMs need nested virtualization for WSL 2. Respect organizational
   installation/execution policies and reboot manually when requested.
 
 The bundled, unmodified [NixOS-WSL icon](https://github.com/nix-community/NixOS-WSL/blob/main/assets/NixOS-WSL.ico)
-includes its [Apache 2.0 license](windows/terminal-preview/nixos.ico.LICENSE).
+includes its [Apache 2.0 license](config/windows-terminal/nixos.ico.LICENSE).

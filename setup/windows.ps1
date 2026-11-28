@@ -22,13 +22,13 @@ Only show what would happen: no installs, clone or configuration.
 Replace an outdated PowerShell 7 from another installer without asking first.
 .NOTES
 Before Winix runs, PowerShell 7 is brought to the version locked in
-winix/winix-windows.lock. winget's PowerShell is an MSIX package; a copy from the
+winix-windows.lock. winget's PowerShell is an MSIX package; a copy from the
 classic installer (as Dev Box images ship) can't be upgraded by winget, so it is
 replaced: winget's MSIX is installed first, then the classic copy is removed,
 after asking. This only happens from Windows PowerShell, with no PowerShell 7
 windows open.
 
-The Winix version comes from winix/package.json at -Ref: its release's install.ps1
+The Winix version comes from package.json at -Ref: its release's install.ps1
 is downloaded and checked against the release checksum before it runs.
 Winix does the rest (WinGet check, Git, clone, prerequisites, one confirmation).
 #>
@@ -137,7 +137,7 @@ function Initialize-WinGet {
 # Returns 'changed' when PowerShell 7 was upgraded or replaced, 'later' when
 # WinGet is not available yet (the Winix install script installs it).
 function Sync-PowerShell7 {
-    $lock = Get-Text "https://raw.githubusercontent.com/adrifer/dotfiles/$Ref/winix/winix-windows.lock" | ConvertFrom-Json
+    $lock = Get-Text "https://raw.githubusercontent.com/adrifer/dotfiles/$Ref/winix-windows.lock" | ConvertFrom-Json
     $lockedText = $lock.packages.'Microsoft.PowerShell'.version
     $locked = ConvertTo-FullVersion $lockedText
     if (-not $locked) { return }
@@ -190,12 +190,12 @@ function Sync-PowerShell7 {
 }
 
 try {
-    $manifest = Get-Text "https://raw.githubusercontent.com/adrifer/dotfiles/$Ref/winix/package.json" | ConvertFrom-Json
+    $manifest = Get-Text "https://raw.githubusercontent.com/adrifer/dotfiles/$Ref/package.json" | ConvertFrom-Json
     $spec = $manifest.dependencies.'@adrifer/winix'
     if ($spec -match '^(\d+\.\d+\.\d+(?:-preview\.\d+)?)$' -or $spec -match '/releases/download/v(\d+\.\d+\.\d+(?:-preview\.\d+)?)/') {
         $version = $Matches[1]
     } else {
-        throw "winix/package.json at $Ref does not pin an exact Winix release: $spec"
+        throw "package.json at $Ref does not pin an exact Winix release: $spec"
     }
     $release = "https://github.com/adrifer/winix/releases/download/v$version"
     $script = Join-Path ([IO.Path]::GetTempPath()) "winix-install-$version.ps1"
@@ -208,7 +208,7 @@ try {
     Write-Host "Winix $version install script verified."
     $powerShell7 = try { Sync-PowerShell7 } catch { Write-Warning "PowerShell 7 check skipped: $($_.Exception.Message)" }
     $options = @{
-        Repository = 'https://github.com/adrifer/dotfiles.git'; Ref = $Ref; Destination = $Destination; ConfigDirectory = 'winix'
+        Repository = 'https://github.com/adrifer/dotfiles.git'; Ref = $Ref; Destination = $Destination; ConfigDirectory = '.'
     }
     if ($HostName) { $options.HostName = $HostName }
     if ($PrepareOnly) { $options.PrepareOnly = $true }

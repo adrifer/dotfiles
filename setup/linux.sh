@@ -6,7 +6,7 @@
 #   curl -fsSL https://raw.githubusercontent.com/adrifer/dotfiles/main/setup/linux.sh -o /tmp/setup.sh
 #   bash /tmp/setup.sh [--host HOST] [--prepare-only] [--dry-run]
 #
-# The Winix version comes from winix/package.json at --ref: its release's
+# The Winix version comes from package.json at --ref: its release's
 # install.sh is checked against the release checksum before it runs.
 # Winix does the rest (temporary Git/Python via Nix, clone, one confirmation).
 set -euo pipefail
@@ -35,13 +35,13 @@ command -v sha256sum >/dev/null 2>&1 || { echo 'sha256sum (coreutils) is require
 
 get() { curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --max-time 90 "$@"; }
 
-spec=$(get "https://raw.githubusercontent.com/adrifer/dotfiles/$ref/winix/package.json" |
+spec=$(get "https://raw.githubusercontent.com/adrifer/dotfiles/$ref/package.json" |
   sed -nE 's/.*"@adrifer\/winix"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/p' | head -n 1)
 version='[0-9]+\.[0-9]+\.[0-9]+(-preview\.[0-9]+)?'
 if [[ "$spec" =~ ^($version)$ || "$spec" =~ /releases/download/v($version)/ ]]; then
   version="${BASH_REMATCH[1]}"
 else
-  echo "winix/package.json at $ref does not pin an exact Winix release: ${spec:-nothing}" >&2; exit 1
+  echo "package.json at $ref does not pin an exact Winix release: ${spec:-nothing}" >&2; exit 1
 fi
 
 release="https://github.com/adrifer/winix/releases/download/v$version"
@@ -54,5 +54,5 @@ printf '%s  %s\n' "${expected,,}" "$work/install.sh" | sha256sum --check --statu
 echo "Winix $version install script verified."
 
 bash "$work/install.sh" --repository https://github.com/adrifer/dotfiles.git --ref "$ref" \
-  --destination "$destination" --config-directory winix "${options[@]}" ||
+  --destination "$destination" --config-directory . "${options[@]}" ||
   { echo 'Winix setup failed; fix the error above and rerun this script.' >&2; exit 1; }
