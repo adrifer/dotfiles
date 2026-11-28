@@ -179,10 +179,12 @@ listed in [AGENTS.md](AGENTS.md).
   was not migrated by that source rename; review it before activating the
   renamed target on the already-managed Dev Box.
 - Config files are live links to this checkout. Keep its location stable;
-  application edits can modify repository files. Windows applied state is
-  owned by the config folder's path: after moving it, run `winix state owners`
-  and `winix state migrate-owner <old-id> --host <host> --dry` (then `--yes`). Review conflicting files and
-  existing backups rather than overwriting them blindly.
+  application edits can modify repository files. Review conflicting files and
+  existing backups rather than overwriting them blindly. After moving the
+  checkout, run `winix switch` there: on Windows it offers to take over the
+  packages and startup entries the old folder owned (answer yes once). If it
+  can't tell which folder moved, `winix state migrate-owner --dry` (then
+  `--yes`) does the same.
 - Work VMs need nested virtualization for WSL 2. Respect organizational
   installation/execution policies and reboot manually when requested.
 
